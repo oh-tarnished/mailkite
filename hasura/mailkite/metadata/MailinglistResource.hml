@@ -1,0 +1,293 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: MailinglistResource
+  fields:
+    - name: createTime
+      type: Timestamp!
+    - name: description
+      type: String_1
+    - name: displayName
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: name
+      type: String_1!
+    - name: optin
+      type: Enum!
+    - name: subscriberCount
+      type: Int64
+    - name: subscriberStatuses
+      type: Json
+    - name: tags
+      type: "[String_1]"
+    - name: type
+      type: Enum!
+    - name: updateTime
+      type: Timestamp!
+    - name: uuid
+      type: String_1
+  graphql:
+    typeName: MailinglistResource
+    inputTypeName: MailinglistResourceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: mailinglist_resource
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        description:
+          column:
+            name: description
+        displayName:
+          column:
+            name: display_name
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        optin:
+          column:
+            name: optin
+        subscriberCount:
+          column:
+            name: subscriber_count
+        subscriberStatuses:
+          column:
+            name: subscriber_statuses
+        tags:
+          column:
+            name: tags
+        type:
+          column:
+            name: type
+        updateTime:
+          column:
+            name: update_time
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: MailinglistResource
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - description
+          - displayName
+          - id
+          - name
+          - optin
+          - subscriberCount
+          - subscriberStatuses
+          - tags
+          - type
+          - updateTime
+          - uuid
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: MailinglistResourceBoolExp
+  operand:
+    object:
+      type: MailinglistResource
+      comparableFields:
+        - fieldName: createTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: description
+          booleanExpressionType: TextBoolExp
+        - fieldName: displayName
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+        - fieldName: optin
+          booleanExpressionType: MailinglistOptinTypeBoolExp
+        - fieldName: subscriberCount
+          booleanExpressionType: Int8BoolExp
+        - fieldName: subscriberStatuses
+          booleanExpressionType: JsonbBoolExp
+        - fieldName: type
+          booleanExpressionType: MailinglistListTypeBoolExp
+        - fieldName: updateTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: uuid
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: campaignLists
+        - relationshipName: subscriberSubscriptions
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: MailinglistResourceBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: MailinglistResourceAggExp
+  operand:
+    object:
+      aggregatedType: MailinglistResource
+      aggregatableFields:
+        - fieldName: createTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: description
+          aggregateExpression: TextAggExp
+        - fieldName: displayName
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+        - fieldName: optin
+          aggregateExpression: MailinglistOptinTypeAggExp
+        - fieldName: subscriberCount
+          aggregateExpression: Int8AggExp
+        - fieldName: subscriberStatuses
+          aggregateExpression: JsonbAggExp
+        - fieldName: type
+          aggregateExpression: MailinglistListTypeAggExp
+        - fieldName: updateTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: uuid
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: MailinglistResourceAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: MailinglistResourceOrderByExp
+  operand:
+    object:
+      orderedType: MailinglistResource
+      orderableFields:
+        - fieldName: createTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: description
+          orderByExpression: String1OrderByExp
+        - fieldName: displayName
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: optin
+          orderByExpression: EnumOrderByExp
+        - fieldName: subscriberCount
+          orderByExpression: Int64OrderByExp
+        - fieldName: subscriberStatuses
+          orderByExpression: JsonOrderByExp
+        - fieldName: type
+          orderByExpression: EnumOrderByExp
+        - fieldName: updateTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: uuid
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: MailinglistResourceOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: MailinglistResource
+  objectType: MailinglistResource
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: mailinglist_resource
+  filterExpressionType: MailinglistResourceBoolExp
+  aggregateExpression: MailinglistResourceAggExp
+  orderByExpression: MailinglistResourceOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: mailinglistResource
+      subscription:
+        rootField: mailinglistResource
+    selectUniques:
+      - queryRootField: mailinglistResourceById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: mailinglistResourceById
+    filterInputTypeName: MailinglistResourceFilterInput
+    aggregate:
+      queryRootField: mailinglistResourceAggregate
+      subscription:
+        rootField: mailinglistResourceAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: MailinglistResource
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: campaignLists
+  sourceType: MailinglistResource
+  target:
+    model:
+      name: CampaignLists
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: CampaignListsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: mailingListId
+  graphql:
+    aggregateFieldName: campaignListsAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: subscriberSubscriptions
+  sourceType: MailinglistResource
+  target:
+    model:
+      name: SubscriberSubscriptions
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: SubscriberSubscriptionsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: list
+  graphql:
+    aggregateFieldName: subscriberSubscriptionsAggregate
+

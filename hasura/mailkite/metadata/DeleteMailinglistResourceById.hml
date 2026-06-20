@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteMailinglistResourceByIdResponse
+  description: Responses from the 'delete_mailinglist_resource_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[MailinglistResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeleteMailinglistResourceByIdResponse
+    inputTypeName: DeleteMailinglistResourceByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: delete_mailinglist_resource_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteMailinglistResourceByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteMailinglistResourceById
+  outputType: DeleteMailinglistResourceByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: preCheck
+      type: MailinglistResourceBoolExp
+      description: Delete permission predicate over the 'mailinglist_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: delete_mailinglist_resource_by_id
+    argumentMapping:
+      keyId: key_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deleteMailinglistResourceById
+    rootFieldKind: Mutation
+  description: Delete any row on the 'mailinglist_resource' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteMailinglistResourceById
+  permissions:
+    - role: admin
+      allowExecution: true
+

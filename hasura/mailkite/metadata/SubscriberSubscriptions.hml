@@ -1,0 +1,221 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: SubscriberSubscriptions
+  fields:
+    - name: createTime
+      type: Timestamp!
+    - name: id
+      type: String_1!
+    - name: list
+      type: String_1
+    - name: listDisplayName
+      type: String_1
+    - name: state
+      type: Enum
+    - name: subscriberId
+      type: String_1!
+  graphql:
+    typeName: SubscriberSubscriptions
+    inputTypeName: SubscriberSubscriptionsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: subscriber_subscriptions
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        id:
+          column:
+            name: id
+        list:
+          column:
+            name: list
+        listDisplayName:
+          column:
+            name: list_display_name
+        state:
+          column:
+            name: state
+        subscriberId:
+          column:
+            name: subscriber_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: SubscriberSubscriptions
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - id
+          - list
+          - listDisplayName
+          - state
+          - subscriberId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: SubscriberSubscriptionsBoolExp
+  operand:
+    object:
+      type: SubscriberSubscriptions
+      comparableFields:
+        - fieldName: createTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: list
+          booleanExpressionType: TextBoolExp
+        - fieldName: listDisplayName
+          booleanExpressionType: TextBoolExp
+        - fieldName: state
+          booleanExpressionType: SubscriberSubscriptionStateBoolExp
+        - fieldName: subscriberId
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: mailinglistResource
+        - relationshipName: subscriberResource
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: SubscriberSubscriptionsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: SubscriberSubscriptionsAggExp
+  operand:
+    object:
+      aggregatedType: SubscriberSubscriptions
+      aggregatableFields:
+        - fieldName: createTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: list
+          aggregateExpression: TextAggExp
+        - fieldName: listDisplayName
+          aggregateExpression: TextAggExp
+        - fieldName: state
+          aggregateExpression: SubscriberSubscriptionStateAggExp
+        - fieldName: subscriberId
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: SubscriberSubscriptionsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: SubscriberSubscriptionsOrderByExp
+  operand:
+    object:
+      orderedType: SubscriberSubscriptions
+      orderableFields:
+        - fieldName: createTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: list
+          orderByExpression: String1OrderByExp
+        - fieldName: listDisplayName
+          orderByExpression: String1OrderByExp
+        - fieldName: state
+          orderByExpression: EnumOrderByExp
+        - fieldName: subscriberId
+          orderByExpression: String1OrderByExp
+      orderableRelationships:
+        - relationshipName: mailinglistResource
+        - relationshipName: subscriberResource
+  graphql:
+    expressionTypeName: SubscriberSubscriptionsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: SubscriberSubscriptions
+  objectType: SubscriberSubscriptions
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: subscriber_subscriptions
+  filterExpressionType: SubscriberSubscriptionsBoolExp
+  aggregateExpression: SubscriberSubscriptionsAggExp
+  orderByExpression: SubscriberSubscriptionsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: subscriberSubscriptions
+      subscription:
+        rootField: subscriberSubscriptions
+    selectUniques:
+      - queryRootField: subscriberSubscriptionsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: subscriberSubscriptionsById
+    filterInputTypeName: SubscriberSubscriptionsFilterInput
+    aggregate:
+      queryRootField: subscriberSubscriptionsAggregate
+      subscription:
+        rootField: subscriberSubscriptionsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: SubscriberSubscriptions
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: mailinglistResource
+  sourceType: SubscriberSubscriptions
+  target:
+    model:
+      name: MailinglistResource
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: list
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: subscriberResource
+  sourceType: SubscriberSubscriptions
+  target:
+    model:
+      name: SubscriberResource
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: subscriberId
+      target:
+        modelField:
+          - fieldName: id
+

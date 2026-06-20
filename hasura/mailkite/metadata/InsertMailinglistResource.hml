@@ -1,0 +1,168 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertMailinglistResourceObject
+  fields:
+    - name: createTime
+      type: Timestamp
+    - name: description
+      type: String_1
+    - name: displayName
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: name
+      type: String_1!
+    - name: optin
+      type: Enum
+    - name: subscriberCount
+      type: Int64
+    - name: subscriberStatuses
+      type: Json
+    - name: tags
+      type: "[String_1]"
+    - name: type
+      type: Enum
+    - name: updateTime
+      type: Timestamp!
+    - name: uuid
+      type: String_1
+  graphql:
+    typeName: InsertMailinglistResourceObject
+    inputTypeName: InsertMailinglistResourceObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_mailinglist_resource_object
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        description:
+          column:
+            name: description
+        displayName:
+          column:
+            name: display_name
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        optin:
+          column:
+            name: optin
+        subscriberCount:
+          column:
+            name: subscriber_count
+        subscriberStatuses:
+          column:
+            name: subscriber_statuses
+        tags:
+          column:
+            name: tags
+        type:
+          column:
+            name: type
+        updateTime:
+          column:
+            name: update_time
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertMailinglistResourceObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - description
+          - displayName
+          - id
+          - name
+          - optin
+          - subscriberCount
+          - subscriberStatuses
+          - tags
+          - type
+          - updateTime
+          - uuid
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertMailinglistResourceResponse
+  description: Responses from the 'insert_mailinglist_resource' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[MailinglistResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertMailinglistResourceResponse
+    inputTypeName: InsertMailinglistResourceResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_mailinglist_resource_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertMailinglistResourceResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertMailinglistResource
+  outputType: InsertMailinglistResourceResponse!
+  arguments:
+    - name: objects
+      type: "[InsertMailinglistResourceObject!]!"
+    - name: postCheck
+      type: MailinglistResourceBoolExp
+      description: Insert permission predicate over the 'mailinglist_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_mailinglist_resource
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertMailinglistResource
+    rootFieldKind: Mutation
+  description: Insert into the mailinglist_resource table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertMailinglistResource
+  permissions:
+    - role: admin
+      allowExecution: true
+

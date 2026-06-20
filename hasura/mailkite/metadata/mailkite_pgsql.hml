@@ -1,0 +1,4869 @@
+kind: DataConnectorLink
+version: v1
+definition:
+  name: mailkite_pgsql
+  url:
+    readWriteUrls:
+      read:
+        valueFromEnv: MAILKITE_MAILKITE_PGSQL_READ_URL
+      write:
+        valueFromEnv: MAILKITE_MAILKITE_PGSQL_WRITE_URL
+  headers:
+    Authorization:
+      valueFromEnv: MAILKITE_MAILKITE_PGSQL_AUTHORIZATION_HEADER
+  schema:
+    version: v0.2
+    schema:
+      capabilities:
+        query:
+          aggregates:
+            count_scalar_type: int8
+      collections:
+        - arguments: {}
+          name: _prisma_migrations
+          type: _prisma_migrations
+          uniqueness_constraints:
+            _prisma_migrations_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: bounce_resource
+          type: bounce_resource
+          uniqueness_constraints:
+            resource_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: campaign_lists
+          type: campaign_lists
+          uniqueness_constraints:
+            lists_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: campaign_resource
+          type: campaign_resource
+          uniqueness_constraints:
+            resource_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: campaign_stats
+          type: campaign_stats
+          uniqueness_constraints:
+            stats_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: mailinglist_resource
+          type: mailinglist_resource
+          uniqueness_constraints:
+            resource_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: media_resource
+          type: media_resource
+          uniqueness_constraints:
+            resource_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: subscriber_resource
+          type: subscriber_resource
+          uniqueness_constraints:
+            resource_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: subscriber_subscriptions
+          type: subscriber_subscriptions
+          uniqueness_constraints:
+            subscriptions_pkey:
+              unique_columns:
+                - id
+        - arguments: {}
+          name: template_resource
+          type: template_resource
+          uniqueness_constraints:
+            resource_pkey:
+              unique_columns:
+                - id
+      functions: []
+      object_types:
+        _prisma_migrations:
+          fields:
+            applied_steps_count:
+              type:
+                name: int4
+                type: named
+            checksum:
+              type:
+                name: varchar
+                type: named
+            finished_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamptz
+                  type: named
+            id:
+              type:
+                name: varchar
+                type: named
+            logs:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            migration_name:
+              type:
+                name: varchar
+                type: named
+            rolled_back_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamptz
+                  type: named
+            started_at:
+              type:
+                name: timestamptz
+                type: named
+          foreign_keys: {}
+        bounce_resource:
+          fields:
+            campaign:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            campaign_display_name:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            create_time:
+              type:
+                name: timestamp
+                type: named
+            email:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            meta:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            source:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            subscriber:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bounce_bounce_type
+                  type: named
+          foreign_keys:
+            resource_campaign_fkey:
+              column_mapping:
+                campaign:
+                  - id
+              foreign_collection: campaign_resource
+            resource_subscriber_fkey:
+              column_mapping:
+                subscriber:
+                  - id
+              foreign_collection: subscriber_resource
+        campaign_lists:
+          fields:
+            campaign_id:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            mailing_list_id:
+              type:
+                name: text
+                type: named
+          foreign_keys:
+            lists_campaign_id_fkey:
+              column_mapping:
+                campaign_id:
+                  - id
+              foreign_collection: campaign_resource
+            lists_mailing_list_id_fkey:
+              column_mapping:
+                mailing_list_id:
+                  - id
+              foreign_collection: mailinglist_resource
+        campaign_resource:
+          fields:
+            alt_body:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            archive:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            archive_meta:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            archive_slug:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            archive_template:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            body:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            create_time:
+              type:
+                name: timestamp
+                type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            format:
+              type:
+                name: campaign_content_type
+                type: named
+            headers:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            messenger:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            schedule_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            sender_email:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            start_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            state:
+              type:
+                type: nullable
+                underlying_type:
+                  name: campaign_campaign_state
+                  type: named
+            stats_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            subject:
+              type:
+                name: text
+                type: named
+            tags:
+              type:
+                type: nullable
+                underlying_type:
+                  element_type:
+                    type: nullable
+                    underlying_type:
+                      name: text
+                      type: named
+                  type: array
+            template:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: campaign_campaign_type
+                  type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys:
+            resource_archive_template_fkey:
+              column_mapping:
+                archive_template:
+                  - id
+              foreign_collection: template_resource
+            resource_stats_id_fkey:
+              column_mapping:
+                stats_id:
+                  - id
+              foreign_collection: campaign_stats
+            resource_template_fkey:
+              column_mapping:
+                template:
+                  - id
+              foreign_collection: template_resource
+        campaign_stats:
+          fields:
+            bounces:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            clicks:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            recipient_count:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            sent:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            views:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        delete__prisma_migrations_by_id_response:
+          description: Responses from the 'delete__prisma_migrations_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: _prisma_migrations
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_bounce_resource_by_id_response:
+          description: Responses from the 'delete_bounce_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: bounce_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_campaign_lists_by_id_response:
+          description: Responses from the 'delete_campaign_lists_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_lists
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_campaign_resource_by_id_response:
+          description: Responses from the 'delete_campaign_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_campaign_stats_by_id_response:
+          description: Responses from the 'delete_campaign_stats_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_stats
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_mailinglist_resource_by_id_response:
+          description: Responses from the 'delete_mailinglist_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: mailinglist_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_media_resource_by_id_response:
+          description: Responses from the 'delete_media_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: media_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_subscriber_resource_by_id_response:
+          description: Responses from the 'delete_subscriber_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: subscriber_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_subscriber_subscriptions_by_id_response:
+          description: Responses from the 'delete_subscriber_subscriptions_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: subscriber_subscriptions
+                  type: named
+                type: array
+          foreign_keys: {}
+        delete_template_resource_by_id_response:
+          description: Responses from the 'delete_template_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: template_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert__prisma_migrations_object:
+          fields:
+            applied_steps_count:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+            checksum:
+              type:
+                name: varchar
+                type: named
+            finished_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamptz
+                  type: named
+            id:
+              type:
+                name: varchar
+                type: named
+            logs:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            migration_name:
+              type:
+                name: varchar
+                type: named
+            rolled_back_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamptz
+                  type: named
+            started_at:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamptz
+                  type: named
+          foreign_keys: {}
+        insert__prisma_migrations_response:
+          description: Responses from the 'insert__prisma_migrations' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: _prisma_migrations
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_bounce_resource_object:
+          fields:
+            campaign:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            campaign_display_name:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            create_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            email:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            meta:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            source:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            subscriber:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bounce_bounce_type
+                  type: named
+          foreign_keys: {}
+        insert_bounce_resource_response:
+          description: Responses from the 'insert_bounce_resource' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: bounce_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_campaign_lists_object:
+          fields:
+            campaign_id:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            mailing_list_id:
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        insert_campaign_lists_response:
+          description: Responses from the 'insert_campaign_lists' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_lists
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_campaign_resource_object:
+          fields:
+            alt_body:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            archive:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            archive_meta:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            archive_slug:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            archive_template:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            body:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            create_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            format:
+              type:
+                type: nullable
+                underlying_type:
+                  name: campaign_content_type
+                  type: named
+            headers:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            messenger:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            schedule_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            sender_email:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            start_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            state:
+              type:
+                type: nullable
+                underlying_type:
+                  name: campaign_campaign_state
+                  type: named
+            stats_id:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            subject:
+              type:
+                name: text
+                type: named
+            tags:
+              type:
+                type: nullable
+                underlying_type:
+                  element_type:
+                    type: nullable
+                    underlying_type:
+                      name: text
+                      type: named
+                  type: array
+            template:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: campaign_campaign_type
+                  type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        insert_campaign_resource_response:
+          description: Responses from the 'insert_campaign_resource' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_campaign_stats_object:
+          fields:
+            bounces:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            clicks:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            recipient_count:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            sent:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            views:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        insert_campaign_stats_response:
+          description: Responses from the 'insert_campaign_stats' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_stats
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_mailinglist_resource_object:
+          fields:
+            create_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            description:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            name:
+              type:
+                name: text
+                type: named
+            optin:
+              type:
+                type: nullable
+                underlying_type:
+                  name: mailinglist_optin_type
+                  type: named
+            subscriber_count:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            subscriber_statuses:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            tags:
+              type:
+                type: nullable
+                underlying_type:
+                  element_type:
+                    type: nullable
+                    underlying_type:
+                      name: text
+                      type: named
+                  type: array
+            type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: mailinglist_list_type
+                  type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        insert_mailinglist_resource_response:
+          description: Responses from the 'insert_mailinglist_resource' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: mailinglist_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_media_resource_object:
+          fields:
+            create_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            filename:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            mime_type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            thumbnail_url:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            url:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        insert_media_resource_response:
+          description: Responses from the 'insert_media_resource' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: media_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_subscriber_resource_object:
+          fields:
+            attributes:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            create_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            email:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            name:
+              type:
+                name: text
+                type: named
+            state:
+              type:
+                type: nullable
+                underlying_type:
+                  name: subscriber_subscriber_state
+                  type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        insert_subscriber_resource_response:
+          description: Responses from the 'insert_subscriber_resource' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: subscriber_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_subscriber_subscriptions_object:
+          fields:
+            create_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            list:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            list_display_name:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            state:
+              type:
+                type: nullable
+                underlying_type:
+                  name: subscriber_subscription_state
+                  type: named
+            subscriber_id:
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        insert_subscriber_subscriptions_response:
+          description: Responses from the 'insert_subscriber_subscriptions' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: subscriber_subscriptions
+                  type: named
+                type: array
+          foreign_keys: {}
+        insert_template_resource_object:
+          fields:
+            body:
+              type:
+                name: text
+                type: named
+            create_time:
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            is_default:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            subject:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: template_template_type
+                  type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        insert_template_resource_response:
+          description: Responses from the 'insert_template_resource' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: template_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        mailinglist_resource:
+          fields:
+            create_time:
+              type:
+                name: timestamp
+                type: named
+            description:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            name:
+              type:
+                name: text
+                type: named
+            optin:
+              type:
+                name: mailinglist_optin_type
+                type: named
+            subscriber_count:
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+            subscriber_statuses:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            tags:
+              type:
+                type: nullable
+                underlying_type:
+                  element_type:
+                    type: nullable
+                    underlying_type:
+                      name: text
+                      type: named
+                  type: array
+            type:
+              type:
+                name: mailinglist_list_type
+                type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        media_resource:
+          fields:
+            create_time:
+              type:
+                name: timestamp
+                type: named
+            filename:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            id:
+              type:
+                name: text
+                type: named
+            mime_type:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            thumbnail_url:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            url:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        subscriber_resource:
+          fields:
+            attributes:
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+            create_time:
+              type:
+                name: timestamp
+                type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            email:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            name:
+              type:
+                name: text
+                type: named
+            state:
+              type:
+                type: nullable
+                underlying_type:
+                  name: subscriber_subscriber_state
+                  type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+            uuid:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        subscriber_subscriptions:
+          fields:
+            create_time:
+              type:
+                name: timestamp
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            list:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            list_display_name:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            state:
+              type:
+                type: nullable
+                underlying_type:
+                  name: subscriber_subscription_state
+                  type: named
+            subscriber_id:
+              type:
+                name: text
+                type: named
+          foreign_keys:
+            subscriptions_list_fkey:
+              column_mapping:
+                list:
+                  - id
+              foreign_collection: mailinglist_resource
+            subscriptions_subscriber_id_fkey:
+              column_mapping:
+                subscriber_id:
+                  - id
+              foreign_collection: subscriber_resource
+        template_resource:
+          fields:
+            body:
+              type:
+                name: text
+                type: named
+            create_time:
+              type:
+                name: timestamp
+                type: named
+            display_name:
+              type:
+                name: text
+                type: named
+            id:
+              type:
+                name: text
+                type: named
+            is_default:
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+            name:
+              type:
+                name: text
+                type: named
+            subject:
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+            type:
+              type:
+                name: template_template_type
+                type: named
+            update_time:
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update__prisma_migrations_by_id_response:
+          description: Responses from the 'update__prisma_migrations_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: _prisma_migrations
+                  type: named
+                type: array
+          foreign_keys: {}
+        update__prisma_migrations_by_id_update_columns:
+          description: Update the columns of the '_prisma_migrations' collection
+          fields:
+            applied_steps_count:
+              description: Update the 'applied_steps_count' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_applied_steps_count
+                  type: named
+            checksum:
+              description: Update the 'checksum' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_checksum
+                  type: named
+            finished_at:
+              description: Update the 'finished_at' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_finished_at
+                  type: named
+            id:
+              description: Update the 'id' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_id
+                  type: named
+            logs:
+              description: Update the 'logs' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_logs
+                  type: named
+            migration_name:
+              description: Update the 'migration_name' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_migration_name
+                  type: named
+            rolled_back_at:
+              description: Update the 'rolled_back_at' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_rolled_back_at
+                  type: named
+            started_at:
+              description: Update the 'started_at' column in the '_prisma_migrations' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column__prisma_migrations_started_at
+                  type: named
+          foreign_keys: {}
+        update_bounce_resource_by_id_response:
+          description: Responses from the 'update_bounce_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: bounce_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_bounce_resource_by_id_update_columns:
+          description: Update the columns of the 'bounce_resource' collection
+          fields:
+            campaign:
+              description: Update the 'campaign' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_campaign
+                  type: named
+            campaign_display_name:
+              description: Update the 'campaign_display_name' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_campaign_display_name
+                  type: named
+            create_time:
+              description: Update the 'create_time' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_create_time
+                  type: named
+            email:
+              description: Update the 'email' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_email
+                  type: named
+            id:
+              description: Update the 'id' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_id
+                  type: named
+            meta:
+              description: Update the 'meta' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_meta
+                  type: named
+            name:
+              description: Update the 'name' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_name
+                  type: named
+            source:
+              description: Update the 'source' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_source
+                  type: named
+            subscriber:
+              description: Update the 'subscriber' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_subscriber
+                  type: named
+            type:
+              description: Update the 'type' column in the 'bounce_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_bounce_resource_type
+                  type: named
+          foreign_keys: {}
+        update_campaign_lists_by_id_response:
+          description: Responses from the 'update_campaign_lists_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_lists
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_campaign_lists_by_id_update_columns:
+          description: Update the columns of the 'campaign_lists' collection
+          fields:
+            campaign_id:
+              description: Update the 'campaign_id' column in the 'campaign_lists' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_lists_campaign_id
+                  type: named
+            id:
+              description: Update the 'id' column in the 'campaign_lists' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_lists_id
+                  type: named
+            mailing_list_id:
+              description: Update the 'mailing_list_id' column in the 'campaign_lists' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_lists_mailing_list_id
+                  type: named
+          foreign_keys: {}
+        update_campaign_resource_by_id_response:
+          description: Responses from the 'update_campaign_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_campaign_resource_by_id_update_columns:
+          description: Update the columns of the 'campaign_resource' collection
+          fields:
+            alt_body:
+              description: Update the 'alt_body' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_alt_body
+                  type: named
+            archive:
+              description: Update the 'archive' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_archive
+                  type: named
+            archive_meta:
+              description: Update the 'archive_meta' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_archive_meta
+                  type: named
+            archive_slug:
+              description: Update the 'archive_slug' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_archive_slug
+                  type: named
+            archive_template:
+              description: Update the 'archive_template' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_archive_template
+                  type: named
+            body:
+              description: Update the 'body' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_body
+                  type: named
+            create_time:
+              description: Update the 'create_time' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_create_time
+                  type: named
+            display_name:
+              description: Update the 'display_name' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_display_name
+                  type: named
+            format:
+              description: Update the 'format' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_format
+                  type: named
+            headers:
+              description: Update the 'headers' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_headers
+                  type: named
+            id:
+              description: Update the 'id' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_id
+                  type: named
+            messenger:
+              description: Update the 'messenger' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_messenger
+                  type: named
+            name:
+              description: Update the 'name' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_name
+                  type: named
+            schedule_time:
+              description: Update the 'schedule_time' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_schedule_time
+                  type: named
+            sender_email:
+              description: Update the 'sender_email' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_sender_email
+                  type: named
+            start_time:
+              description: Update the 'start_time' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_start_time
+                  type: named
+            state:
+              description: Update the 'state' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_state
+                  type: named
+            stats_id:
+              description: Update the 'stats_id' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_stats_id
+                  type: named
+            subject:
+              description: Update the 'subject' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_subject
+                  type: named
+            tags:
+              description: Update the 'tags' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_tags
+                  type: named
+            template:
+              description: Update the 'template' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_template
+                  type: named
+            type:
+              description: Update the 'type' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_type
+                  type: named
+            update_time:
+              description: Update the 'update_time' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_update_time
+                  type: named
+            uuid:
+              description: Update the 'uuid' column in the 'campaign_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_resource_uuid
+                  type: named
+          foreign_keys: {}
+        update_campaign_stats_by_id_response:
+          description: Responses from the 'update_campaign_stats_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: campaign_stats
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_campaign_stats_by_id_update_columns:
+          description: Update the columns of the 'campaign_stats' collection
+          fields:
+            bounces:
+              description: Update the 'bounces' column in the 'campaign_stats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_stats_bounces
+                  type: named
+            clicks:
+              description: Update the 'clicks' column in the 'campaign_stats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_stats_clicks
+                  type: named
+            id:
+              description: Update the 'id' column in the 'campaign_stats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_stats_id
+                  type: named
+            recipient_count:
+              description: Update the 'recipient_count' column in the 'campaign_stats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_stats_recipient_count
+                  type: named
+            sent:
+              description: Update the 'sent' column in the 'campaign_stats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_stats_sent
+                  type: named
+            views:
+              description: Update the 'views' column in the 'campaign_stats' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_campaign_stats_views
+                  type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_applied_steps_count:
+          description: Update the 'applied_steps_count' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: int4
+                type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_checksum:
+          description: Update the 'checksum' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: varchar
+                type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_finished_at:
+          description: Update the 'finished_at' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamptz
+                  type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_id:
+          description: Update the 'id' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: varchar
+                type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_logs:
+          description: Update the 'logs' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_migration_name:
+          description: Update the 'migration_name' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: varchar
+                type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_rolled_back_at:
+          description: Update the 'rolled_back_at' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamptz
+                  type: named
+          foreign_keys: {}
+        update_column__prisma_migrations_started_at:
+          description: Update the 'started_at' column in the '_prisma_migrations' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamptz
+                type: named
+          foreign_keys: {}
+        update_column_bounce_resource_campaign:
+          description: Update the 'campaign' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_bounce_resource_campaign_display_name:
+          description: Update the 'campaign_display_name' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_bounce_resource_create_time:
+          description: Update the 'create_time' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_bounce_resource_email:
+          description: Update the 'email' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_bounce_resource_id:
+          description: Update the 'id' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_bounce_resource_meta:
+          description: Update the 'meta' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+          foreign_keys: {}
+        update_column_bounce_resource_name:
+          description: Update the 'name' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_bounce_resource_source:
+          description: Update the 'source' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_bounce_resource_subscriber:
+          description: Update the 'subscriber' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_bounce_resource_type:
+          description: Update the 'type' column in the 'bounce_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: bounce_bounce_type
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_lists_campaign_id:
+          description: Update the 'campaign_id' column in the 'campaign_lists' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_lists_id:
+          description: Update the 'id' column in the 'campaign_lists' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_lists_mailing_list_id:
+          description: Update the 'mailing_list_id' column in the 'campaign_lists' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_alt_body:
+          description: Update the 'alt_body' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_archive:
+          description: Update the 'archive' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_archive_meta:
+          description: Update the 'archive_meta' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_archive_slug:
+          description: Update the 'archive_slug' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_archive_template:
+          description: Update the 'archive_template' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_body:
+          description: Update the 'body' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_create_time:
+          description: Update the 'create_time' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_display_name:
+          description: Update the 'display_name' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_format:
+          description: Update the 'format' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: campaign_content_type
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_headers:
+          description: Update the 'headers' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_id:
+          description: Update the 'id' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_messenger:
+          description: Update the 'messenger' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_name:
+          description: Update the 'name' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_schedule_time:
+          description: Update the 'schedule_time' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_sender_email:
+          description: Update the 'sender_email' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_start_time:
+          description: Update the 'start_time' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: timestamp
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_state:
+          description: Update the 'state' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: campaign_campaign_state
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_stats_id:
+          description: Update the 'stats_id' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_subject:
+          description: Update the 'subject' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_tags:
+          description: Update the 'tags' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  element_type:
+                    type: nullable
+                    underlying_type:
+                      name: text
+                      type: named
+                  type: array
+          foreign_keys: {}
+        update_column_campaign_resource_template:
+          description: Update the 'template' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_type:
+          description: Update the 'type' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: campaign_campaign_type
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_resource_update_time:
+          description: Update the 'update_time' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_campaign_resource_uuid:
+          description: Update the 'uuid' column in the 'campaign_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_stats_bounces:
+          description: Update the 'bounces' column in the 'campaign_stats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_stats_clicks:
+          description: Update the 'clicks' column in the 'campaign_stats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_stats_id:
+          description: Update the 'id' column in the 'campaign_stats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_campaign_stats_recipient_count:
+          description: Update the 'recipient_count' column in the 'campaign_stats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_stats_sent:
+          description: Update the 'sent' column in the 'campaign_stats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        update_column_campaign_stats_views:
+          description: Update the 'views' column in the 'campaign_stats' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_create_time:
+          description: Update the 'create_time' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_description:
+          description: Update the 'description' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_display_name:
+          description: Update the 'display_name' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_id:
+          description: Update the 'id' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_name:
+          description: Update the 'name' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_optin:
+          description: Update the 'optin' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: mailinglist_optin_type
+                type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_subscriber_count:
+          description: Update the 'subscriber_count' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_subscriber_statuses:
+          description: Update the 'subscriber_statuses' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_tags:
+          description: Update the 'tags' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  element_type:
+                    type: nullable
+                    underlying_type:
+                      name: text
+                      type: named
+                  type: array
+          foreign_keys: {}
+        update_column_mailinglist_resource_type:
+          description: Update the 'type' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: mailinglist_list_type
+                type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_update_time:
+          description: Update the 'update_time' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_mailinglist_resource_uuid:
+          description: Update the 'uuid' column in the 'mailinglist_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_media_resource_create_time:
+          description: Update the 'create_time' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_media_resource_filename:
+          description: Update the 'filename' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_media_resource_id:
+          description: Update the 'id' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_media_resource_mime_type:
+          description: Update the 'mime_type' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_media_resource_name:
+          description: Update the 'name' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_media_resource_thumbnail_url:
+          description: Update the 'thumbnail_url' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_media_resource_url:
+          description: Update the 'url' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_media_resource_uuid:
+          description: Update the 'uuid' column in the 'media_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_attributes:
+          description: Update the 'attributes' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: jsonb
+                  type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_create_time:
+          description: Update the 'create_time' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_display_name:
+          description: Update the 'display_name' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_email:
+          description: Update the 'email' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_id:
+          description: Update the 'id' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_name:
+          description: Update the 'name' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_state:
+          description: Update the 'state' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: subscriber_subscriber_state
+                  type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_update_time:
+          description: Update the 'update_time' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_resource_uuid:
+          description: Update the 'uuid' column in the 'subscriber_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_subscriber_subscriptions_create_time:
+          description: Update the 'create_time' column in the 'subscriber_subscriptions' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_subscriptions_id:
+          description: Update the 'id' column in the 'subscriber_subscriptions' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_subscriber_subscriptions_list:
+          description: Update the 'list' column in the 'subscriber_subscriptions' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_subscriber_subscriptions_list_display_name:
+          description: Update the 'list_display_name' column in the 'subscriber_subscriptions' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_subscriber_subscriptions_state:
+          description: Update the 'state' column in the 'subscriber_subscriptions' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: subscriber_subscription_state
+                  type: named
+          foreign_keys: {}
+        update_column_subscriber_subscriptions_subscriber_id:
+          description: Update the 'subscriber_id' column in the 'subscriber_subscriptions' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_template_resource_body:
+          description: Update the 'body' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_template_resource_create_time:
+          description: Update the 'create_time' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_column_template_resource_display_name:
+          description: Update the 'display_name' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_template_resource_id:
+          description: Update the 'id' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_template_resource_is_default:
+          description: Update the 'is_default' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+          foreign_keys: {}
+        update_column_template_resource_name:
+          description: Update the 'name' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: text
+                type: named
+          foreign_keys: {}
+        update_column_template_resource_subject:
+          description: Update the 'subject' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                type: nullable
+                underlying_type:
+                  name: text
+                  type: named
+          foreign_keys: {}
+        update_column_template_resource_type:
+          description: Update the 'type' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: template_template_type
+                type: named
+          foreign_keys: {}
+        update_column_template_resource_update_time:
+          description: Update the 'update_time' column in the 'template_resource' collection
+          fields:
+            _set:
+              description: Set the column to this value
+              type:
+                name: timestamp
+                type: named
+          foreign_keys: {}
+        update_mailinglist_resource_by_id_response:
+          description: Responses from the 'update_mailinglist_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: mailinglist_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_mailinglist_resource_by_id_update_columns:
+          description: Update the columns of the 'mailinglist_resource' collection
+          fields:
+            create_time:
+              description: Update the 'create_time' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_create_time
+                  type: named
+            description:
+              description: Update the 'description' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_description
+                  type: named
+            display_name:
+              description: Update the 'display_name' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_display_name
+                  type: named
+            id:
+              description: Update the 'id' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_id
+                  type: named
+            name:
+              description: Update the 'name' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_name
+                  type: named
+            optin:
+              description: Update the 'optin' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_optin
+                  type: named
+            subscriber_count:
+              description: Update the 'subscriber_count' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_subscriber_count
+                  type: named
+            subscriber_statuses:
+              description: Update the 'subscriber_statuses' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_subscriber_statuses
+                  type: named
+            tags:
+              description: Update the 'tags' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_tags
+                  type: named
+            type:
+              description: Update the 'type' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_type
+                  type: named
+            update_time:
+              description: Update the 'update_time' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_update_time
+                  type: named
+            uuid:
+              description: Update the 'uuid' column in the 'mailinglist_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_mailinglist_resource_uuid
+                  type: named
+          foreign_keys: {}
+        update_media_resource_by_id_response:
+          description: Responses from the 'update_media_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: media_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_media_resource_by_id_update_columns:
+          description: Update the columns of the 'media_resource' collection
+          fields:
+            create_time:
+              description: Update the 'create_time' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_create_time
+                  type: named
+            filename:
+              description: Update the 'filename' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_filename
+                  type: named
+            id:
+              description: Update the 'id' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_id
+                  type: named
+            mime_type:
+              description: Update the 'mime_type' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_mime_type
+                  type: named
+            name:
+              description: Update the 'name' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_name
+                  type: named
+            thumbnail_url:
+              description: Update the 'thumbnail_url' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_thumbnail_url
+                  type: named
+            url:
+              description: Update the 'url' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_url
+                  type: named
+            uuid:
+              description: Update the 'uuid' column in the 'media_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_media_resource_uuid
+                  type: named
+          foreign_keys: {}
+        update_subscriber_resource_by_id_response:
+          description: Responses from the 'update_subscriber_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: subscriber_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_subscriber_resource_by_id_update_columns:
+          description: Update the columns of the 'subscriber_resource' collection
+          fields:
+            attributes:
+              description: Update the 'attributes' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_attributes
+                  type: named
+            create_time:
+              description: Update the 'create_time' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_create_time
+                  type: named
+            display_name:
+              description: Update the 'display_name' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_display_name
+                  type: named
+            email:
+              description: Update the 'email' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_email
+                  type: named
+            id:
+              description: Update the 'id' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_id
+                  type: named
+            name:
+              description: Update the 'name' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_name
+                  type: named
+            state:
+              description: Update the 'state' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_state
+                  type: named
+            update_time:
+              description: Update the 'update_time' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_update_time
+                  type: named
+            uuid:
+              description: Update the 'uuid' column in the 'subscriber_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_resource_uuid
+                  type: named
+          foreign_keys: {}
+        update_subscriber_subscriptions_by_id_response:
+          description: Responses from the 'update_subscriber_subscriptions_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: subscriber_subscriptions
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_subscriber_subscriptions_by_id_update_columns:
+          description: Update the columns of the 'subscriber_subscriptions' collection
+          fields:
+            create_time:
+              description: Update the 'create_time' column in the 'subscriber_subscriptions' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_subscriptions_create_time
+                  type: named
+            id:
+              description: Update the 'id' column in the 'subscriber_subscriptions' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_subscriptions_id
+                  type: named
+            list:
+              description: Update the 'list' column in the 'subscriber_subscriptions' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_subscriptions_list
+                  type: named
+            list_display_name:
+              description: Update the 'list_display_name' column in the 'subscriber_subscriptions' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_subscriptions_list_display_name
+                  type: named
+            state:
+              description: Update the 'state' column in the 'subscriber_subscriptions' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_subscriptions_state
+                  type: named
+            subscriber_id:
+              description: Update the 'subscriber_id' column in the 'subscriber_subscriptions' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_subscriber_subscriptions_subscriber_id
+                  type: named
+          foreign_keys: {}
+        update_template_resource_by_id_response:
+          description: Responses from the 'update_template_resource_by_id' procedure
+          fields:
+            affected_rows:
+              description: The number of rows affected by the mutation
+              type:
+                name: int4
+                type: named
+            returning:
+              description: Data from rows affected by the mutation
+              type:
+                element_type:
+                  name: template_resource
+                  type: named
+                type: array
+          foreign_keys: {}
+        update_template_resource_by_id_update_columns:
+          description: Update the columns of the 'template_resource' collection
+          fields:
+            body:
+              description: Update the 'body' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_body
+                  type: named
+            create_time:
+              description: Update the 'create_time' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_create_time
+                  type: named
+            display_name:
+              description: Update the 'display_name' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_display_name
+                  type: named
+            id:
+              description: Update the 'id' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_id
+                  type: named
+            is_default:
+              description: Update the 'is_default' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_is_default
+                  type: named
+            name:
+              description: Update the 'name' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_name
+                  type: named
+            subject:
+              description: Update the 'subject' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_subject
+                  type: named
+            type:
+              description: Update the 'type' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_type
+                  type: named
+            update_time:
+              description: Update the 'update_time' column in the 'template_resource' collection.
+              type:
+                type: nullable
+                underlying_type:
+                  name: update_column_template_resource_update_time
+                  type: named
+          foreign_keys: {}
+      procedures:
+        - arguments:
+            key_id:
+              type:
+                name: varchar
+                type: named
+            pre_check:
+              description: Delete permission predicate over the '_prisma_migrations' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: _prisma_migrations
+                  type: predicate
+          description: Delete any row on the '_prisma_migrations' collection using the 'id' key
+          name: delete__prisma_migrations_by_id
+          result_type:
+            name: delete__prisma_migrations_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'bounce_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: bounce_resource
+                  type: predicate
+          description: Delete any row on the 'bounce_resource' collection using the 'id' key
+          name: delete_bounce_resource_by_id
+          result_type:
+            name: delete_bounce_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'campaign_lists' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_lists
+                  type: predicate
+          description: Delete any row on the 'campaign_lists' collection using the 'id' key
+          name: delete_campaign_lists_by_id
+          result_type:
+            name: delete_campaign_lists_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'campaign_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_resource
+                  type: predicate
+          description: Delete any row on the 'campaign_resource' collection using the 'id' key
+          name: delete_campaign_resource_by_id
+          result_type:
+            name: delete_campaign_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'campaign_stats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_stats
+                  type: predicate
+          description: Delete any row on the 'campaign_stats' collection using the 'id' key
+          name: delete_campaign_stats_by_id
+          result_type:
+            name: delete_campaign_stats_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'mailinglist_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: mailinglist_resource
+                  type: predicate
+          description: Delete any row on the 'mailinglist_resource' collection using the 'id' key
+          name: delete_mailinglist_resource_by_id
+          result_type:
+            name: delete_mailinglist_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'media_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: media_resource
+                  type: predicate
+          description: Delete any row on the 'media_resource' collection using the 'id' key
+          name: delete_media_resource_by_id
+          result_type:
+            name: delete_media_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'subscriber_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_resource
+                  type: predicate
+          description: Delete any row on the 'subscriber_resource' collection using the 'id' key
+          name: delete_subscriber_resource_by_id
+          result_type:
+            name: delete_subscriber_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'subscriber_subscriptions' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_subscriptions
+                  type: predicate
+          description: Delete any row on the 'subscriber_subscriptions' collection using the 'id' key
+          name: delete_subscriber_subscriptions_by_id
+          result_type:
+            name: delete_subscriber_subscriptions_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            pre_check:
+              description: Delete permission predicate over the 'template_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: template_resource
+                  type: predicate
+          description: Delete any row on the 'template_resource' collection using the 'id' key
+          name: delete_template_resource_by_id
+          result_type:
+            name: delete_template_resource_by_id_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert__prisma_migrations_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the '_prisma_migrations' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: _prisma_migrations
+                  type: predicate
+          description: Insert into the _prisma_migrations table
+          name: insert__prisma_migrations
+          result_type:
+            name: insert__prisma_migrations_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_bounce_resource_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'bounce_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: bounce_resource
+                  type: predicate
+          description: Insert into the bounce_resource table
+          name: insert_bounce_resource
+          result_type:
+            name: insert_bounce_resource_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_campaign_lists_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'campaign_lists' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_lists
+                  type: predicate
+          description: Insert into the campaign_lists table
+          name: insert_campaign_lists
+          result_type:
+            name: insert_campaign_lists_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_campaign_resource_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'campaign_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_resource
+                  type: predicate
+          description: Insert into the campaign_resource table
+          name: insert_campaign_resource
+          result_type:
+            name: insert_campaign_resource_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_campaign_stats_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'campaign_stats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_stats
+                  type: predicate
+          description: Insert into the campaign_stats table
+          name: insert_campaign_stats
+          result_type:
+            name: insert_campaign_stats_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_mailinglist_resource_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'mailinglist_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: mailinglist_resource
+                  type: predicate
+          description: Insert into the mailinglist_resource table
+          name: insert_mailinglist_resource
+          result_type:
+            name: insert_mailinglist_resource_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_media_resource_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'media_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: media_resource
+                  type: predicate
+          description: Insert into the media_resource table
+          name: insert_media_resource
+          result_type:
+            name: insert_media_resource_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_subscriber_resource_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'subscriber_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_resource
+                  type: predicate
+          description: Insert into the subscriber_resource table
+          name: insert_subscriber_resource
+          result_type:
+            name: insert_subscriber_resource_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_subscriber_subscriptions_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'subscriber_subscriptions' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_subscriptions
+                  type: predicate
+          description: Insert into the subscriber_subscriptions table
+          name: insert_subscriber_subscriptions
+          result_type:
+            name: insert_subscriber_subscriptions_response
+            type: named
+        - arguments:
+            objects:
+              type:
+                element_type:
+                  name: insert_template_resource_object
+                  type: named
+                type: array
+            post_check:
+              description: Insert permission predicate over the 'template_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: template_resource
+                  type: predicate
+          description: Insert into the template_resource table
+          name: insert_template_resource
+          result_type:
+            name: insert_template_resource_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: varchar
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the '_prisma_migrations' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: _prisma_migrations
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the '_prisma_migrations' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: _prisma_migrations
+                  type: predicate
+            update_columns:
+              type:
+                name: update__prisma_migrations_by_id_update_columns
+                type: named
+          description: Update any row on the '_prisma_migrations' collection using the 'id' key
+          name: update__prisma_migrations_by_id
+          result_type:
+            name: update__prisma_migrations_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'bounce_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: bounce_resource
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'bounce_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: bounce_resource
+                  type: predicate
+            update_columns:
+              type:
+                name: update_bounce_resource_by_id_update_columns
+                type: named
+          description: Update any row on the 'bounce_resource' collection using the 'id' key
+          name: update_bounce_resource_by_id
+          result_type:
+            name: update_bounce_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'campaign_lists' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_lists
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'campaign_lists' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_lists
+                  type: predicate
+            update_columns:
+              type:
+                name: update_campaign_lists_by_id_update_columns
+                type: named
+          description: Update any row on the 'campaign_lists' collection using the 'id' key
+          name: update_campaign_lists_by_id
+          result_type:
+            name: update_campaign_lists_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'campaign_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_resource
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'campaign_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_resource
+                  type: predicate
+            update_columns:
+              type:
+                name: update_campaign_resource_by_id_update_columns
+                type: named
+          description: Update any row on the 'campaign_resource' collection using the 'id' key
+          name: update_campaign_resource_by_id
+          result_type:
+            name: update_campaign_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'campaign_stats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_stats
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'campaign_stats' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: campaign_stats
+                  type: predicate
+            update_columns:
+              type:
+                name: update_campaign_stats_by_id_update_columns
+                type: named
+          description: Update any row on the 'campaign_stats' collection using the 'id' key
+          name: update_campaign_stats_by_id
+          result_type:
+            name: update_campaign_stats_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'mailinglist_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: mailinglist_resource
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'mailinglist_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: mailinglist_resource
+                  type: predicate
+            update_columns:
+              type:
+                name: update_mailinglist_resource_by_id_update_columns
+                type: named
+          description: Update any row on the 'mailinglist_resource' collection using the 'id' key
+          name: update_mailinglist_resource_by_id
+          result_type:
+            name: update_mailinglist_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'media_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: media_resource
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'media_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: media_resource
+                  type: predicate
+            update_columns:
+              type:
+                name: update_media_resource_by_id_update_columns
+                type: named
+          description: Update any row on the 'media_resource' collection using the 'id' key
+          name: update_media_resource_by_id
+          result_type:
+            name: update_media_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'subscriber_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_resource
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'subscriber_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_resource
+                  type: predicate
+            update_columns:
+              type:
+                name: update_subscriber_resource_by_id_update_columns
+                type: named
+          description: Update any row on the 'subscriber_resource' collection using the 'id' key
+          name: update_subscriber_resource_by_id
+          result_type:
+            name: update_subscriber_resource_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'subscriber_subscriptions' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_subscriptions
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'subscriber_subscriptions' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: subscriber_subscriptions
+                  type: predicate
+            update_columns:
+              type:
+                name: update_subscriber_subscriptions_by_id_update_columns
+                type: named
+          description: Update any row on the 'subscriber_subscriptions' collection using the 'id' key
+          name: update_subscriber_subscriptions_by_id
+          result_type:
+            name: update_subscriber_subscriptions_by_id_response
+            type: named
+        - arguments:
+            key_id:
+              type:
+                name: text
+                type: named
+            post_check:
+              description: Update permission post-condition predicate over the 'template_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: template_resource
+                  type: predicate
+            pre_check:
+              description: Update permission pre-condition predicate over the 'template_resource' collection
+              type:
+                type: nullable
+                underlying_type:
+                  object_type_name: template_resource
+                  type: predicate
+            update_columns:
+              type:
+                name: update_template_resource_by_id_update_columns
+                type: named
+          description: Update any row on the 'template_resource' collection using the 'id' key
+          name: update_template_resource_by_id
+          result_type:
+            name: update_template_resource_by_id_response
+            type: named
+      request_arguments: null
+      scalar_types:
+        bool:
+          aggregate_functions:
+            bool_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+              type: custom
+            bool_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+              type: custom
+            every:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: bool
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: bool
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: boolean
+        bounce_bounce_type:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: bounce_bounce_type
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - HARD
+              - SOFT
+              - COMPLAINT
+            type: enum
+        campaign_campaign_state:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: campaign_campaign_state
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - DRAFT
+              - SCHEDULED
+              - RUNNING
+              - PAUSED
+              - CANCELLED
+              - FINISHED
+            type: enum
+        campaign_campaign_type:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: campaign_campaign_type
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - REGULAR
+              - OPTIN
+            type: enum
+        campaign_content_type:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: campaign_content_type
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - RICHTEXT
+              - HTML
+              - MARKDOWN
+              - PLAIN
+              - VISUAL
+            type: enum
+        int4:
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            bit_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+              type: custom
+            bit_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+              type: custom
+            bit_xor:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int4
+                  type: named
+              type: custom
+            max:
+              type: max
+            min:
+              type: min
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            sum:
+              result_type: int8
+              type: sum
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: int4
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: int32
+        int8:
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            bit_and:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+              type: custom
+            bit_or:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+              type: custom
+            bit_xor:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: int8
+                  type: named
+              type: custom
+            max:
+              type: max
+            min:
+              type: min
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: int8
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: int64
+        jsonb:
+          aggregate_functions: {}
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: jsonb
+                type: named
+              type: custom
+            jsonb_contained:
+              argument_type:
+                name: jsonb
+                type: named
+              type: custom
+            jsonb_contains:
+              argument_type:
+                name: jsonb
+                type: named
+              type: custom
+            jsonb_exists:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: json
+        mailinglist_list_type:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: mailinglist_list_type
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - PUBLIC
+              - PRIVATE
+            type: enum
+        mailinglist_optin_type:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: mailinglist_optin_type
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - SINGLE
+              - DOUBLE
+            type: enum
+        numeric:
+          aggregate_functions:
+            avg:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            max:
+              type: max
+            min:
+              type: min
+            stddev:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            stddev_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            sum:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_pop:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            var_samp:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+            variance:
+              result_type:
+                type: nullable
+                underlying_type:
+                  name: numeric
+                  type: named
+              type: custom
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: numeric
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: bigdecimal
+        subscriber_subscriber_state:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: subscriber_subscriber_state
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - ENABLED
+              - BLOCKLISTED
+            type: enum
+        subscriber_subscription_state:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: subscriber_subscription_state
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - UNCONFIRMED
+              - CONFIRMED
+              - UNSUBSCRIBED
+            type: enum
+        template_template_type:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: template_template_type
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            one_of:
+              - CAMPAIGN
+              - CAMPAIGN_VISUAL
+              - TRANSACTIONAL
+            type: enum
+        text:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _ilike:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _in:
+              type: in
+            _iregex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _like:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _nilike:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _niregex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _nlike:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _nregex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            _regex:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            starts_with:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+            ts_match_tt:
+              argument_type:
+                name: text
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: string
+        timestamp:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: timestamp
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: timestamp
+        timestamptz:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _in:
+              type: in
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: timestamptz
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: timestamptz
+        varchar:
+          aggregate_functions:
+            max:
+              type: max
+            min:
+              type: min
+          comparison_operators:
+            _eq:
+              type: equal
+            _gt:
+              type: greater_than
+            _gte:
+              type: greater_than_or_equal
+            _ilike:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _in:
+              type: in
+            _iregex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _like:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _lt:
+              type: less_than
+            _lte:
+              type: less_than_or_equal
+            _neq:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _nilike:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _niregex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _nlike:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _nregex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            _regex:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            starts_with:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+            ts_match_tt:
+              argument_type:
+                name: varchar
+                type: named
+              type: custom
+          extraction_functions: {}
+          representation:
+            type: string
+    capabilities:
+      capabilities:
+        mutation:
+          explain: {}
+          transactional: {}
+        query:
+          aggregates: {}
+          exists:
+            nested_collections: {}
+          explain: {}
+          nested_fields:
+            aggregates: {}
+            filter_by: {}
+            order_by: {}
+          variables: {}
+        relationships:
+          nested:
+            array: {}
+          order_by_aggregate: {}
+          relation_comparisons: {}
+      version: 0.2.4

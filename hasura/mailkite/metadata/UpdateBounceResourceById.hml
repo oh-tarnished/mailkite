@@ -1,0 +1,497 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceCampaign
+  description: Update the 'campaign' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceCampaign
+    inputTypeName: UpdateColumnBounceResourceCampaignInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_campaign
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceCampaign
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceCampaignDisplayName
+  description: Update the 'campaign_display_name' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceCampaignDisplayName
+    inputTypeName: UpdateColumnBounceResourceCampaignDisplayNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_campaign_display_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceCampaignDisplayName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceCreateTime
+  description: Update the 'create_time' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceCreateTime
+    inputTypeName: UpdateColumnBounceResourceCreateTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_create_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceCreateTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceEmail
+  description: Update the 'email' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceEmail
+    inputTypeName: UpdateColumnBounceResourceEmailInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_email
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceEmail
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceId
+  description: Update the 'id' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceId
+    inputTypeName: UpdateColumnBounceResourceIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceMeta
+  description: Update the 'meta' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: Json
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceMeta
+    inputTypeName: UpdateColumnBounceResourceMetaInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_meta
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceMeta
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceName
+  description: Update the 'name' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceName
+    inputTypeName: UpdateColumnBounceResourceNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceSource
+  description: Update the 'source' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceSource
+    inputTypeName: UpdateColumnBounceResourceSourceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_source
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceSource
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceSubscriber
+  description: Update the 'subscriber' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceSubscriber
+    inputTypeName: UpdateColumnBounceResourceSubscriberInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_subscriber
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceSubscriber
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnBounceResourceType
+  description: Update the 'type' column in the 'bounce_resource' collection
+  fields:
+    - name: set
+      type: Enum
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnBounceResourceType
+    inputTypeName: UpdateColumnBounceResourceTypeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_bounce_resource_type
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnBounceResourceType
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateBounceResourceByIdUpdateColumns
+  description: Update the columns of the 'bounce_resource' collection
+  fields:
+    - name: campaign
+      type: UpdateColumnBounceResourceCampaign
+      description: Update the 'campaign' column in the 'bounce_resource' collection.
+    - name: campaignDisplayName
+      type: UpdateColumnBounceResourceCampaignDisplayName
+      description: Update the 'campaign_display_name' column in the 'bounce_resource'
+        collection.
+    - name: createTime
+      type: UpdateColumnBounceResourceCreateTime
+      description: Update the 'create_time' column in the 'bounce_resource' collection.
+    - name: email
+      type: UpdateColumnBounceResourceEmail
+      description: Update the 'email' column in the 'bounce_resource' collection.
+    - name: id
+      type: UpdateColumnBounceResourceId
+      description: Update the 'id' column in the 'bounce_resource' collection.
+    - name: meta
+      type: UpdateColumnBounceResourceMeta
+      description: Update the 'meta' column in the 'bounce_resource' collection.
+    - name: name
+      type: UpdateColumnBounceResourceName
+      description: Update the 'name' column in the 'bounce_resource' collection.
+    - name: source
+      type: UpdateColumnBounceResourceSource
+      description: Update the 'source' column in the 'bounce_resource' collection.
+    - name: subscriber
+      type: UpdateColumnBounceResourceSubscriber
+      description: Update the 'subscriber' column in the 'bounce_resource' collection.
+    - name: type
+      type: UpdateColumnBounceResourceType
+      description: Update the 'type' column in the 'bounce_resource' collection.
+  graphql:
+    typeName: UpdateBounceResourceByIdUpdateColumns
+    inputTypeName: UpdateBounceResourceByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_bounce_resource_by_id_update_columns
+      fieldMapping:
+        campaign:
+          column:
+            name: campaign
+        campaignDisplayName:
+          column:
+            name: campaign_display_name
+        createTime:
+          column:
+            name: create_time
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        meta:
+          column:
+            name: meta
+        name:
+          column:
+            name: name
+        source:
+          column:
+            name: source
+        subscriber:
+          column:
+            name: subscriber
+        type:
+          column:
+            name: type
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateBounceResourceByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - campaign
+          - campaignDisplayName
+          - createTime
+          - email
+          - id
+          - meta
+          - name
+          - source
+          - subscriber
+          - type
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateBounceResourceByIdResponse
+  description: Responses from the 'update_bounce_resource_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[BounceResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateBounceResourceByIdResponse
+    inputTypeName: UpdateBounceResourceByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_bounce_resource_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateBounceResourceByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateBounceResourceById
+  outputType: UpdateBounceResourceByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: postCheck
+      type: BounceResourceBoolExp
+      description: Update permission post-condition predicate over the
+        'bounce_resource' collection
+    - name: preCheck
+      type: BounceResourceBoolExp
+      description: Update permission pre-condition predicate over the
+        'bounce_resource' collection
+    - name: updateColumns
+      type: UpdateBounceResourceByIdUpdateColumns!
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: update_bounce_resource_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateBounceResourceById
+    rootFieldKind: Mutation
+  description: Update any row on the 'bounce_resource' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateBounceResourceById
+  permissions:
+    - role: admin
+      allowExecution: true
+

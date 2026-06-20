@@ -1,0 +1,14 @@
+services:
+  mailkite_mailkite_pgsql:
+    build:
+      context: .
+      dockerfile: .hasura-connector/Dockerfile.mailkite_pgsql
+    environment:
+      CONNECTION_URI: $MAILKITE_MAILKITE_PGSQL_CONNECTION_URI
+      HASURA_SERVICE_TOKEN_SECRET: $MAILKITE_MAILKITE_PGSQL_HASURA_SERVICE_TOKEN_SECRET
+      OTEL_EXPORTER_OTLP_ENDPOINT: $MAILKITE_MAILKITE_PGSQL_OTEL_EXPORTER_OTLP_ENDPOINT
+      OTEL_SERVICE_NAME: $MAILKITE_MAILKITE_PGSQL_OTEL_SERVICE_NAME
+    extra_hosts:
+      - local.hasura.dev:host-gateway
+    ports:
+      - 5844:8080

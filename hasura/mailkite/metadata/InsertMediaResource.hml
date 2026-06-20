@@ -1,0 +1,144 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertMediaResourceObject
+  fields:
+    - name: createTime
+      type: Timestamp
+    - name: filename
+      type: String_1
+    - name: id
+      type: String_1!
+    - name: mimeType
+      type: String_1
+    - name: name
+      type: String_1!
+    - name: thumbnailUrl
+      type: String_1
+    - name: url
+      type: String_1
+    - name: uuid
+      type: String_1
+  graphql:
+    typeName: InsertMediaResourceObject
+    inputTypeName: InsertMediaResourceObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_media_resource_object
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        filename:
+          column:
+            name: filename
+        id:
+          column:
+            name: id
+        mimeType:
+          column:
+            name: mime_type
+        name:
+          column:
+            name: name
+        thumbnailUrl:
+          column:
+            name: thumbnail_url
+        url:
+          column:
+            name: url
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertMediaResourceObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - filename
+          - id
+          - mimeType
+          - name
+          - thumbnailUrl
+          - url
+          - uuid
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertMediaResourceResponse
+  description: Responses from the 'insert_media_resource' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[MediaResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertMediaResourceResponse
+    inputTypeName: InsertMediaResourceResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_media_resource_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertMediaResourceResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertMediaResource
+  outputType: InsertMediaResourceResponse!
+  arguments:
+    - name: objects
+      type: "[InsertMediaResourceObject!]!"
+    - name: postCheck
+      type: MediaResourceBoolExp
+      description: Insert permission predicate over the 'media_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_media_resource
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertMediaResource
+    rootFieldKind: Mutation
+  description: Insert into the media_resource table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertMediaResource
+  permissions:
+    - role: admin
+      allowExecution: true
+

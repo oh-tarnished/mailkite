@@ -1,0 +1,114 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertCampaignListsObject
+  fields:
+    - name: campaignId
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: mailingListId
+      type: String_1!
+  graphql:
+    typeName: InsertCampaignListsObject
+    inputTypeName: InsertCampaignListsObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_campaign_lists_object
+      fieldMapping:
+        campaignId:
+          column:
+            name: campaign_id
+        id:
+          column:
+            name: id
+        mailingListId:
+          column:
+            name: mailing_list_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertCampaignListsObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - campaignId
+          - id
+          - mailingListId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertCampaignListsResponse
+  description: Responses from the 'insert_campaign_lists' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[CampaignLists!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertCampaignListsResponse
+    inputTypeName: InsertCampaignListsResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_campaign_lists_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertCampaignListsResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertCampaignLists
+  outputType: InsertCampaignListsResponse!
+  arguments:
+    - name: objects
+      type: "[InsertCampaignListsObject!]!"
+    - name: postCheck
+      type: CampaignListsBoolExp
+      description: Insert permission predicate over the 'campaign_lists' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_campaign_lists
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertCampaignLists
+    rootFieldKind: Mutation
+  description: Insert into the campaign_lists table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertCampaignLists
+  permissions:
+    - role: admin
+      allowExecution: true
+

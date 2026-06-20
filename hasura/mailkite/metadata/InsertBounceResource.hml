@@ -1,0 +1,156 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertBounceResourceObject
+  fields:
+    - name: campaign
+      type: String_1
+    - name: campaignDisplayName
+      type: String_1
+    - name: createTime
+      type: Timestamp
+    - name: email
+      type: String_1
+    - name: id
+      type: String_1!
+    - name: meta
+      type: Json
+    - name: name
+      type: String_1!
+    - name: source
+      type: String_1
+    - name: subscriber
+      type: String_1
+    - name: type
+      type: Enum
+  graphql:
+    typeName: InsertBounceResourceObject
+    inputTypeName: InsertBounceResourceObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_bounce_resource_object
+      fieldMapping:
+        campaign:
+          column:
+            name: campaign
+        campaignDisplayName:
+          column:
+            name: campaign_display_name
+        createTime:
+          column:
+            name: create_time
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        meta:
+          column:
+            name: meta
+        name:
+          column:
+            name: name
+        source:
+          column:
+            name: source
+        subscriber:
+          column:
+            name: subscriber
+        type:
+          column:
+            name: type
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertBounceResourceObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - campaign
+          - campaignDisplayName
+          - createTime
+          - email
+          - id
+          - meta
+          - name
+          - source
+          - subscriber
+          - type
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertBounceResourceResponse
+  description: Responses from the 'insert_bounce_resource' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[BounceResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertBounceResourceResponse
+    inputTypeName: InsertBounceResourceResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_bounce_resource_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertBounceResourceResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertBounceResource
+  outputType: InsertBounceResourceResponse!
+  arguments:
+    - name: objects
+      type: "[InsertBounceResourceObject!]!"
+    - name: postCheck
+      type: BounceResourceBoolExp
+      description: Insert permission predicate over the 'bounce_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_bounce_resource
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertBounceResource
+    rootFieldKind: Mutation
+  description: Insert into the bounce_resource table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertBounceResource
+  permissions:
+    - role: admin
+      allowExecution: true
+

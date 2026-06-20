@@ -1,0 +1,346 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberSubscriptionsCreateTime
+  description: Update the 'create_time' column in the 'subscriber_subscriptions' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberSubscriptionsCreateTime
+    inputTypeName: UpdateColumnSubscriberSubscriptionsCreateTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_subscriptions_create_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberSubscriptionsCreateTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberSubscriptionsId
+  description: Update the 'id' column in the 'subscriber_subscriptions' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberSubscriptionsId
+    inputTypeName: UpdateColumnSubscriberSubscriptionsIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_subscriptions_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberSubscriptionsId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberSubscriptionsList
+  description: Update the 'list' column in the 'subscriber_subscriptions' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberSubscriptionsList
+    inputTypeName: UpdateColumnSubscriberSubscriptionsListInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_subscriptions_list
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberSubscriptionsList
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberSubscriptionsListDisplayName
+  description: Update the 'list_display_name' column in the
+    'subscriber_subscriptions' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberSubscriptionsListDisplayName
+    inputTypeName: UpdateColumnSubscriberSubscriptionsListDisplayNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_subscriptions_list_display_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberSubscriptionsListDisplayName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberSubscriptionsState
+  description: Update the 'state' column in the 'subscriber_subscriptions' collection
+  fields:
+    - name: set
+      type: Enum
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberSubscriptionsState
+    inputTypeName: UpdateColumnSubscriberSubscriptionsStateInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_subscriptions_state
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberSubscriptionsState
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberSubscriptionsSubscriberId
+  description: Update the 'subscriber_id' column in the 'subscriber_subscriptions'
+    collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberSubscriptionsSubscriberId
+    inputTypeName: UpdateColumnSubscriberSubscriptionsSubscriberIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_subscriptions_subscriber_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberSubscriptionsSubscriberId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateSubscriberSubscriptionsByIdUpdateColumns
+  description: Update the columns of the 'subscriber_subscriptions' collection
+  fields:
+    - name: createTime
+      type: UpdateColumnSubscriberSubscriptionsCreateTime
+      description: Update the 'create_time' column in the 'subscriber_subscriptions'
+        collection.
+    - name: id
+      type: UpdateColumnSubscriberSubscriptionsId
+      description: Update the 'id' column in the 'subscriber_subscriptions' collection.
+    - name: list
+      type: UpdateColumnSubscriberSubscriptionsList
+      description: Update the 'list' column in the 'subscriber_subscriptions' collection.
+    - name: listDisplayName
+      type: UpdateColumnSubscriberSubscriptionsListDisplayName
+      description: Update the 'list_display_name' column in the
+        'subscriber_subscriptions' collection.
+    - name: state
+      type: UpdateColumnSubscriberSubscriptionsState
+      description: Update the 'state' column in the 'subscriber_subscriptions' collection.
+    - name: subscriberId
+      type: UpdateColumnSubscriberSubscriptionsSubscriberId
+      description: Update the 'subscriber_id' column in the 'subscriber_subscriptions'
+        collection.
+  graphql:
+    typeName: UpdateSubscriberSubscriptionsByIdUpdateColumns
+    inputTypeName: UpdateSubscriberSubscriptionsByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_subscriber_subscriptions_by_id_update_columns
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        id:
+          column:
+            name: id
+        list:
+          column:
+            name: list
+        listDisplayName:
+          column:
+            name: list_display_name
+        state:
+          column:
+            name: state
+        subscriberId:
+          column:
+            name: subscriber_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateSubscriberSubscriptionsByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - id
+          - list
+          - listDisplayName
+          - state
+          - subscriberId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateSubscriberSubscriptionsByIdResponse
+  description: Responses from the 'update_subscriber_subscriptions_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[SubscriberSubscriptions!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateSubscriberSubscriptionsByIdResponse
+    inputTypeName: UpdateSubscriberSubscriptionsByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_subscriber_subscriptions_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateSubscriberSubscriptionsByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateSubscriberSubscriptionsById
+  outputType: UpdateSubscriberSubscriptionsByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: postCheck
+      type: SubscriberSubscriptionsBoolExp
+      description: Update permission post-condition predicate over the
+        'subscriber_subscriptions' collection
+    - name: preCheck
+      type: SubscriberSubscriptionsBoolExp
+      description: Update permission pre-condition predicate over the
+        'subscriber_subscriptions' collection
+    - name: updateColumns
+      type: UpdateSubscriberSubscriptionsByIdUpdateColumns!
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: update_subscriber_subscriptions_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateSubscriberSubscriptionsById
+    rootFieldKind: Mutation
+  description: Update any row on the 'subscriber_subscriptions' collection using
+    the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateSubscriberSubscriptionsById
+  permissions:
+    - role: admin
+      allowExecution: true
+

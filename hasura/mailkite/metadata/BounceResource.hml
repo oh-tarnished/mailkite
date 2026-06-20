@@ -1,0 +1,269 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: BounceResource
+  fields:
+    - name: campaign
+      type: String_1
+    - name: campaignDisplayName
+      type: String_1
+    - name: createTime
+      type: Timestamp!
+    - name: email
+      type: String_1
+    - name: id
+      type: String_1!
+    - name: meta
+      type: Json
+    - name: name
+      type: String_1!
+    - name: source
+      type: String_1
+    - name: subscriber
+      type: String_1
+    - name: type
+      type: Enum
+  graphql:
+    typeName: BounceResource
+    inputTypeName: BounceResourceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: bounce_resource
+      fieldMapping:
+        campaign:
+          column:
+            name: campaign
+        campaignDisplayName:
+          column:
+            name: campaign_display_name
+        createTime:
+          column:
+            name: create_time
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        meta:
+          column:
+            name: meta
+        name:
+          column:
+            name: name
+        source:
+          column:
+            name: source
+        subscriber:
+          column:
+            name: subscriber
+        type:
+          column:
+            name: type
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: BounceResource
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - campaign
+          - campaignDisplayName
+          - createTime
+          - email
+          - id
+          - meta
+          - name
+          - source
+          - subscriber
+          - type
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: BounceResourceBoolExp
+  operand:
+    object:
+      type: BounceResource
+      comparableFields:
+        - fieldName: campaign
+          booleanExpressionType: TextBoolExp
+        - fieldName: campaignDisplayName
+          booleanExpressionType: TextBoolExp
+        - fieldName: createTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: email
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: meta
+          booleanExpressionType: JsonbBoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+        - fieldName: source
+          booleanExpressionType: TextBoolExp
+        - fieldName: subscriber
+          booleanExpressionType: TextBoolExp
+        - fieldName: type
+          booleanExpressionType: BounceBounceTypeBoolExp
+      comparableRelationships:
+        - relationshipName: campaignResource
+        - relationshipName: subscriberResource
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: BounceResourceBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: BounceResourceAggExp
+  operand:
+    object:
+      aggregatedType: BounceResource
+      aggregatableFields:
+        - fieldName: campaign
+          aggregateExpression: TextAggExp
+        - fieldName: campaignDisplayName
+          aggregateExpression: TextAggExp
+        - fieldName: createTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: email
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: meta
+          aggregateExpression: JsonbAggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+        - fieldName: source
+          aggregateExpression: TextAggExp
+        - fieldName: subscriber
+          aggregateExpression: TextAggExp
+        - fieldName: type
+          aggregateExpression: BounceBounceTypeAggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: BounceResourceAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: BounceResourceOrderByExp
+  operand:
+    object:
+      orderedType: BounceResource
+      orderableFields:
+        - fieldName: campaign
+          orderByExpression: String1OrderByExp
+        - fieldName: campaignDisplayName
+          orderByExpression: String1OrderByExp
+        - fieldName: createTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: email
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: meta
+          orderByExpression: JsonOrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: source
+          orderByExpression: String1OrderByExp
+        - fieldName: subscriber
+          orderByExpression: String1OrderByExp
+        - fieldName: type
+          orderByExpression: EnumOrderByExp
+      orderableRelationships:
+        - relationshipName: campaignResource
+        - relationshipName: subscriberResource
+  graphql:
+    expressionTypeName: BounceResourceOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: BounceResource
+  objectType: BounceResource
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: bounce_resource
+  filterExpressionType: BounceResourceBoolExp
+  aggregateExpression: BounceResourceAggExp
+  orderByExpression: BounceResourceOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: bounceResource
+      subscription:
+        rootField: bounceResource
+    selectUniques:
+      - queryRootField: bounceResourceById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: bounceResourceById
+    filterInputTypeName: BounceResourceFilterInput
+    aggregate:
+      queryRootField: bounceResourceAggregate
+      subscription:
+        rootField: bounceResourceAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: BounceResource
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: campaignResource
+  sourceType: BounceResource
+  target:
+    model:
+      name: CampaignResource
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: campaign
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: subscriberResource
+  sourceType: BounceResource
+  target:
+    model:
+      name: SubscriberResource
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: subscriber
+      target:
+        modelField:
+          - fieldName: id
+

@@ -1,0 +1,1043 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceAltBody
+  description: Update the 'alt_body' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceAltBody
+    inputTypeName: UpdateColumnCampaignResourceAltBodyInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_alt_body
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceAltBody
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceArchive
+  description: Update the 'archive' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Boolean_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceArchive
+    inputTypeName: UpdateColumnCampaignResourceArchiveInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_archive
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceArchive
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceArchiveMeta
+  description: Update the 'archive_meta' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Json
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceArchiveMeta
+    inputTypeName: UpdateColumnCampaignResourceArchiveMetaInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_archive_meta
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceArchiveMeta
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceArchiveSlug
+  description: Update the 'archive_slug' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceArchiveSlug
+    inputTypeName: UpdateColumnCampaignResourceArchiveSlugInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_archive_slug
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceArchiveSlug
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceArchiveTemplate
+  description: Update the 'archive_template' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceArchiveTemplate
+    inputTypeName: UpdateColumnCampaignResourceArchiveTemplateInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_archive_template
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceArchiveTemplate
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceBody
+  description: Update the 'body' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceBody
+    inputTypeName: UpdateColumnCampaignResourceBodyInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_body
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceBody
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceCreateTime
+  description: Update the 'create_time' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceCreateTime
+    inputTypeName: UpdateColumnCampaignResourceCreateTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_create_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceCreateTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceDisplayName
+  description: Update the 'display_name' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceDisplayName
+    inputTypeName: UpdateColumnCampaignResourceDisplayNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_display_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceDisplayName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceFormat
+  description: Update the 'format' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Enum!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceFormat
+    inputTypeName: UpdateColumnCampaignResourceFormatInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_format
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceFormat
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceHeaders
+  description: Update the 'headers' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Json
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceHeaders
+    inputTypeName: UpdateColumnCampaignResourceHeadersInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_headers
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceHeaders
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceId
+  description: Update the 'id' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceId
+    inputTypeName: UpdateColumnCampaignResourceIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceMessenger
+  description: Update the 'messenger' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceMessenger
+    inputTypeName: UpdateColumnCampaignResourceMessengerInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_messenger
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceMessenger
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceName
+  description: Update the 'name' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceName
+    inputTypeName: UpdateColumnCampaignResourceNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceScheduleTime
+  description: Update the 'schedule_time' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Timestamp
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceScheduleTime
+    inputTypeName: UpdateColumnCampaignResourceScheduleTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_schedule_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceScheduleTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceSenderEmail
+  description: Update the 'sender_email' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceSenderEmail
+    inputTypeName: UpdateColumnCampaignResourceSenderEmailInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_sender_email
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceSenderEmail
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceStartTime
+  description: Update the 'start_time' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Timestamp
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceStartTime
+    inputTypeName: UpdateColumnCampaignResourceStartTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_start_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceStartTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceState
+  description: Update the 'state' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Enum
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceState
+    inputTypeName: UpdateColumnCampaignResourceStateInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_state
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceState
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceStatsId
+  description: Update the 'stats_id' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceStatsId
+    inputTypeName: UpdateColumnCampaignResourceStatsIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_stats_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceStatsId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceSubject
+  description: Update the 'subject' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceSubject
+    inputTypeName: UpdateColumnCampaignResourceSubjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_subject
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceSubject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceTags
+  description: Update the 'tags' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: "[String_1]"
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceTags
+    inputTypeName: UpdateColumnCampaignResourceTagsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_tags
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceTags
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceTemplate
+  description: Update the 'template' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceTemplate
+    inputTypeName: UpdateColumnCampaignResourceTemplateInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_template
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceTemplate
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceType
+  description: Update the 'type' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Enum
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceType
+    inputTypeName: UpdateColumnCampaignResourceTypeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_type
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceType
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceUpdateTime
+  description: Update the 'update_time' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceUpdateTime
+    inputTypeName: UpdateColumnCampaignResourceUpdateTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_update_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceUpdateTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignResourceUuid
+  description: Update the 'uuid' column in the 'campaign_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignResourceUuid
+    inputTypeName: UpdateColumnCampaignResourceUuidInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_resource_uuid
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignResourceUuid
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateCampaignResourceByIdUpdateColumns
+  description: Update the columns of the 'campaign_resource' collection
+  fields:
+    - name: altBody
+      type: UpdateColumnCampaignResourceAltBody
+      description: Update the 'alt_body' column in the 'campaign_resource' collection.
+    - name: archive
+      type: UpdateColumnCampaignResourceArchive
+      description: Update the 'archive' column in the 'campaign_resource' collection.
+    - name: archiveMeta
+      type: UpdateColumnCampaignResourceArchiveMeta
+      description: Update the 'archive_meta' column in the 'campaign_resource' collection.
+    - name: archiveSlug
+      type: UpdateColumnCampaignResourceArchiveSlug
+      description: Update the 'archive_slug' column in the 'campaign_resource' collection.
+    - name: archiveTemplate
+      type: UpdateColumnCampaignResourceArchiveTemplate
+      description: Update the 'archive_template' column in the 'campaign_resource'
+        collection.
+    - name: body
+      type: UpdateColumnCampaignResourceBody
+      description: Update the 'body' column in the 'campaign_resource' collection.
+    - name: createTime
+      type: UpdateColumnCampaignResourceCreateTime
+      description: Update the 'create_time' column in the 'campaign_resource' collection.
+    - name: displayName
+      type: UpdateColumnCampaignResourceDisplayName
+      description: Update the 'display_name' column in the 'campaign_resource' collection.
+    - name: format
+      type: UpdateColumnCampaignResourceFormat
+      description: Update the 'format' column in the 'campaign_resource' collection.
+    - name: headers
+      type: UpdateColumnCampaignResourceHeaders
+      description: Update the 'headers' column in the 'campaign_resource' collection.
+    - name: id
+      type: UpdateColumnCampaignResourceId
+      description: Update the 'id' column in the 'campaign_resource' collection.
+    - name: messenger
+      type: UpdateColumnCampaignResourceMessenger
+      description: Update the 'messenger' column in the 'campaign_resource' collection.
+    - name: name
+      type: UpdateColumnCampaignResourceName
+      description: Update the 'name' column in the 'campaign_resource' collection.
+    - name: scheduleTime
+      type: UpdateColumnCampaignResourceScheduleTime
+      description: Update the 'schedule_time' column in the 'campaign_resource' collection.
+    - name: senderEmail
+      type: UpdateColumnCampaignResourceSenderEmail
+      description: Update the 'sender_email' column in the 'campaign_resource' collection.
+    - name: startTime
+      type: UpdateColumnCampaignResourceStartTime
+      description: Update the 'start_time' column in the 'campaign_resource' collection.
+    - name: state
+      type: UpdateColumnCampaignResourceState
+      description: Update the 'state' column in the 'campaign_resource' collection.
+    - name: statsId
+      type: UpdateColumnCampaignResourceStatsId
+      description: Update the 'stats_id' column in the 'campaign_resource' collection.
+    - name: subject
+      type: UpdateColumnCampaignResourceSubject
+      description: Update the 'subject' column in the 'campaign_resource' collection.
+    - name: tags
+      type: UpdateColumnCampaignResourceTags
+      description: Update the 'tags' column in the 'campaign_resource' collection.
+    - name: template
+      type: UpdateColumnCampaignResourceTemplate
+      description: Update the 'template' column in the 'campaign_resource' collection.
+    - name: type
+      type: UpdateColumnCampaignResourceType
+      description: Update the 'type' column in the 'campaign_resource' collection.
+    - name: updateTime
+      type: UpdateColumnCampaignResourceUpdateTime
+      description: Update the 'update_time' column in the 'campaign_resource' collection.
+    - name: uuid
+      type: UpdateColumnCampaignResourceUuid
+      description: Update the 'uuid' column in the 'campaign_resource' collection.
+  graphql:
+    typeName: UpdateCampaignResourceByIdUpdateColumns
+    inputTypeName: UpdateCampaignResourceByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_campaign_resource_by_id_update_columns
+      fieldMapping:
+        altBody:
+          column:
+            name: alt_body
+        archive:
+          column:
+            name: archive
+        archiveMeta:
+          column:
+            name: archive_meta
+        archiveSlug:
+          column:
+            name: archive_slug
+        archiveTemplate:
+          column:
+            name: archive_template
+        body:
+          column:
+            name: body
+        createTime:
+          column:
+            name: create_time
+        displayName:
+          column:
+            name: display_name
+        format:
+          column:
+            name: format
+        headers:
+          column:
+            name: headers
+        id:
+          column:
+            name: id
+        messenger:
+          column:
+            name: messenger
+        name:
+          column:
+            name: name
+        scheduleTime:
+          column:
+            name: schedule_time
+        senderEmail:
+          column:
+            name: sender_email
+        startTime:
+          column:
+            name: start_time
+        state:
+          column:
+            name: state
+        statsId:
+          column:
+            name: stats_id
+        subject:
+          column:
+            name: subject
+        tags:
+          column:
+            name: tags
+        template:
+          column:
+            name: template
+        type:
+          column:
+            name: type
+        updateTime:
+          column:
+            name: update_time
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateCampaignResourceByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - altBody
+          - archive
+          - archiveMeta
+          - archiveSlug
+          - archiveTemplate
+          - body
+          - createTime
+          - displayName
+          - format
+          - headers
+          - id
+          - messenger
+          - name
+          - scheduleTime
+          - senderEmail
+          - startTime
+          - state
+          - statsId
+          - subject
+          - tags
+          - template
+          - type
+          - updateTime
+          - uuid
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateCampaignResourceByIdResponse
+  description: Responses from the 'update_campaign_resource_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[CampaignResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateCampaignResourceByIdResponse
+    inputTypeName: UpdateCampaignResourceByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_campaign_resource_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateCampaignResourceByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateCampaignResourceById
+  outputType: UpdateCampaignResourceByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: postCheck
+      type: CampaignResourceBoolExp
+      description: Update permission post-condition predicate over the
+        'campaign_resource' collection
+    - name: preCheck
+      type: CampaignResourceBoolExp
+      description: Update permission pre-condition predicate over the
+        'campaign_resource' collection
+    - name: updateColumns
+      type: UpdateCampaignResourceByIdUpdateColumns!
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: update_campaign_resource_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateCampaignResourceById
+    rootFieldKind: Mutation
+  description: Update any row on the 'campaign_resource' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateCampaignResourceById
+  permissions:
+    - role: admin
+      allowExecution: true
+

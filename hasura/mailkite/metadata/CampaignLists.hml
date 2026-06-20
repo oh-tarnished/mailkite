@@ -1,0 +1,185 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CampaignLists
+  fields:
+    - name: campaignId
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: mailingListId
+      type: String_1!
+  graphql:
+    typeName: CampaignLists
+    inputTypeName: CampaignListsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: campaign_lists
+      fieldMapping:
+        campaignId:
+          column:
+            name: campaign_id
+        id:
+          column:
+            name: id
+        mailingListId:
+          column:
+            name: mailing_list_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CampaignLists
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - campaignId
+          - id
+          - mailingListId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: CampaignListsBoolExp
+  operand:
+    object:
+      type: CampaignLists
+      comparableFields:
+        - fieldName: campaignId
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: mailingListId
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: campaignResource
+        - relationshipName: mailinglistResource
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: CampaignListsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: CampaignListsAggExp
+  operand:
+    object:
+      aggregatedType: CampaignLists
+      aggregatableFields:
+        - fieldName: campaignId
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: mailingListId
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: CampaignListsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: CampaignListsOrderByExp
+  operand:
+    object:
+      orderedType: CampaignLists
+      orderableFields:
+        - fieldName: campaignId
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: mailingListId
+          orderByExpression: String1OrderByExp
+      orderableRelationships:
+        - relationshipName: campaignResource
+        - relationshipName: mailinglistResource
+  graphql:
+    expressionTypeName: CampaignListsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: CampaignLists
+  objectType: CampaignLists
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: campaign_lists
+  filterExpressionType: CampaignListsBoolExp
+  aggregateExpression: CampaignListsAggExp
+  orderByExpression: CampaignListsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: campaignLists
+      subscription:
+        rootField: campaignLists
+    selectUniques:
+      - queryRootField: campaignListsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: campaignListsById
+    filterInputTypeName: CampaignListsFilterInput
+    aggregate:
+      queryRootField: campaignListsAggregate
+      subscription:
+        rootField: campaignListsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: CampaignLists
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: campaignResource
+  sourceType: CampaignLists
+  target:
+    model:
+      name: CampaignResource
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: campaignId
+      target:
+        modelField:
+          - fieldName: id
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: mailinglistResource
+  sourceType: CampaignLists
+  target:
+    model:
+      name: MailinglistResource
+      relationshipType: Object
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: mailingListId
+      target:
+        modelField:
+          - fieldName: id
+

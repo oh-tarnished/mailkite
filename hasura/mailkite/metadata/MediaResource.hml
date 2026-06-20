@@ -1,0 +1,205 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: MediaResource
+  fields:
+    - name: createTime
+      type: Timestamp!
+    - name: filename
+      type: String_1
+    - name: id
+      type: String_1!
+    - name: mimeType
+      type: String_1
+    - name: name
+      type: String_1!
+    - name: thumbnailUrl
+      type: String_1
+    - name: url
+      type: String_1
+    - name: uuid
+      type: String_1
+  graphql:
+    typeName: MediaResource
+    inputTypeName: MediaResourceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: media_resource
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        filename:
+          column:
+            name: filename
+        id:
+          column:
+            name: id
+        mimeType:
+          column:
+            name: mime_type
+        name:
+          column:
+            name: name
+        thumbnailUrl:
+          column:
+            name: thumbnail_url
+        url:
+          column:
+            name: url
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: MediaResource
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - filename
+          - id
+          - mimeType
+          - name
+          - thumbnailUrl
+          - url
+          - uuid
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: MediaResourceBoolExp
+  operand:
+    object:
+      type: MediaResource
+      comparableFields:
+        - fieldName: createTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: filename
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: mimeType
+          booleanExpressionType: TextBoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+        - fieldName: thumbnailUrl
+          booleanExpressionType: TextBoolExp
+        - fieldName: url
+          booleanExpressionType: TextBoolExp
+        - fieldName: uuid
+          booleanExpressionType: TextBoolExp
+      comparableRelationships: []
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: MediaResourceBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: MediaResourceAggExp
+  operand:
+    object:
+      aggregatedType: MediaResource
+      aggregatableFields:
+        - fieldName: createTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: filename
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: mimeType
+          aggregateExpression: TextAggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+        - fieldName: thumbnailUrl
+          aggregateExpression: TextAggExp
+        - fieldName: url
+          aggregateExpression: TextAggExp
+        - fieldName: uuid
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: MediaResourceAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: MediaResourceOrderByExp
+  operand:
+    object:
+      orderedType: MediaResource
+      orderableFields:
+        - fieldName: createTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: filename
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: mimeType
+          orderByExpression: String1OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: thumbnailUrl
+          orderByExpression: String1OrderByExp
+        - fieldName: url
+          orderByExpression: String1OrderByExp
+        - fieldName: uuid
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: MediaResourceOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: MediaResource
+  objectType: MediaResource
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: media_resource
+  filterExpressionType: MediaResourceBoolExp
+  aggregateExpression: MediaResourceAggExp
+  orderByExpression: MediaResourceOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: mediaResource
+      subscription:
+        rootField: mediaResource
+    selectUniques:
+      - queryRootField: mediaResourceById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: mediaResourceById
+    filterInputTypeName: MediaResourceFilterInput
+    aggregate:
+      queryRootField: mediaResourceAggregate
+      subscription:
+        rootField: mediaResourceAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: MediaResource
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+

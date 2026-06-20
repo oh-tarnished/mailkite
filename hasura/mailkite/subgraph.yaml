@@ -1,0 +1,19 @@
+kind: Subgraph
+version: v2
+definition:
+  name: mailkite
+  generator:
+    rootPath: .
+    namingConvention: graphql
+  includePaths:
+    - metadata
+  envMapping:
+    MAILKITE_MAILKITE_PGSQL_AUTHORIZATION_HEADER:
+      fromEnv: MAILKITE_MAILKITE_PGSQL_AUTHORIZATION_HEADER
+    MAILKITE_MAILKITE_PGSQL_READ_URL:
+      fromEnv: MAILKITE_MAILKITE_PGSQL_READ_URL
+    MAILKITE_MAILKITE_PGSQL_WRITE_URL:
+      fromEnv: MAILKITE_MAILKITE_PGSQL_WRITE_URL
+  connectors:
+    - path: connector/mailkite_pgsql/connector.yaml
+      connectorLinkName: mailkite_pgsql

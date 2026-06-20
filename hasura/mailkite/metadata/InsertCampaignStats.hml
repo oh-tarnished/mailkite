@@ -1,0 +1,132 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertCampaignStatsObject
+  fields:
+    - name: bounces
+      type: Int64
+    - name: clicks
+      type: Int64
+    - name: id
+      type: String_1!
+    - name: recipientCount
+      type: Int64
+    - name: sent
+      type: Int64
+    - name: views
+      type: Int64
+  graphql:
+    typeName: InsertCampaignStatsObject
+    inputTypeName: InsertCampaignStatsObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_campaign_stats_object
+      fieldMapping:
+        bounces:
+          column:
+            name: bounces
+        clicks:
+          column:
+            name: clicks
+        id:
+          column:
+            name: id
+        recipientCount:
+          column:
+            name: recipient_count
+        sent:
+          column:
+            name: sent
+        views:
+          column:
+            name: views
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertCampaignStatsObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - bounces
+          - clicks
+          - id
+          - recipientCount
+          - sent
+          - views
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertCampaignStatsResponse
+  description: Responses from the 'insert_campaign_stats' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[CampaignStats!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertCampaignStatsResponse
+    inputTypeName: InsertCampaignStatsResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_campaign_stats_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertCampaignStatsResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertCampaignStats
+  outputType: InsertCampaignStatsResponse!
+  arguments:
+    - name: objects
+      type: "[InsertCampaignStatsObject!]!"
+    - name: postCheck
+      type: CampaignStatsBoolExp
+      description: Insert permission predicate over the 'campaign_stats' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_campaign_stats
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertCampaignStats
+    rootFieldKind: Mutation
+  description: Insert into the campaign_stats table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertCampaignStats
+  permissions:
+    - role: admin
+      allowExecution: true
+

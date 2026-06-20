@@ -1,0 +1,263 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: SubscriberResource
+  fields:
+    - name: attributes
+      type: Json
+    - name: createTime
+      type: Timestamp!
+    - name: displayName
+      type: String_1!
+    - name: email
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: name
+      type: String_1!
+    - name: state
+      type: Enum
+    - name: updateTime
+      type: Timestamp!
+    - name: uuid
+      type: String_1
+  graphql:
+    typeName: SubscriberResource
+    inputTypeName: SubscriberResourceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: subscriber_resource
+      fieldMapping:
+        attributes:
+          column:
+            name: attributes
+        createTime:
+          column:
+            name: create_time
+        displayName:
+          column:
+            name: display_name
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        state:
+          column:
+            name: state
+        updateTime:
+          column:
+            name: update_time
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: SubscriberResource
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - attributes
+          - createTime
+          - displayName
+          - email
+          - id
+          - name
+          - state
+          - updateTime
+          - uuid
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: SubscriberResourceBoolExp
+  operand:
+    object:
+      type: SubscriberResource
+      comparableFields:
+        - fieldName: attributes
+          booleanExpressionType: JsonbBoolExp
+        - fieldName: createTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: displayName
+          booleanExpressionType: TextBoolExp
+        - fieldName: email
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+        - fieldName: state
+          booleanExpressionType: SubscriberSubscriberStateBoolExp
+        - fieldName: updateTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: uuid
+          booleanExpressionType: TextBoolExp
+      comparableRelationships:
+        - relationshipName: bounceResources
+        - relationshipName: subscriberSubscriptions
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: SubscriberResourceBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: SubscriberResourceAggExp
+  operand:
+    object:
+      aggregatedType: SubscriberResource
+      aggregatableFields:
+        - fieldName: attributes
+          aggregateExpression: JsonbAggExp
+        - fieldName: createTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: displayName
+          aggregateExpression: TextAggExp
+        - fieldName: email
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+        - fieldName: state
+          aggregateExpression: SubscriberSubscriberStateAggExp
+        - fieldName: updateTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: uuid
+          aggregateExpression: TextAggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: SubscriberResourceAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: SubscriberResourceOrderByExp
+  operand:
+    object:
+      orderedType: SubscriberResource
+      orderableFields:
+        - fieldName: attributes
+          orderByExpression: JsonOrderByExp
+        - fieldName: createTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: displayName
+          orderByExpression: String1OrderByExp
+        - fieldName: email
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: state
+          orderByExpression: EnumOrderByExp
+        - fieldName: updateTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: uuid
+          orderByExpression: String1OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: SubscriberResourceOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: SubscriberResource
+  objectType: SubscriberResource
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: subscriber_resource
+  filterExpressionType: SubscriberResourceBoolExp
+  aggregateExpression: SubscriberResourceAggExp
+  orderByExpression: SubscriberResourceOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: subscriberResource
+      subscription:
+        rootField: subscriberResource
+    selectUniques:
+      - queryRootField: subscriberResourceById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: subscriberResourceById
+    filterInputTypeName: SubscriberResourceFilterInput
+    aggregate:
+      queryRootField: subscriberResourceAggregate
+      subscription:
+        rootField: subscriberResourceAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: SubscriberResource
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: bounceResources
+  sourceType: SubscriberResource
+  target:
+    model:
+      name: BounceResource
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: BounceResourceAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: subscriber
+  graphql:
+    aggregateFieldName: bounceResourcesAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: subscriberSubscriptions
+  sourceType: SubscriberResource
+  target:
+    model:
+      name: SubscriberSubscriptions
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: SubscriberSubscriptionsAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: subscriberId
+  graphql:
+    aggregateFieldName: subscriberSubscriptionsAggregate
+

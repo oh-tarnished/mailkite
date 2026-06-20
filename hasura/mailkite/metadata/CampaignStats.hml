@@ -1,0 +1,204 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CampaignStats
+  fields:
+    - name: bounces
+      type: Int64
+    - name: clicks
+      type: Int64
+    - name: id
+      type: String_1!
+    - name: recipientCount
+      type: Int64
+    - name: sent
+      type: Int64
+    - name: views
+      type: Int64
+  graphql:
+    typeName: CampaignStats
+    inputTypeName: CampaignStatsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: campaign_stats
+      fieldMapping:
+        bounces:
+          column:
+            name: bounces
+        clicks:
+          column:
+            name: clicks
+        id:
+          column:
+            name: id
+        recipientCount:
+          column:
+            name: recipient_count
+        sent:
+          column:
+            name: sent
+        views:
+          column:
+            name: views
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CampaignStats
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - bounces
+          - clicks
+          - id
+          - recipientCount
+          - sent
+          - views
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: CampaignStatsBoolExp
+  operand:
+    object:
+      type: CampaignStats
+      comparableFields:
+        - fieldName: bounces
+          booleanExpressionType: Int8BoolExp
+        - fieldName: clicks
+          booleanExpressionType: Int8BoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: recipientCount
+          booleanExpressionType: Int8BoolExp
+        - fieldName: sent
+          booleanExpressionType: Int8BoolExp
+        - fieldName: views
+          booleanExpressionType: Int8BoolExp
+      comparableRelationships:
+        - relationshipName: campaignResources
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: CampaignStatsBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: CampaignStatsAggExp
+  operand:
+    object:
+      aggregatedType: CampaignStats
+      aggregatableFields:
+        - fieldName: bounces
+          aggregateExpression: Int8AggExp
+        - fieldName: clicks
+          aggregateExpression: Int8AggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: recipientCount
+          aggregateExpression: Int8AggExp
+        - fieldName: sent
+          aggregateExpression: Int8AggExp
+        - fieldName: views
+          aggregateExpression: Int8AggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: CampaignStatsAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: CampaignStatsOrderByExp
+  operand:
+    object:
+      orderedType: CampaignStats
+      orderableFields:
+        - fieldName: bounces
+          orderByExpression: Int64OrderByExp
+        - fieldName: clicks
+          orderByExpression: Int64OrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: recipientCount
+          orderByExpression: Int64OrderByExp
+        - fieldName: sent
+          orderByExpression: Int64OrderByExp
+        - fieldName: views
+          orderByExpression: Int64OrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: CampaignStatsOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: CampaignStats
+  objectType: CampaignStats
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: campaign_stats
+  filterExpressionType: CampaignStatsBoolExp
+  aggregateExpression: CampaignStatsAggExp
+  orderByExpression: CampaignStatsOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: campaignStats
+      subscription:
+        rootField: campaignStats
+    selectUniques:
+      - queryRootField: campaignStatsById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: campaignStatsById
+    filterInputTypeName: CampaignStatsFilterInput
+    aggregate:
+      queryRootField: campaignStatsAggregate
+      subscription:
+        rootField: campaignStatsAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: CampaignStats
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: campaignResources
+  sourceType: CampaignStats
+  target:
+    model:
+      name: CampaignResource
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: CampaignResourceAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: statsId
+  graphql:
+    aggregateFieldName: campaignResourcesAggregate
+

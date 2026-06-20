@@ -1,0 +1,20 @@
+name: "mailkite_postgresdb"
+services:
+  postgres:
+    image: postgres:18.4
+    ports:
+      - "5432:5432"
+    volumes:
+      - mailkite_default_data:/var/lib/postgresql
+      # Mount the init script into the container
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_PASSWORD: postgrespassword
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mailkite_default_data:

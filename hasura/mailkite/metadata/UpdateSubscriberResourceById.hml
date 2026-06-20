@@ -1,0 +1,457 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceAttributes
+  description: Update the 'attributes' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: Json
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceAttributes
+    inputTypeName: UpdateColumnSubscriberResourceAttributesInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_attributes
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceAttributes
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceCreateTime
+  description: Update the 'create_time' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceCreateTime
+    inputTypeName: UpdateColumnSubscriberResourceCreateTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_create_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceCreateTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceDisplayName
+  description: Update the 'display_name' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceDisplayName
+    inputTypeName: UpdateColumnSubscriberResourceDisplayNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_display_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceDisplayName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceEmail
+  description: Update the 'email' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceEmail
+    inputTypeName: UpdateColumnSubscriberResourceEmailInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_email
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceEmail
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceId
+  description: Update the 'id' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceId
+    inputTypeName: UpdateColumnSubscriberResourceIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceName
+  description: Update the 'name' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceName
+    inputTypeName: UpdateColumnSubscriberResourceNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceState
+  description: Update the 'state' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: Enum
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceState
+    inputTypeName: UpdateColumnSubscriberResourceStateInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_state
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceState
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceUpdateTime
+  description: Update the 'update_time' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceUpdateTime
+    inputTypeName: UpdateColumnSubscriberResourceUpdateTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_update_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceUpdateTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnSubscriberResourceUuid
+  description: Update the 'uuid' column in the 'subscriber_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnSubscriberResourceUuid
+    inputTypeName: UpdateColumnSubscriberResourceUuidInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_subscriber_resource_uuid
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnSubscriberResourceUuid
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateSubscriberResourceByIdUpdateColumns
+  description: Update the columns of the 'subscriber_resource' collection
+  fields:
+    - name: attributes
+      type: UpdateColumnSubscriberResourceAttributes
+      description: Update the 'attributes' column in the 'subscriber_resource' collection.
+    - name: createTime
+      type: UpdateColumnSubscriberResourceCreateTime
+      description: Update the 'create_time' column in the 'subscriber_resource' collection.
+    - name: displayName
+      type: UpdateColumnSubscriberResourceDisplayName
+      description: Update the 'display_name' column in the 'subscriber_resource' collection.
+    - name: email
+      type: UpdateColumnSubscriberResourceEmail
+      description: Update the 'email' column in the 'subscriber_resource' collection.
+    - name: id
+      type: UpdateColumnSubscriberResourceId
+      description: Update the 'id' column in the 'subscriber_resource' collection.
+    - name: name
+      type: UpdateColumnSubscriberResourceName
+      description: Update the 'name' column in the 'subscriber_resource' collection.
+    - name: state
+      type: UpdateColumnSubscriberResourceState
+      description: Update the 'state' column in the 'subscriber_resource' collection.
+    - name: updateTime
+      type: UpdateColumnSubscriberResourceUpdateTime
+      description: Update the 'update_time' column in the 'subscriber_resource' collection.
+    - name: uuid
+      type: UpdateColumnSubscriberResourceUuid
+      description: Update the 'uuid' column in the 'subscriber_resource' collection.
+  graphql:
+    typeName: UpdateSubscriberResourceByIdUpdateColumns
+    inputTypeName: UpdateSubscriberResourceByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_subscriber_resource_by_id_update_columns
+      fieldMapping:
+        attributes:
+          column:
+            name: attributes
+        createTime:
+          column:
+            name: create_time
+        displayName:
+          column:
+            name: display_name
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        state:
+          column:
+            name: state
+        updateTime:
+          column:
+            name: update_time
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateSubscriberResourceByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - attributes
+          - createTime
+          - displayName
+          - email
+          - id
+          - name
+          - state
+          - updateTime
+          - uuid
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateSubscriberResourceByIdResponse
+  description: Responses from the 'update_subscriber_resource_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[SubscriberResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateSubscriberResourceByIdResponse
+    inputTypeName: UpdateSubscriberResourceByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_subscriber_resource_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateSubscriberResourceByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateSubscriberResourceById
+  outputType: UpdateSubscriberResourceByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: postCheck
+      type: SubscriberResourceBoolExp
+      description: Update permission post-condition predicate over the
+        'subscriber_resource' collection
+    - name: preCheck
+      type: SubscriberResourceBoolExp
+      description: Update permission pre-condition predicate over the
+        'subscriber_resource' collection
+    - name: updateColumns
+      type: UpdateSubscriberResourceByIdUpdateColumns!
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: update_subscriber_resource_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateSubscriberResourceById
+    rootFieldKind: Mutation
+  description: Update any row on the 'subscriber_resource' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateSubscriberResourceById
+  permissions:
+    - role: admin
+      allowExecution: true
+

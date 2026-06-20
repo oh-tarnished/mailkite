@@ -1,0 +1,240 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertCampaignResourceObject
+  fields:
+    - name: altBody
+      type: String_1
+    - name: archive
+      type: Boolean_1
+    - name: archiveMeta
+      type: Json
+    - name: archiveSlug
+      type: String_1
+    - name: archiveTemplate
+      type: String_1
+    - name: body
+      type: String_1
+    - name: createTime
+      type: Timestamp
+    - name: displayName
+      type: String_1!
+    - name: format
+      type: Enum
+    - name: headers
+      type: Json
+    - name: id
+      type: String_1!
+    - name: messenger
+      type: String_1
+    - name: name
+      type: String_1!
+    - name: scheduleTime
+      type: Timestamp
+    - name: senderEmail
+      type: String_1
+    - name: startTime
+      type: Timestamp
+    - name: state
+      type: Enum
+    - name: statsId
+      type: String_1
+    - name: subject
+      type: String_1!
+    - name: tags
+      type: "[String_1]"
+    - name: template
+      type: String_1
+    - name: type
+      type: Enum
+    - name: updateTime
+      type: Timestamp!
+    - name: uuid
+      type: String_1
+  graphql:
+    typeName: InsertCampaignResourceObject
+    inputTypeName: InsertCampaignResourceObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_campaign_resource_object
+      fieldMapping:
+        altBody:
+          column:
+            name: alt_body
+        archive:
+          column:
+            name: archive
+        archiveMeta:
+          column:
+            name: archive_meta
+        archiveSlug:
+          column:
+            name: archive_slug
+        archiveTemplate:
+          column:
+            name: archive_template
+        body:
+          column:
+            name: body
+        createTime:
+          column:
+            name: create_time
+        displayName:
+          column:
+            name: display_name
+        format:
+          column:
+            name: format
+        headers:
+          column:
+            name: headers
+        id:
+          column:
+            name: id
+        messenger:
+          column:
+            name: messenger
+        name:
+          column:
+            name: name
+        scheduleTime:
+          column:
+            name: schedule_time
+        senderEmail:
+          column:
+            name: sender_email
+        startTime:
+          column:
+            name: start_time
+        state:
+          column:
+            name: state
+        statsId:
+          column:
+            name: stats_id
+        subject:
+          column:
+            name: subject
+        tags:
+          column:
+            name: tags
+        template:
+          column:
+            name: template
+        type:
+          column:
+            name: type
+        updateTime:
+          column:
+            name: update_time
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertCampaignResourceObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - altBody
+          - archive
+          - archiveMeta
+          - archiveSlug
+          - archiveTemplate
+          - body
+          - createTime
+          - displayName
+          - format
+          - headers
+          - id
+          - messenger
+          - name
+          - scheduleTime
+          - senderEmail
+          - startTime
+          - state
+          - statsId
+          - subject
+          - tags
+          - template
+          - type
+          - updateTime
+          - uuid
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertCampaignResourceResponse
+  description: Responses from the 'insert_campaign_resource' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[CampaignResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertCampaignResourceResponse
+    inputTypeName: InsertCampaignResourceResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_campaign_resource_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertCampaignResourceResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertCampaignResource
+  outputType: InsertCampaignResourceResponse!
+  arguments:
+    - name: objects
+      type: "[InsertCampaignResourceObject!]!"
+    - name: postCheck
+      type: CampaignResourceBoolExp
+      description: Insert permission predicate over the 'campaign_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_campaign_resource
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertCampaignResource
+    rootFieldKind: Mutation
+  description: Insert into the campaign_resource table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertCampaignResource
+  permissions:
+    - role: admin
+      allowExecution: true
+

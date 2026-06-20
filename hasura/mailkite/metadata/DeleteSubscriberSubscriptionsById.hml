@@ -1,0 +1,74 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteSubscriberSubscriptionsByIdResponse
+  description: Responses from the 'delete_subscriber_subscriptions_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[SubscriberSubscriptions!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeleteSubscriberSubscriptionsByIdResponse
+    inputTypeName: DeleteSubscriberSubscriptionsByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: delete_subscriber_subscriptions_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteSubscriberSubscriptionsByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteSubscriberSubscriptionsById
+  outputType: DeleteSubscriberSubscriptionsByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: preCheck
+      type: SubscriberSubscriptionsBoolExp
+      description: Delete permission predicate over the 'subscriber_subscriptions'
+        collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: delete_subscriber_subscriptions_by_id
+    argumentMapping:
+      keyId: key_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deleteSubscriberSubscriptionsById
+    rootFieldKind: Mutation
+  description: Delete any row on the 'subscriber_subscriptions' collection using
+    the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteSubscriberSubscriptionsById
+  permissions:
+    - role: admin
+      allowExecution: true
+

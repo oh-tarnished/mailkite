@@ -1,0 +1,133 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertSubscriberSubscriptionsObject
+  fields:
+    - name: createTime
+      type: Timestamp
+    - name: id
+      type: String_1!
+    - name: list
+      type: String_1
+    - name: listDisplayName
+      type: String_1
+    - name: state
+      type: Enum
+    - name: subscriberId
+      type: String_1!
+  graphql:
+    typeName: InsertSubscriberSubscriptionsObject
+    inputTypeName: InsertSubscriberSubscriptionsObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_subscriber_subscriptions_object
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        id:
+          column:
+            name: id
+        list:
+          column:
+            name: list
+        listDisplayName:
+          column:
+            name: list_display_name
+        state:
+          column:
+            name: state
+        subscriberId:
+          column:
+            name: subscriber_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertSubscriberSubscriptionsObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - id
+          - list
+          - listDisplayName
+          - state
+          - subscriberId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertSubscriberSubscriptionsResponse
+  description: Responses from the 'insert_subscriber_subscriptions' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[SubscriberSubscriptions!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertSubscriberSubscriptionsResponse
+    inputTypeName: InsertSubscriberSubscriptionsResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_subscriber_subscriptions_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertSubscriberSubscriptionsResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertSubscriberSubscriptions
+  outputType: InsertSubscriberSubscriptionsResponse!
+  arguments:
+    - name: objects
+      type: "[InsertSubscriberSubscriptionsObject!]!"
+    - name: postCheck
+      type: SubscriberSubscriptionsBoolExp
+      description: Insert permission predicate over the 'subscriber_subscriptions'
+        collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_subscriber_subscriptions
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertSubscriberSubscriptions
+    rootFieldKind: Mutation
+  description: Insert into the subscriber_subscriptions table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertSubscriberSubscriptions
+  permissions:
+    - role: admin
+      allowExecution: true
+

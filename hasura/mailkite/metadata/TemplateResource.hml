@@ -1,0 +1,263 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: TemplateResource
+  fields:
+    - name: body
+      type: String_1!
+    - name: createTime
+      type: Timestamp!
+    - name: displayName
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: isDefault
+      type: Boolean_1
+    - name: name
+      type: String_1!
+    - name: subject
+      type: String_1
+    - name: type
+      type: Enum!
+    - name: updateTime
+      type: Timestamp!
+  graphql:
+    typeName: TemplateResource
+    inputTypeName: TemplateResourceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: template_resource
+      fieldMapping:
+        body:
+          column:
+            name: body
+        createTime:
+          column:
+            name: create_time
+        displayName:
+          column:
+            name: display_name
+        id:
+          column:
+            name: id
+        isDefault:
+          column:
+            name: is_default
+        name:
+          column:
+            name: name
+        subject:
+          column:
+            name: subject
+        type:
+          column:
+            name: type
+        updateTime:
+          column:
+            name: update_time
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: TemplateResource
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - body
+          - createTime
+          - displayName
+          - id
+          - isDefault
+          - name
+          - subject
+          - type
+          - updateTime
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: TemplateResourceBoolExp
+  operand:
+    object:
+      type: TemplateResource
+      comparableFields:
+        - fieldName: body
+          booleanExpressionType: TextBoolExp
+        - fieldName: createTime
+          booleanExpressionType: TimestampBoolExp
+        - fieldName: displayName
+          booleanExpressionType: TextBoolExp
+        - fieldName: id
+          booleanExpressionType: TextBoolExp
+        - fieldName: isDefault
+          booleanExpressionType: BoolBoolExp
+        - fieldName: name
+          booleanExpressionType: TextBoolExp
+        - fieldName: subject
+          booleanExpressionType: TextBoolExp
+        - fieldName: type
+          booleanExpressionType: TemplateTemplateTypeBoolExp
+        - fieldName: updateTime
+          booleanExpressionType: TimestampBoolExp
+      comparableRelationships:
+        - relationshipName: campaignResources
+        - relationshipName: campaignResourcesByTemplate
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: TemplateResourceBoolExp
+
+---
+kind: AggregateExpression
+version: v1
+definition:
+  name: TemplateResourceAggExp
+  operand:
+    object:
+      aggregatedType: TemplateResource
+      aggregatableFields:
+        - fieldName: body
+          aggregateExpression: TextAggExp
+        - fieldName: createTime
+          aggregateExpression: TimestampAggExp
+        - fieldName: displayName
+          aggregateExpression: TextAggExp
+        - fieldName: id
+          aggregateExpression: TextAggExp
+        - fieldName: isDefault
+          aggregateExpression: BoolAggExp
+        - fieldName: name
+          aggregateExpression: TextAggExp
+        - fieldName: subject
+          aggregateExpression: TextAggExp
+        - fieldName: type
+          aggregateExpression: TemplateTemplateTypeAggExp
+        - fieldName: updateTime
+          aggregateExpression: TimestampAggExp
+  count:
+    enable: true
+    returnType: Int64
+  graphql:
+    selectTypeName: TemplateResourceAggExp
+
+---
+kind: OrderByExpression
+version: v1
+definition:
+  name: TemplateResourceOrderByExp
+  operand:
+    object:
+      orderedType: TemplateResource
+      orderableFields:
+        - fieldName: body
+          orderByExpression: String1OrderByExp
+        - fieldName: createTime
+          orderByExpression: TimestampOrderByExp
+        - fieldName: displayName
+          orderByExpression: String1OrderByExp
+        - fieldName: id
+          orderByExpression: String1OrderByExp
+        - fieldName: isDefault
+          orderByExpression: Boolean1OrderByExp
+        - fieldName: name
+          orderByExpression: String1OrderByExp
+        - fieldName: subject
+          orderByExpression: String1OrderByExp
+        - fieldName: type
+          orderByExpression: EnumOrderByExp
+        - fieldName: updateTime
+          orderByExpression: TimestampOrderByExp
+      orderableRelationships: []
+  graphql:
+    expressionTypeName: TemplateResourceOrderByExp
+
+---
+kind: Model
+version: v2
+definition:
+  name: TemplateResource
+  objectType: TemplateResource
+  source:
+    dataConnectorName: mailkite_pgsql
+    collection: template_resource
+  filterExpressionType: TemplateResourceBoolExp
+  aggregateExpression: TemplateResourceAggExp
+  orderByExpression: TemplateResourceOrderByExp
+  graphql:
+    selectMany:
+      queryRootField: templateResource
+      subscription:
+        rootField: templateResource
+    selectUniques:
+      - queryRootField: templateResourceById
+        uniqueIdentifier:
+          - id
+        subscription:
+          rootField: templateResourceById
+    filterInputTypeName: TemplateResourceFilterInput
+    aggregate:
+      queryRootField: templateResourceAggregate
+      subscription:
+        rootField: templateResourceAggregate
+
+---
+kind: ModelPermissions
+version: v1
+definition:
+  modelName: TemplateResource
+  permissions:
+    - role: admin
+      select:
+        filter: null
+        allowSubscriptions: true
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: campaignResources
+  sourceType: TemplateResource
+  target:
+    model:
+      name: CampaignResource
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: CampaignResourceAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: archiveTemplate
+  graphql:
+    aggregateFieldName: campaignResourcesAggregate
+
+---
+kind: Relationship
+version: v1
+definition:
+  name: campaignResourcesByTemplate
+  sourceType: TemplateResource
+  target:
+    model:
+      name: CampaignResource
+      relationshipType: Array
+      aggregate:
+        aggregateExpression: CampaignResourceAggExp
+  mapping:
+    - source:
+        fieldPath:
+          - fieldName: id
+      target:
+        modelField:
+          - fieldName: template
+  graphql:
+    aggregateFieldName: campaignResourcesByTemplateAggregate
+

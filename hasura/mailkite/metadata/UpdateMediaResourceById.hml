@@ -1,0 +1,418 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceCreateTime
+  description: Update the 'create_time' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: Timestamp!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceCreateTime
+    inputTypeName: UpdateColumnMediaResourceCreateTimeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_create_time
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceCreateTime
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceFilename
+  description: Update the 'filename' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceFilename
+    inputTypeName: UpdateColumnMediaResourceFilenameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_filename
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceFilename
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceId
+  description: Update the 'id' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceId
+    inputTypeName: UpdateColumnMediaResourceIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceMimeType
+  description: Update the 'mime_type' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceMimeType
+    inputTypeName: UpdateColumnMediaResourceMimeTypeInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_mime_type
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceMimeType
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceName
+  description: Update the 'name' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceName
+    inputTypeName: UpdateColumnMediaResourceNameInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_name
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceName
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceThumbnailUrl
+  description: Update the 'thumbnail_url' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceThumbnailUrl
+    inputTypeName: UpdateColumnMediaResourceThumbnailUrlInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_thumbnail_url
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceThumbnailUrl
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceUrl
+  description: Update the 'url' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceUrl
+    inputTypeName: UpdateColumnMediaResourceUrlInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_url
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceUrl
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnMediaResourceUuid
+  description: Update the 'uuid' column in the 'media_resource' collection
+  fields:
+    - name: set
+      type: String_1
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnMediaResourceUuid
+    inputTypeName: UpdateColumnMediaResourceUuidInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_media_resource_uuid
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnMediaResourceUuid
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateMediaResourceByIdUpdateColumns
+  description: Update the columns of the 'media_resource' collection
+  fields:
+    - name: createTime
+      type: UpdateColumnMediaResourceCreateTime
+      description: Update the 'create_time' column in the 'media_resource' collection.
+    - name: filename
+      type: UpdateColumnMediaResourceFilename
+      description: Update the 'filename' column in the 'media_resource' collection.
+    - name: id
+      type: UpdateColumnMediaResourceId
+      description: Update the 'id' column in the 'media_resource' collection.
+    - name: mimeType
+      type: UpdateColumnMediaResourceMimeType
+      description: Update the 'mime_type' column in the 'media_resource' collection.
+    - name: name
+      type: UpdateColumnMediaResourceName
+      description: Update the 'name' column in the 'media_resource' collection.
+    - name: thumbnailUrl
+      type: UpdateColumnMediaResourceThumbnailUrl
+      description: Update the 'thumbnail_url' column in the 'media_resource' collection.
+    - name: url
+      type: UpdateColumnMediaResourceUrl
+      description: Update the 'url' column in the 'media_resource' collection.
+    - name: uuid
+      type: UpdateColumnMediaResourceUuid
+      description: Update the 'uuid' column in the 'media_resource' collection.
+  graphql:
+    typeName: UpdateMediaResourceByIdUpdateColumns
+    inputTypeName: UpdateMediaResourceByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_media_resource_by_id_update_columns
+      fieldMapping:
+        createTime:
+          column:
+            name: create_time
+        filename:
+          column:
+            name: filename
+        id:
+          column:
+            name: id
+        mimeType:
+          column:
+            name: mime_type
+        name:
+          column:
+            name: name
+        thumbnailUrl:
+          column:
+            name: thumbnail_url
+        url:
+          column:
+            name: url
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateMediaResourceByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - createTime
+          - filename
+          - id
+          - mimeType
+          - name
+          - thumbnailUrl
+          - url
+          - uuid
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateMediaResourceByIdResponse
+  description: Responses from the 'update_media_resource_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[MediaResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateMediaResourceByIdResponse
+    inputTypeName: UpdateMediaResourceByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_media_resource_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateMediaResourceByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateMediaResourceById
+  outputType: UpdateMediaResourceByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: postCheck
+      type: MediaResourceBoolExp
+      description: Update permission post-condition predicate over the
+        'media_resource' collection
+    - name: preCheck
+      type: MediaResourceBoolExp
+      description: Update permission pre-condition predicate over the 'media_resource'
+        collection
+    - name: updateColumns
+      type: UpdateMediaResourceByIdUpdateColumns!
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: update_media_resource_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateMediaResourceById
+    rootFieldKind: Mutation
+  description: Update any row on the 'media_resource' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateMediaResourceById
+  permissions:
+    - role: admin
+      allowExecution: true
+

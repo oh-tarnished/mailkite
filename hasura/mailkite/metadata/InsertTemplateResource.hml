@@ -1,0 +1,150 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertTemplateResourceObject
+  fields:
+    - name: body
+      type: String_1!
+    - name: createTime
+      type: Timestamp
+    - name: displayName
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: isDefault
+      type: Boolean_1
+    - name: name
+      type: String_1!
+    - name: subject
+      type: String_1
+    - name: type
+      type: Enum
+    - name: updateTime
+      type: Timestamp!
+  graphql:
+    typeName: InsertTemplateResourceObject
+    inputTypeName: InsertTemplateResourceObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_template_resource_object
+      fieldMapping:
+        body:
+          column:
+            name: body
+        createTime:
+          column:
+            name: create_time
+        displayName:
+          column:
+            name: display_name
+        id:
+          column:
+            name: id
+        isDefault:
+          column:
+            name: is_default
+        name:
+          column:
+            name: name
+        subject:
+          column:
+            name: subject
+        type:
+          column:
+            name: type
+        updateTime:
+          column:
+            name: update_time
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertTemplateResourceObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - body
+          - createTime
+          - displayName
+          - id
+          - isDefault
+          - name
+          - subject
+          - type
+          - updateTime
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertTemplateResourceResponse
+  description: Responses from the 'insert_template_resource' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[TemplateResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertTemplateResourceResponse
+    inputTypeName: InsertTemplateResourceResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_template_resource_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertTemplateResourceResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertTemplateResource
+  outputType: InsertTemplateResourceResponse!
+  arguments:
+    - name: objects
+      type: "[InsertTemplateResourceObject!]!"
+    - name: postCheck
+      type: TemplateResourceBoolExp
+      description: Insert permission predicate over the 'template_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_template_resource
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertTemplateResource
+    rootFieldKind: Mutation
+  description: Insert into the template_resource table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertTemplateResource
+  permissions:
+    - role: admin
+      allowExecution: true
+

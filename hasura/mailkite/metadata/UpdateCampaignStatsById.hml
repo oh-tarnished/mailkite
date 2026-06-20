@@ -1,0 +1,340 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignStatsBounces
+  description: Update the 'bounces' column in the 'campaign_stats' collection
+  fields:
+    - name: set
+      type: Int64
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignStatsBounces
+    inputTypeName: UpdateColumnCampaignStatsBouncesInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_stats_bounces
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignStatsBounces
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignStatsClicks
+  description: Update the 'clicks' column in the 'campaign_stats' collection
+  fields:
+    - name: set
+      type: Int64
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignStatsClicks
+    inputTypeName: UpdateColumnCampaignStatsClicksInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_stats_clicks
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignStatsClicks
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignStatsId
+  description: Update the 'id' column in the 'campaign_stats' collection
+  fields:
+    - name: set
+      type: String_1!
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignStatsId
+    inputTypeName: UpdateColumnCampaignStatsIdInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_stats_id
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignStatsId
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignStatsRecipientCount
+  description: Update the 'recipient_count' column in the 'campaign_stats' collection
+  fields:
+    - name: set
+      type: Int64
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignStatsRecipientCount
+    inputTypeName: UpdateColumnCampaignStatsRecipientCountInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_stats_recipient_count
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignStatsRecipientCount
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignStatsSent
+  description: Update the 'sent' column in the 'campaign_stats' collection
+  fields:
+    - name: set
+      type: Int64
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignStatsSent
+    inputTypeName: UpdateColumnCampaignStatsSentInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_stats_sent
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignStatsSent
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateColumnCampaignStatsViews
+  description: Update the 'views' column in the 'campaign_stats' collection
+  fields:
+    - name: set
+      type: Int64
+      description: Set the column to this value
+  graphql:
+    typeName: UpdateColumnCampaignStatsViews
+    inputTypeName: UpdateColumnCampaignStatsViewsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_column_campaign_stats_views
+      fieldMapping:
+        set:
+          column:
+            name: _set
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateColumnCampaignStatsViews
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - set
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateCampaignStatsByIdUpdateColumns
+  description: Update the columns of the 'campaign_stats' collection
+  fields:
+    - name: bounces
+      type: UpdateColumnCampaignStatsBounces
+      description: Update the 'bounces' column in the 'campaign_stats' collection.
+    - name: clicks
+      type: UpdateColumnCampaignStatsClicks
+      description: Update the 'clicks' column in the 'campaign_stats' collection.
+    - name: id
+      type: UpdateColumnCampaignStatsId
+      description: Update the 'id' column in the 'campaign_stats' collection.
+    - name: recipientCount
+      type: UpdateColumnCampaignStatsRecipientCount
+      description: Update the 'recipient_count' column in the 'campaign_stats' collection.
+    - name: sent
+      type: UpdateColumnCampaignStatsSent
+      description: Update the 'sent' column in the 'campaign_stats' collection.
+    - name: views
+      type: UpdateColumnCampaignStatsViews
+      description: Update the 'views' column in the 'campaign_stats' collection.
+  graphql:
+    typeName: UpdateCampaignStatsByIdUpdateColumns
+    inputTypeName: UpdateCampaignStatsByIdUpdateColumnsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_campaign_stats_by_id_update_columns
+      fieldMapping:
+        bounces:
+          column:
+            name: bounces
+        clicks:
+          column:
+            name: clicks
+        id:
+          column:
+            name: id
+        recipientCount:
+          column:
+            name: recipient_count
+        sent:
+          column:
+            name: sent
+        views:
+          column:
+            name: views
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateCampaignStatsByIdUpdateColumns
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - bounces
+          - clicks
+          - id
+          - recipientCount
+          - sent
+          - views
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateCampaignStatsByIdResponse
+  description: Responses from the 'update_campaign_stats_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[CampaignStats!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: UpdateCampaignStatsByIdResponse
+    inputTypeName: UpdateCampaignStatsByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: update_campaign_stats_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateCampaignStatsByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateCampaignStatsById
+  outputType: UpdateCampaignStatsByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: postCheck
+      type: CampaignStatsBoolExp
+      description: Update permission post-condition predicate over the
+        'campaign_stats' collection
+    - name: preCheck
+      type: CampaignStatsBoolExp
+      description: Update permission pre-condition predicate over the 'campaign_stats'
+        collection
+    - name: updateColumns
+      type: UpdateCampaignStatsByIdUpdateColumns!
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: update_campaign_stats_by_id
+    argumentMapping:
+      keyId: key_id
+      postCheck: post_check
+      preCheck: pre_check
+      updateColumns: update_columns
+  graphql:
+    rootFieldName: updateCampaignStatsById
+    rootFieldKind: Mutation
+  description: Update any row on the 'campaign_stats' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateCampaignStatsById
+  permissions:
+    - role: admin
+      allowExecution: true
+

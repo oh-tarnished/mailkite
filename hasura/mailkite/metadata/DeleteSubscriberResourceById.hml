@@ -1,0 +1,72 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteSubscriberResourceByIdResponse
+  description: Responses from the 'delete_subscriber_resource_by_id' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[SubscriberResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: DeleteSubscriberResourceByIdResponse
+    inputTypeName: DeleteSubscriberResourceByIdResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: delete_subscriber_resource_by_id_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteSubscriberResourceByIdResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteSubscriberResourceById
+  outputType: DeleteSubscriberResourceByIdResponse!
+  arguments:
+    - name: keyId
+      type: String_1!
+    - name: preCheck
+      type: SubscriberResourceBoolExp
+      description: Delete permission predicate over the 'subscriber_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: delete_subscriber_resource_by_id
+    argumentMapping:
+      keyId: key_id
+      preCheck: pre_check
+  graphql:
+    rootFieldName: deleteSubscriberResourceById
+    rootFieldKind: Mutation
+  description: Delete any row on the 'subscriber_resource' collection using the 'id' key
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteSubscriberResourceById
+  permissions:
+    - role: admin
+      allowExecution: true
+

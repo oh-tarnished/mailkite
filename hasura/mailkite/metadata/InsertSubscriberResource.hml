@@ -1,0 +1,150 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertSubscriberResourceObject
+  fields:
+    - name: attributes
+      type: Json
+    - name: createTime
+      type: Timestamp
+    - name: displayName
+      type: String_1!
+    - name: email
+      type: String_1!
+    - name: id
+      type: String_1!
+    - name: name
+      type: String_1!
+    - name: state
+      type: Enum
+    - name: updateTime
+      type: Timestamp!
+    - name: uuid
+      type: String_1
+  graphql:
+    typeName: InsertSubscriberResourceObject
+    inputTypeName: InsertSubscriberResourceObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_subscriber_resource_object
+      fieldMapping:
+        attributes:
+          column:
+            name: attributes
+        createTime:
+          column:
+            name: create_time
+        displayName:
+          column:
+            name: display_name
+        email:
+          column:
+            name: email
+        id:
+          column:
+            name: id
+        name:
+          column:
+            name: name
+        state:
+          column:
+            name: state
+        updateTime:
+          column:
+            name: update_time
+        uuid:
+          column:
+            name: uuid
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertSubscriberResourceObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - attributes
+          - createTime
+          - displayName
+          - email
+          - id
+          - name
+          - state
+          - updateTime
+          - uuid
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: InsertSubscriberResourceResponse
+  description: Responses from the 'insert_subscriber_resource' procedure
+  fields:
+    - name: affectedRows
+      type: Int32!
+      description: The number of rows affected by the mutation
+    - name: returning
+      type: "[SubscriberResource!]!"
+      description: Data from rows affected by the mutation
+  graphql:
+    typeName: InsertSubscriberResourceResponse
+    inputTypeName: InsertSubscriberResourceResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: mailkite_pgsql
+      dataConnectorObjectType: insert_subscriber_resource_response
+      fieldMapping:
+        affectedRows:
+          column:
+            name: affected_rows
+        returning:
+          column:
+            name: returning
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: InsertSubscriberResourceResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - affectedRows
+          - returning
+
+---
+kind: Command
+version: v1
+definition:
+  name: InsertSubscriberResource
+  outputType: InsertSubscriberResourceResponse!
+  arguments:
+    - name: objects
+      type: "[InsertSubscriberResourceObject!]!"
+    - name: postCheck
+      type: SubscriberResourceBoolExp
+      description: Insert permission predicate over the 'subscriber_resource' collection
+  source:
+    dataConnectorName: mailkite_pgsql
+    dataConnectorCommand:
+      procedure: insert_subscriber_resource
+    argumentMapping:
+      objects: objects
+      postCheck: post_check
+  graphql:
+    rootFieldName: insertSubscriberResource
+    rootFieldKind: Mutation
+  description: Insert into the subscriber_resource table
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: InsertSubscriberResource
+  permissions:
+    - role: admin
+      allowExecution: true
+
