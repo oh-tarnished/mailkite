@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package mailkite.newsletter.media.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "mailkite/newsletter/media/v1/media.proto";
+import "mcp/protobuf/annotations.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/media/v1/mediapbv1;mediapbv1";
+option java_multiple_files = true;
+option java_outer_classname = "MediaServiceProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.media.v1";
+
+// MediaService manages uploaded assets (images, attachments) used in campaigns
+// and templates.
+service MediaService {
+  option (google.api.default_host) = "oh-tarnished.mailkite.newsletter.v1";
+  option (mcp.protobuf.service) = {
+    app: {
+      name: "Newsletter Media"
+      version: "1.0.0"
+      description: "Upload and manage media assets used in newsletters."
+    }
+  };
+
+  // Lists uploaded media.
+  rpc ListMedia(ListMediaRequest) returns (ListMediaResponse) {
+    option (google.api.http) = {get: "/v1/media"};
+    option (mcp.protobuf.tool) = {description: "List uploaded media assets (images, attachments), with search and pagination."};
+  }
+
+  // Gets a single media object.
+  rpc GetMedia(GetMediaRequest) returns (Media) {
+    option (google.api.http) = {get: "/v1/{name=media/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Get a single media asset by resource name, including its servable URL."};
+  }
+
+  // Uploads a media asset.
+  rpc UploadMedia(UploadMediaRequest) returns (UploadMediaResponse) {
+    option (google.api.http) = {
+      post: "/v1/media:upload"
+      body: "*"
+    };
+    option (google.api.method_signature) = "filename,content";
+    option (mcp.protobuf.tool) = {description: "Upload a media asset (raw bytes plus filename) for use in campaigns and templates."};
+  }
+
+  // Deletes a media asset.
+  rpc DeleteMedia(DeleteMediaRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/{name=media/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Delete a media asset by resource name."};
+  }
+}

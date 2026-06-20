@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package mailkite.newsletter.template.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "mailkite/newsletter/template/v1/template.proto";
+import "mcp/protobuf/annotations.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/template/v1/templatepbv1;templatepbv1";
+option java_multiple_files = true;
+option java_outer_classname = "TemplateServiceProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.template.v1";
+
+// TemplateService manages reusable layouts for campaigns and transactional
+// messages.
+service TemplateService {
+  option (google.api.default_host) = "oh-tarnished.mailkite.newsletter.v1";
+  option (mcp.protobuf.service) = {
+    app: {
+      name: "Newsletter Templates"
+      version: "1.0.0"
+      description: "Manage reusable campaign and transactional email templates."
+    }
+  };
+
+  // Lists templates.
+  rpc ListTemplates(ListTemplatesRequest) returns (ListTemplatesResponse) {
+    option (google.api.http) = {get: "/v1/templates"};
+    option (mcp.protobuf.tool) = {description: "List templates, optionally filtered by type (campaign, campaign_visual, transactional)."};
+  }
+
+  // Gets a single template.
+  rpc GetTemplate(GetTemplateRequest) returns (Template) {
+    option (google.api.http) = {get: "/v1/{name=templates/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Get a single template by resource name, including its body."};
+  }
+
+  // Creates a template.
+  rpc CreateTemplate(CreateTemplateRequest) returns (Template) {
+    option (google.api.http) = {
+      post: "/v1/templates"
+      body: "template"
+    };
+    option (google.api.method_signature) = "template,template_id";
+    option (mcp.protobuf.tool) = {description: "Create a template with a name, type, and body markup."};
+  }
+
+  // Updates a template.
+  rpc UpdateTemplate(UpdateTemplateRequest) returns (Template) {
+    option (google.api.http) = {
+      patch: "/v1/{template.name=templates/*}"
+      body: "template"
+    };
+    option (google.api.method_signature) = "template,update_mask";
+    option (mcp.protobuf.tool) = {description: "Update a template's name or body."};
+  }
+
+  // Deletes a template.
+  rpc DeleteTemplate(DeleteTemplateRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/{name=templates/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Delete a template by resource name. The default template cannot be deleted."};
+  }
+
+  // Marks a template as the default for its type.
+  rpc MarkDefaultTemplate(MarkDefaultTemplateRequest) returns (Template) {
+    option (google.api.http) = {
+      post: "/v1/{name=templates/*}:mark"
+      body: "*"
+    };
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Mark a template as the default used for new campaigns or transactional messages of its type."};
+  }
+}

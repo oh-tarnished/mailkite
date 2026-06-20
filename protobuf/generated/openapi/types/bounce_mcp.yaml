@@ -1,0 +1,15 @@
+components:
+  schemas:
+    mailkite.newsletter.bounce.v1.CheckDeliverabilityArgs:
+      description: Arguments for the "check_deliverability" prompt.
+      properties:
+        campaign:
+          description: Campaign to inspect, as a resource name ("campaigns/7") or
+            display name. Leave empty to summarize across all recent campaigns.
+          type: string
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

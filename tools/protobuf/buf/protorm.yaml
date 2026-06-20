@@ -1,0 +1,25 @@
+# protorm layout config — maps proto packages to one database with a schema per
+# service, so the generated ORM mirrors the mailkite package layout.
+#
+# Without this, protorm falls back to its defaults: the database name becomes the
+# last package segment ("v1", the version) and the schema is derived from the AIP
+# resource-type host ("mailkite.ohtarnished.dev"), which is identical for every
+# resource — collapsing all services into one schema. This config fixes both.
+#
+# Passed to the plugin via `opt: [config=tools/protobuf/buf/protorm.yaml]` in
+# orm.buf.gen.yaml. Keeping every service in ONE database is required so that
+# cross-service references (booking -> user, booking -> resource, promo_code ->
+# resource, ...) resolve to real cross-schema relations instead of soft FKs.
+
+# Drop the trailing API version from derived schema names (mailkite.schedule.v1
+# -> "schedule", not "schedule_v1").
+strip_version: true
+dedupe_schema_table: true
+
+datasources:
+  - match: "mailkite.**" # every mailkite.<service>.<version> package
+    database: mailkite
+    schema: "{leaf}" # the service segment: schedule, identity, booking, ...
+otel:
+  enabled: true               # override the otel opt's master switch
+  metrics: false              # spans only — bakes tracing.WithoutMetrics() into the default config

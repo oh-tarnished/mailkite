@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package mailkite.newsletter.bounce.v1;
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/bounce/v1/bouncepbv1;bouncepbv1";
+option java_multiple_files = true;
+option java_outer_classname = "EnumsProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.bounce.v1";
+
+// Classification of a bounce.
+enum BounceType {
+  // Unset.
+  BOUNCE_TYPE_UNSPECIFIED = 0;
+
+  // Permanent failure (e.g. unknown mailbox).
+  BOUNCE_TYPE_HARD = 1;
+
+  // Transient failure (e.g. mailbox full).
+  BOUNCE_TYPE_SOFT = 2;
+
+  // Recipient marked the message as spam.
+  BOUNCE_TYPE_COMPLAINT = 3;
+}

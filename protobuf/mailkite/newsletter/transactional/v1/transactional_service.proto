@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package mailkite.newsletter.transactional.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "mailkite/newsletter/transactional/v1/transactional.proto";
+import "mcp/protobuf/annotations.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/transactional/v1/transactionalpbv1;transactionalpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "TransactionalServiceProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.transactional.v1";
+
+// TransactionalService sends one-off, per-recipient messages — double-opt-in
+// confirmations, agent notifications, and other system mail — rendered from a
+// transactional template.
+service TransactionalService {
+  option (google.api.default_host) = "oh-tarnished.mailkite.newsletter.v1";
+  option (mcp.protobuf.service) = {
+    app: {
+      name: "Newsletter Transactional"
+      version: "1.0.0"
+      description: "Send one-off transactional emails to individual recipients using transactional templates."
+    }
+  };
+
+  // Sends a single transactional message to one recipient.
+  rpc SendTransactionalMessage(SendTransactionalMessageRequest) returns (SendTransactionalMessageResponse) {
+    option (google.api.http) = {
+      post: "/v1/messages:sendTransactionalMessage"
+      body: "*"
+    };
+    option (google.api.method_signature) = "subscriber,template";
+    option (mcp.protobuf.tool) = {description: "Send a one-off transactional email to a single recipient using a transactional template and per-message data. Use for confirmations and agent notifications."};
+  }
+}

@@ -1,0 +1,507 @@
+components:
+  schemas:
+    mailkite.newsletter.campaign.v1.CreateCampaignRequest:
+      description: Request message for CreateCampaign.
+      properties:
+        campaign:
+          description: The campaign to create. The name field is ignored.
+          properties:
+            altBody:
+              description: Optional plain-text alternative body for multipart messages.
+              type: string
+            archive:
+              description: Whether a public archive copy is published.
+              type: boolean
+            archiveMeta:
+              description: Extra template data exposed to the public archive page.
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
+            archiveSlug:
+              description: URL slug for the public archive page.
+              type: string
+            archiveTemplate:
+              description: 'Template used to render the public archive page. Format:
+                templates/{template}'
+              type: string
+            body:
+              description: The campaign body, in the format named by content_type.
+              type: string
+            createTime:
+              description: Creation timestamp.
+              format: date-time
+              type: string
+            displayName:
+              description: Internal campaign name (not shown to recipients).
+              type: string
+            format:
+              description: Format the body is authored in.
+              enum:
+              - CONTENT_TYPE_UNSPECIFIED
+              - CONTENT_TYPE_RICHTEXT
+              - CONTENT_TYPE_HTML
+              - CONTENT_TYPE_MARKDOWN
+              - CONTENT_TYPE_PLAIN
+              - CONTENT_TYPE_VISUAL
+              type: string
+            headers:
+              additionalProperties:
+                type: string
+              description: Custom SMTP headers attached to every message.
+              type: object
+            lists:
+              description: 'Lists this campaign is sent to. Format: mailingLists/{mailing_list}'
+              items:
+                type: string
+              type: array
+            messenger:
+              description: Messenger backend to send through (defaults to "email").
+              type: string
+            name:
+              description: 'The resource name of the campaign. Format: campaigns/{campaign}'
+              type: string
+            scheduleTime:
+              description: When to start sending. Omit to send immediately on start.
+              format: date-time
+              type: string
+            senderEmail:
+              description: Sender address. Falls back to the instance default when
+                empty.
+              type: string
+            startTime:
+              description: When sending actually started, if at all.
+              format: date-time
+              type: string
+            state:
+              description: Current state of the campaign. Changed via TransitionCampaign.
+              enum:
+              - CAMPAIGN_STATE_UNSPECIFIED
+              - CAMPAIGN_STATE_DRAFT
+              - CAMPAIGN_STATE_SCHEDULED
+              - CAMPAIGN_STATE_RUNNING
+              - CAMPAIGN_STATE_PAUSED
+              - CAMPAIGN_STATE_CANCELLED
+              - CAMPAIGN_STATE_FINISHED
+              type: string
+            stats:
+              description: Aggregate delivery and engagement statistics.
+              properties:
+                bounces:
+                  description: Recorded bounces.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                clicks:
+                  description: Tracked link clicks.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                recipientCount:
+                  description: Total recipients the campaign will be / was sent to.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                sent:
+                  description: Messages handed off to the messenger so far.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                views:
+                  description: Tracked opens.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+              type: object
+            subject:
+              description: Email subject line. Supports template expressions.
+              type: string
+            tags:
+              description: Arbitrary tags for grouping and filtering.
+              items:
+                type: string
+              type: array
+            template:
+              description: 'Template used to wrap the body. Format: templates/{template}'
+              type: string
+            type:
+              description: Whether this is a regular broadcast or a double-opt-in
+                confirmation send.
+              enum:
+              - CAMPAIGN_TYPE_UNSPECIFIED
+              - CAMPAIGN_TYPE_REGULAR
+              - CAMPAIGN_TYPE_OPTIN
+              type: string
+            updateTime:
+              description: Last-modification timestamp.
+              format: date-time
+              type: string
+            uuid:
+              description: Server-assigned stable UUID, used in tracking and public-archive
+                URLs.
+              type: string
+          type: object
+        campaignId:
+          description: Optional client-specified ID for the campaign, used as the
+            `{campaign}` segment of its resource name. The server assigns one when
+            omitted.
+          type: string
+      type: object
+    mailkite.newsletter.campaign.v1.DeleteCampaignRequest:
+      description: Request message for DeleteCampaign.
+      properties:
+        name:
+          description: 'The campaign to delete. Format: campaigns/{campaign}'
+          type: string
+      type: object
+    mailkite.newsletter.campaign.v1.GetCampaignRequest:
+      description: Request message for GetCampaign.
+      properties:
+        name:
+          description: 'The campaign to retrieve. Format: campaigns/{campaign}'
+          type: string
+        view:
+          description: How much of the campaign to return. BASIC omits the body fields.
+          enum:
+          - CAMPAIGN_VIEW_UNSPECIFIED
+          - CAMPAIGN_VIEW_BASIC
+          - CAMPAIGN_VIEW_FULL
+          type: string
+      type: object
+    mailkite.newsletter.campaign.v1.ListCampaignsRequest:
+      description: Request message for ListCampaigns.
+      properties:
+        filter:
+          description: Filter expression restricting which campaigns are returned.
+            Supports free-text matching on `display_name`/`subject` and matching against
+            `state` and `tags`, e.g. `state = CAMPAIGN_STATE_RUNNING`.
+          type: string
+        orderBy:
+          description: Comma-separated list of fields to sort by, each optionally
+            suffixed with ` desc` (e.g. `create_time desc`).
+          type: string
+        pageSize:
+          description: Maximum number of campaigns to return. The server may cap this.
+            When unset, the server picks a default.
+          format: int32
+          type: integer
+        pageToken:
+          description: A page token received from a previous ListCampaigns call. Provide
+            this to retrieve the subsequent page.
+          type: string
+        view:
+          description: How much of each campaign to return. BASIC omits the large
+            body fields.
+          enum:
+          - CAMPAIGN_VIEW_UNSPECIFIED
+          - CAMPAIGN_VIEW_BASIC
+          - CAMPAIGN_VIEW_FULL
+          type: string
+      type: object
+    mailkite.newsletter.campaign.v1.ListCampaignsResponse:
+      description: Response message for ListCampaigns.
+      properties:
+        campaigns:
+          description: The page of campaigns.
+          items:
+            description: 'A single newsletter send: rendered content, its audience,
+              and its lifecycle. In mailkite a Campaign is the materialization of
+              one scheduled digest of normalized content items.'
+            properties:
+              altBody:
+                description: Optional plain-text alternative body for multipart messages.
+                type: string
+              archive:
+                description: Whether a public archive copy is published.
+                type: boolean
+              archiveMeta:
+                description: Extra template data exposed to the public archive page.
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              archiveSlug:
+                description: URL slug for the public archive page.
+                type: string
+              archiveTemplate:
+                description: 'Template used to render the public archive page. Format:
+                  templates/{template}'
+                type: string
+              body:
+                description: The campaign body, in the format named by content_type.
+                type: string
+              createTime:
+                description: Creation timestamp.
+                format: date-time
+                type: string
+              displayName:
+                description: Internal campaign name (not shown to recipients).
+                type: string
+              format:
+                description: Format the body is authored in.
+                enum:
+                - CONTENT_TYPE_UNSPECIFIED
+                - CONTENT_TYPE_RICHTEXT
+                - CONTENT_TYPE_HTML
+                - CONTENT_TYPE_MARKDOWN
+                - CONTENT_TYPE_PLAIN
+                - CONTENT_TYPE_VISUAL
+                type: string
+              headers:
+                additionalProperties:
+                  type: string
+                description: Custom SMTP headers attached to every message.
+                type: object
+              lists:
+                description: 'Lists this campaign is sent to. Format: mailingLists/{mailing_list}'
+                items:
+                  type: string
+                type: array
+              messenger:
+                description: Messenger backend to send through (defaults to "email").
+                type: string
+              name:
+                description: 'The resource name of the campaign. Format: campaigns/{campaign}'
+                type: string
+              scheduleTime:
+                description: When to start sending. Omit to send immediately on start.
+                format: date-time
+                type: string
+              senderEmail:
+                description: Sender address. Falls back to the instance default when
+                  empty.
+                type: string
+              startTime:
+                description: When sending actually started, if at all.
+                format: date-time
+                type: string
+              state:
+                description: Current state of the campaign. Changed via TransitionCampaign.
+                enum:
+                - CAMPAIGN_STATE_UNSPECIFIED
+                - CAMPAIGN_STATE_DRAFT
+                - CAMPAIGN_STATE_SCHEDULED
+                - CAMPAIGN_STATE_RUNNING
+                - CAMPAIGN_STATE_PAUSED
+                - CAMPAIGN_STATE_CANCELLED
+                - CAMPAIGN_STATE_FINISHED
+                type: string
+              stats:
+                description: Aggregate delivery and engagement statistics.
+                properties:
+                  bounces:
+                    description: Recorded bounces.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  clicks:
+                    description: Tracked link clicks.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  recipientCount:
+                    description: Total recipients the campaign will be / was sent
+                      to.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  sent:
+                    description: Messages handed off to the messenger so far.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  views:
+                    description: Tracked opens.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                type: object
+              subject:
+                description: Email subject line. Supports template expressions.
+                type: string
+              tags:
+                description: Arbitrary tags for grouping and filtering.
+                items:
+                  type: string
+                type: array
+              template:
+                description: 'Template used to wrap the body. Format: templates/{template}'
+                type: string
+              type:
+                description: Whether this is a regular broadcast or a double-opt-in
+                  confirmation send.
+                enum:
+                - CAMPAIGN_TYPE_UNSPECIFIED
+                - CAMPAIGN_TYPE_REGULAR
+                - CAMPAIGN_TYPE_OPTIN
+                type: string
+              updateTime:
+                description: Last-modification timestamp.
+                format: date-time
+                type: string
+              uuid:
+                description: Server-assigned stable UUID, used in tracking and public-archive
+                  URLs.
+                type: string
+            type: object
+          type: array
+        nextPageToken:
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+          type: string
+        totalSize:
+          description: Total matching campaigns across all pages.
+          format: int32
+          type: integer
+      type: object
+    mailkite.newsletter.campaign.v1.UpdateCampaignRequest:
+      description: Request message for UpdateCampaign.
+      properties:
+        campaign:
+          description: The campaign to update; its name identifies the target. Status
+            is ignored here — use UpdateCampaignStatus.
+          properties:
+            altBody:
+              description: Optional plain-text alternative body for multipart messages.
+              type: string
+            archive:
+              description: Whether a public archive copy is published.
+              type: boolean
+            archiveMeta:
+              description: Extra template data exposed to the public archive page.
+              type: object
+              x-kubernetes-preserve-unknown-fields: true
+            archiveSlug:
+              description: URL slug for the public archive page.
+              type: string
+            archiveTemplate:
+              description: 'Template used to render the public archive page. Format:
+                templates/{template}'
+              type: string
+            body:
+              description: The campaign body, in the format named by content_type.
+              type: string
+            createTime:
+              description: Creation timestamp.
+              format: date-time
+              type: string
+            displayName:
+              description: Internal campaign name (not shown to recipients).
+              type: string
+            format:
+              description: Format the body is authored in.
+              enum:
+              - CONTENT_TYPE_UNSPECIFIED
+              - CONTENT_TYPE_RICHTEXT
+              - CONTENT_TYPE_HTML
+              - CONTENT_TYPE_MARKDOWN
+              - CONTENT_TYPE_PLAIN
+              - CONTENT_TYPE_VISUAL
+              type: string
+            headers:
+              additionalProperties:
+                type: string
+              description: Custom SMTP headers attached to every message.
+              type: object
+            lists:
+              description: 'Lists this campaign is sent to. Format: mailingLists/{mailing_list}'
+              items:
+                type: string
+              type: array
+            messenger:
+              description: Messenger backend to send through (defaults to "email").
+              type: string
+            name:
+              description: 'The resource name of the campaign. Format: campaigns/{campaign}'
+              type: string
+            scheduleTime:
+              description: When to start sending. Omit to send immediately on start.
+              format: date-time
+              type: string
+            senderEmail:
+              description: Sender address. Falls back to the instance default when
+                empty.
+              type: string
+            startTime:
+              description: When sending actually started, if at all.
+              format: date-time
+              type: string
+            state:
+              description: Current state of the campaign. Changed via TransitionCampaign.
+              enum:
+              - CAMPAIGN_STATE_UNSPECIFIED
+              - CAMPAIGN_STATE_DRAFT
+              - CAMPAIGN_STATE_SCHEDULED
+              - CAMPAIGN_STATE_RUNNING
+              - CAMPAIGN_STATE_PAUSED
+              - CAMPAIGN_STATE_CANCELLED
+              - CAMPAIGN_STATE_FINISHED
+              type: string
+            stats:
+              description: Aggregate delivery and engagement statistics.
+              properties:
+                bounces:
+                  description: Recorded bounces.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                clicks:
+                  description: Tracked link clicks.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                recipientCount:
+                  description: Total recipients the campaign will be / was sent to.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                sent:
+                  description: Messages handed off to the messenger so far.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                views:
+                  description: Tracked opens.
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+              type: object
+            subject:
+              description: Email subject line. Supports template expressions.
+              type: string
+            tags:
+              description: Arbitrary tags for grouping and filtering.
+              items:
+                type: string
+              type: array
+            template:
+              description: 'Template used to wrap the body. Format: templates/{template}'
+              type: string
+            type:
+              description: Whether this is a regular broadcast or a double-opt-in
+                confirmation send.
+              enum:
+              - CAMPAIGN_TYPE_UNSPECIFIED
+              - CAMPAIGN_TYPE_REGULAR
+              - CAMPAIGN_TYPE_OPTIN
+              type: string
+            updateTime:
+              description: Last-modification timestamp.
+              format: date-time
+              type: string
+            uuid:
+              description: Server-assigned stable UUID, used in tracking and public-archive
+                URLs.
+              type: string
+          type: object
+        updateMask:
+          description: Fields to overwrite. Omit to replace all mutable fields.
+          properties:
+            paths:
+              description: The set of field mask paths.
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

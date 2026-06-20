@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package mailkite.newsletter.bounce.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "mailkite/newsletter/bounce/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/bounce/v1/bouncepbv1;bouncepbv1";
+option java_multiple_files = true;
+option java_outer_classname = "BounceProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.bounce.v1";
+
+// A delivery failure or complaint recorded against a subscriber. Read-only;
+// mailkite surfaces these for deliverability monitoring.
+message Bounce {
+  option (google.api.resource) = {
+    type: "mailkite.newsletter.v1/Bounce"
+    pattern: "bounces/{bounce}"
+    singular: "bounce"
+    plural: "bounces"
+  };
+
+  // The resource name of the bounce.
+  // Format: bounces/{bounce}
+  string name = 1 [(google.api.field_behavior) = IDENTIFIER];
+
+  // The subscriber that bounced, if still resolvable.
+  // Format: subscribers/{subscriber}
+  string subscriber = 2 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Subscriber"}
+  ];
+
+  // The campaign that triggered the bounce, if any.
+  // Format: campaigns/{campaign}
+  string campaign = 3 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}
+  ];
+
+  // Cached display name of the campaign.
+  string campaign_display_name = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // The email address that bounced.
+  string email = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Classification of the bounce.
+  mailkite.newsletter.bounce.v1.BounceType type = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Where the bounce was reported from (e.g. "webhook", "ses").
+  string source = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Raw provider payload associated with the bounce.
+  google.protobuf.Struct meta = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // When the bounce was recorded.
+  google.protobuf.Timestamp create_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// Request message for ListBounces.
+message ListBouncesRequest {
+  // Maximum number of bounces to return. The server may cap this. When unset,
+  // the server picks a default.
+  int32 page_size = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // A page token received from a previous ListBounces call. Provide this to
+  // retrieve the subsequent page.
+  string page_token = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression restricting which bounces are returned. Supports the
+  // `campaign` and `source` fields, e.g. `campaign = "campaigns/7"` or
+  // `source = "webhook"`.
+  string filter = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Comma-separated list of fields to sort by, each optionally suffixed with
+  // ` desc` (e.g. `create_time desc`).
+  string order_by = 4 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for ListBounces.
+message ListBouncesResponse {
+  // The page of bounces.
+  repeated Bounce bounces = 1;
+
+  // A token to retrieve the next page, or empty if this is the last page.
+  string next_page_token = 2;
+
+  // Total matching bounces across all pages.
+  int32 total_size = 3;
+}
+
+// Request message for GetBounce.
+message GetBounceRequest {
+  // The bounce to retrieve.
+  // Format: bounces/{bounce}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Bounce"}
+  ];
+}
+
+// Request message for DeleteBounce.
+message DeleteBounceRequest {
+  // The bounce to delete.
+  // Format: bounces/{bounce}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Bounce"}
+  ];
+}

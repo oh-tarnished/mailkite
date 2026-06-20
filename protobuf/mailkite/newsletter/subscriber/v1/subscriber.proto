@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package mailkite.newsletter.subscriber.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "mailkite/newsletter/subscriber/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/subscriber/v1/subscriberpbv1;subscriberpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "SubscriberProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.subscriber.v1";
+
+// A person who can receive newsletters. Subscribers are global; their
+// relationship to each list is captured by a Subscription.
+message Subscriber {
+  option (google.api.resource) = {
+    type: "mailkite.newsletter.v1/Subscriber"
+    pattern: "subscribers/{subscriber}"
+    singular: "subscriber"
+    plural: "subscribers"
+  };
+
+  // The resource name of the subscriber.
+  // Format: subscribers/{subscriber}
+  string name = 1 [(google.api.field_behavior) = IDENTIFIER];
+
+  // Server-assigned stable UUID.
+  string uuid = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Email address. Unique across all subscribers.
+  string email = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Display name of the subscriber.
+  string display_name = 4 [(google.api.field_behavior) = REQUIRED];
+
+  // Global delivery state. A blocklisted subscriber receives nothing. Change it
+  // with BlocklistSubscribers.
+  SubscriberState state = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Arbitrary attributes used for templating and segmentation
+  // (e.g. {"city": "Berlin", "plan": "pro"}).
+  google.protobuf.Struct attributes = 6 [(google.api.field_behavior) = OPTIONAL];
+
+  // The lists this subscriber belongs to, with per-list status.
+  repeated Subscription subscriptions = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Last-modification timestamp.
+  google.protobuf.Timestamp update_time = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// The membership of a subscriber in a single list.
+message Subscription {
+  // The list this subscription is for.
+  // Format: mailingLists/{mailing_list}
+  string list = 1 [
+    (google.api.field_behavior) = OUTPUT_ONLY,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/MailingList"}
+  ];
+
+  // Cached display name of the list, for convenience.
+  string list_display_name = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Confirmation state of this specific membership.
+  SubscriptionState state = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // When the subscriber joined this list.
+  google.protobuf.Timestamp create_time = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
+}

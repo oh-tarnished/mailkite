@@ -1,0 +1,21 @@
+components:
+  schemas:
+    mailkite.newsletter.subscriber.v1.SubscribeEmailArgs:
+      description: Arguments for the "subscribe_email" prompt.
+      properties:
+        displayName:
+          description: Display name of the subscriber.
+          type: string
+        email:
+          description: Email address to subscribe.
+          type: string
+        list:
+          description: List to subscribe to, as a resource name ("mailingLists/42")
+            or a human display name ("Acme Weekly").
+          type: string
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

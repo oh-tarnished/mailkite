@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package mailkite.newsletter.campaign.v1;
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/campaign/v1/campaignpbv1;campaignpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "EnumsProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.campaign.v1";
+
+// Kind of campaign.
+enum CampaignType {
+  // Default; treated as regular.
+  CAMPAIGN_TYPE_UNSPECIFIED = 0;
+
+  // Standard broadcast.
+  CAMPAIGN_TYPE_REGULAR = 1;
+
+  // Double-opt-in confirmation campaign.
+  CAMPAIGN_TYPE_OPTIN = 2;
+}
+
+// Lifecycle status of a campaign.
+enum CampaignState {
+  // Unset.
+  CAMPAIGN_STATE_UNSPECIFIED = 0;
+
+  // Editable, not queued.
+  CAMPAIGN_STATE_DRAFT = 1;
+
+  // Queued to start at send_at.
+  CAMPAIGN_STATE_SCHEDULED = 2;
+
+  // Actively sending.
+  CAMPAIGN_STATE_RUNNING = 3;
+
+  // Sending halted, resumable.
+  CAMPAIGN_STATE_PAUSED = 4;
+
+  // Stopped permanently.
+  CAMPAIGN_STATE_CANCELLED = 5;
+
+  // Completed.
+  CAMPAIGN_STATE_FINISHED = 6;
+}
+
+// A lifecycle transition requested via TransitionCampaign.
+enum CampaignTransition {
+  // Unset.
+  CAMPAIGN_TRANSITION_UNSPECIFIED = 0;
+
+  // Schedule a draft to start at its schedule_time.
+  CAMPAIGN_TRANSITION_SCHEDULE = 1;
+
+  // Begin sending immediately.
+  CAMPAIGN_TRANSITION_START = 2;
+
+  // Pause a running send.
+  CAMPAIGN_TRANSITION_PAUSE = 3;
+
+  // Resume a paused send.
+  CAMPAIGN_TRANSITION_RESUME = 4;
+
+  // Cancel the campaign permanently.
+  CAMPAIGN_TRANSITION_CANCEL = 5;
+}
+
+// Controls how much of a campaign is returned by read methods.
+enum CampaignView {
+  // Default; equivalent to CAMPAIGN_VIEW_FULL.
+  CAMPAIGN_VIEW_UNSPECIFIED = 0;
+
+  // Omits the large body and alt_body fields.
+  CAMPAIGN_VIEW_BASIC = 1;
+
+  // Returns the full campaign, including body.
+  CAMPAIGN_VIEW_FULL = 2;
+}

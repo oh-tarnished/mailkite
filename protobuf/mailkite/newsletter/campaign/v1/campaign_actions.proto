@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package mailkite.newsletter.campaign.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+import "mailkite/newsletter/campaign/v1/campaign.proto";
+import "mailkite/newsletter/campaign/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/campaign/v1/campaignpbv1;campaignpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "CampaignActionsProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.campaign.v1";
+
+// Request message for TransitionCampaign.
+message TransitionCampaignRequest {
+  // The campaign whose lifecycle is changing.
+  // Format: campaigns/{campaign}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}
+  ];
+
+  // Transition to apply. Valid transitions: draft->schedule, draft/scheduled->
+  // start, running->pause, paused->resume, running/paused->cancel.
+  CampaignTransition transition = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for TestCampaign.
+message TestCampaignRequest {
+  // The campaign to send a test of.
+  // Format: campaigns/{campaign}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}
+  ];
+
+  // Addresses to send the test message to.
+  repeated string recipient_emails = 2 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Response message for TestCampaign.
+message TestCampaignResponse {}
+
+// Request message for PreviewCampaign.
+message PreviewCampaignRequest {
+  // The campaign to render.
+  // Format: campaigns/{campaign}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}
+  ];
+}
+
+// Response message for PreviewCampaign.
+message PreviewCampaignResponse {
+  // Fully rendered HTML of the campaign.
+  string html = 1;
+}
+
+// Request message for CollectCampaignStats.
+message CollectCampaignStatsRequest {
+  // Campaigns to fetch live stats for. Defaults to all running campaigns.
+  // Format: campaigns/{campaign}
+  repeated string names = 1 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}
+  ];
+}
+
+// Live progress of a single running campaign.
+message CampaignRunningStat {
+  // The campaign these stats are for.
+  // Format: campaigns/{campaign}
+  string campaign = 1 [(google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}];
+
+  // Current status.
+  CampaignState state = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Counters.
+  CampaignStats stats = 3;
+
+  // Send throughput in messages per minute.
+  double rate = 4;
+
+  // When the send started.
+  google.protobuf.Timestamp start_time = 5;
+}
+
+// Response message for CollectCampaignStats.
+message CollectCampaignStatsResponse {
+  // Per-campaign live stats.
+  repeated CampaignRunningStat stats = 1;
+}

@@ -1,0 +1,573 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: CampaignService API
+    description: |-
+        CampaignService manages newsletter sends: authoring, scheduling, lifecycle,
+         testing, preview, and live stats. mailkite's fan-out materializes scheduled
+         content digests into campaigns here.
+    version: 0.0.1
+servers:
+    - url: https://oh-tarnished.mailkite.newsletter.v1
+paths:
+    /v1/campaigns:
+        get:
+            tags:
+                - CampaignService
+            description: Lists campaigns.
+            operationId: CampaignService_ListCampaigns
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: |-
+                    Maximum number of campaigns to return. The server may cap this. When unset,
+                     the server picks a default.
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  description: |-
+                    A page token received from a previous ListCampaigns call. Provide this to
+                     retrieve the subsequent page.
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: |-
+                    Filter expression restricting which campaigns are returned. Supports
+                     free-text matching on `display_name`/`subject` and matching against
+                     `state` and `tags`, e.g. `state = CAMPAIGN_STATE_RUNNING`.
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: |-
+                    Comma-separated list of fields to sort by, each optionally suffixed with
+                     ` desc` (e.g. `create_time desc`).
+                  schema:
+                    type: string
+                - name: view
+                  in: query
+                  description: How much of each campaign to return. BASIC omits the large body fields.
+                  schema:
+                    type: integer
+                    format: enum
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListCampaignsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - CampaignService
+            description: Creates a campaign.
+            operationId: CampaignService_CreateCampaign
+            parameters:
+                - name: campaignId
+                  in: query
+                  description: |-
+                    Optional client-specified ID for the campaign, used as the `{campaign}`
+                     segment of its resource name. The server assigns one when omitted.
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Campaign'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Campaign'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/campaigns/{campaign}:
+        get:
+            tags:
+                - CampaignService
+            description: Gets a single campaign.
+            operationId: CampaignService_GetCampaign
+            parameters:
+                - name: campaign
+                  in: path
+                  description: The campaign id.
+                  required: true
+                  schema:
+                    type: string
+                - name: view
+                  in: query
+                  description: How much of the campaign to return. BASIC omits the body fields.
+                  schema:
+                    type: integer
+                    format: enum
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Campaign'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - CampaignService
+            description: Deletes a campaign.
+            operationId: CampaignService_DeleteCampaign
+            parameters:
+                - name: campaign
+                  in: path
+                  description: The campaign id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - CampaignService
+            description: Updates a campaign.
+            operationId: CampaignService_UpdateCampaign
+            parameters:
+                - name: campaign
+                  in: path
+                  description: The campaign id.
+                  required: true
+                  schema:
+                    type: string
+                - name: updateMask
+                  in: query
+                  description: Fields to overwrite. Omit to replace all mutable fields.
+                  schema:
+                    type: string
+                    format: field-mask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Campaign'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Campaign'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/campaigns/{campaign}:preview:
+        get:
+            tags:
+                - CampaignService
+            description: Renders the HTML preview of a campaign.
+            operationId: CampaignService_PreviewCampaign
+            parameters:
+                - name: campaign
+                  in: path
+                  description: The campaign id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PreviewCampaignResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/campaigns/{campaign}:test:
+        post:
+            tags:
+                - CampaignService
+            description: Sends a test of a campaign to specific addresses.
+            operationId: CampaignService_TestCampaign
+            parameters:
+                - name: campaign
+                  in: path
+                  description: The campaign id.
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/TestCampaignRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/TestCampaignResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/campaigns/{campaign}:transition:
+        post:
+            tags:
+                - CampaignService
+            description: Transitions a campaign's lifecycle (start, pause, resume, cancel, schedule).
+            operationId: CampaignService_TransitionCampaign
+            parameters:
+                - name: campaign
+                  in: path
+                  description: The campaign id.
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/TransitionCampaignRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Campaign'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/campaigns:collectCampaignStats:
+        get:
+            tags:
+                - CampaignService
+            description: Returns live stats for running campaigns.
+            operationId: CampaignService_CollectCampaignStats
+            parameters:
+                - name: names
+                  in: query
+                  description: |-
+                    Campaigns to fetch live stats for. Defaults to all running campaigns.
+                     Format: campaigns/{campaign}
+                  schema:
+                    type: array
+                    items:
+                        type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CollectCampaignStatsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        Campaign:
+            required:
+                - displayName
+                - subject
+                - format
+                - lists
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The resource name of the campaign.
+                         Format: campaigns/{campaign}
+                uuid:
+                    readOnly: true
+                    type: string
+                    description: Server-assigned stable UUID, used in tracking and public-archive URLs.
+                displayName:
+                    type: string
+                    description: Internal campaign name (not shown to recipients).
+                subject:
+                    type: string
+                    description: Email subject line. Supports template expressions.
+                senderEmail:
+                    type: string
+                    description: Sender address. Falls back to the instance default when empty.
+                type:
+                    type: integer
+                    description: Whether this is a regular broadcast or a double-opt-in confirmation send.
+                    format: enum
+                format:
+                    type: integer
+                    description: Format the body is authored in.
+                    format: enum
+                body:
+                    type: string
+                    description: The campaign body, in the format named by content_type.
+                altBody:
+                    type: string
+                    description: Optional plain-text alternative body for multipart messages.
+                lists:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Lists this campaign is sent to.
+                         Format: mailingLists/{mailing_list}
+                template:
+                    type: string
+                    description: |-
+                        Template used to wrap the body.
+                         Format: templates/{template}
+                tags:
+                    type: array
+                    items:
+                        type: string
+                    description: Arbitrary tags for grouping and filtering.
+                messenger:
+                    type: string
+                    description: Messenger backend to send through (defaults to "email").
+                headers:
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: Custom SMTP headers attached to every message.
+                scheduleTime:
+                    type: string
+                    description: When to start sending. Omit to send immediately on start.
+                    format: date-time
+                state:
+                    readOnly: true
+                    type: integer
+                    description: Current state of the campaign. Changed via TransitionCampaign.
+                    format: enum
+                archive:
+                    type: boolean
+                    description: Whether a public archive copy is published.
+                archiveSlug:
+                    type: string
+                    description: URL slug for the public archive page.
+                archiveTemplate:
+                    type: string
+                    description: |-
+                        Template used to render the public archive page.
+                         Format: templates/{template}
+                archiveMeta:
+                    type: object
+                    description: Extra template data exposed to the public archive page.
+                stats:
+                    readOnly: true
+                    allOf:
+                        - $ref: '#/components/schemas/CampaignStats'
+                    description: Aggregate delivery and engagement statistics.
+                createTime:
+                    readOnly: true
+                    type: string
+                    description: Creation timestamp.
+                    format: date-time
+                updateTime:
+                    readOnly: true
+                    type: string
+                    description: Last-modification timestamp.
+                    format: date-time
+                startTime:
+                    readOnly: true
+                    type: string
+                    description: When sending actually started, if at all.
+                    format: date-time
+            description: |-
+                A single newsletter send: rendered content, its audience, and its lifecycle.
+                 In mailkite a Campaign is the materialization of one scheduled digest of
+                 normalized content items.
+        CampaignRunningStat:
+            type: object
+            properties:
+                campaign:
+                    type: string
+                    description: |-
+                        The campaign these stats are for.
+                         Format: campaigns/{campaign}
+                state:
+                    readOnly: true
+                    type: integer
+                    description: Current status.
+                    format: enum
+                stats:
+                    allOf:
+                        - $ref: '#/components/schemas/CampaignStats'
+                    description: Counters.
+                rate:
+                    type: number
+                    description: Send throughput in messages per minute.
+                    format: double
+                startTime:
+                    type: string
+                    description: When the send started.
+                    format: date-time
+            description: Live progress of a single running campaign.
+        CampaignStats:
+            type: object
+            properties:
+                recipientCount:
+                    readOnly: true
+                    type: string
+                    description: Total recipients the campaign will be / was sent to.
+                sent:
+                    readOnly: true
+                    type: string
+                    description: Messages handed off to the messenger so far.
+                views:
+                    readOnly: true
+                    type: string
+                    description: Tracked opens.
+                clicks:
+                    readOnly: true
+                    type: string
+                    description: Tracked link clicks.
+                bounces:
+                    readOnly: true
+                    type: string
+                    description: Recorded bounces.
+            description: Aggregate counters for a campaign.
+        CollectCampaignStatsResponse:
+            type: object
+            properties:
+                stats:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/CampaignRunningStat'
+                    description: Per-campaign live stats.
+            description: Response message for CollectCampaignStats.
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListCampaignsResponse:
+            type: object
+            properties:
+                campaigns:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Campaign'
+                    description: The page of campaigns.
+                nextPageToken:
+                    type: string
+                    description: A token to retrieve the next page, or empty if this is the last page.
+                totalSize:
+                    type: integer
+                    description: Total matching campaigns across all pages.
+                    format: int32
+            description: Response message for ListCampaigns.
+        PreviewCampaignResponse:
+            type: object
+            properties:
+                html:
+                    type: string
+                    description: Fully rendered HTML of the campaign.
+            description: Response message for PreviewCampaign.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        TestCampaignRequest:
+            required:
+                - name
+                - recipientEmails
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The campaign to send a test of.
+                         Format: campaigns/{campaign}
+                recipientEmails:
+                    type: array
+                    items:
+                        type: string
+                    description: Addresses to send the test message to.
+            description: Request message for TestCampaign.
+        TestCampaignResponse:
+            type: object
+            properties: {}
+            description: Response message for TestCampaign.
+        TransitionCampaignRequest:
+            required:
+                - name
+                - transition
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The campaign whose lifecycle is changing.
+                         Format: campaigns/{campaign}
+                transition:
+                    type: integer
+                    description: |-
+                        Transition to apply. Valid transitions: draft->schedule, draft/scheduled->
+                         start, running->pause, paused->resume, running/paused->cancel.
+                    format: enum
+            description: Request message for TransitionCampaign.
+tags:
+    - name: CampaignService

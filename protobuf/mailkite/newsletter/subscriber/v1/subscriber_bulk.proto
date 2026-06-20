@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package mailkite.newsletter.subscriber.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "mailkite/newsletter/subscriber/v1/enums.proto";
+import "mailkite/newsletter/subscriber/v1/subscriber.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/subscriber/v1/subscriberpbv1;subscriberpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "SubscriberBulkProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.subscriber.v1";
+
+// Selects a set of subscribers either explicitly by name or by SQL query.
+// Exactly one of names or query should be supplied.
+message SubscriberSelector {
+  // Explicit subscribers to act on.
+  // Format: subscribers/{subscriber}
+  repeated string names = 1 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Subscriber"}
+  ];
+
+  // A raw SQL-expression filter selecting subscribers to act on.
+  string query = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Optional list scope the query is evaluated against.
+  // Format: mailingLists/{mailing_list}
+  repeated string lists = 3 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/MailingList"}
+  ];
+}
+
+// Request message for BlocklistSubscribers.
+message BlocklistSubscribersRequest {
+  // The subscribers to blocklist.
+  SubscriberSelector selector = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Response message for BlocklistSubscribers.
+message BlocklistSubscribersResponse {
+  // Number of subscribers affected.
+  int64 affected_count = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// Request message for BulkDeleteSubscribers.
+message BulkDeleteSubscribersRequest {
+  // The subscribers to delete.
+  SubscriberSelector selector = 1 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Response message for BulkDeleteSubscribers.
+message BulkDeleteSubscribersResponse {
+  // Number of subscribers deleted.
+  int64 affected_count = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// Request message for ManageSubscriberLists.
+message ManageSubscriberListsRequest {
+  // The subscribers whose memberships are being changed.
+  SubscriberSelector selector = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Lists to add to / remove from / unsubscribe from.
+  // Format: mailingLists/{mailing_list}
+  repeated string lists = 2 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/MailingList"}
+  ];
+
+  // What to do with the listed memberships.
+  SubscriberListAction action = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // When adding, mark new memberships as confirmed and skip any double-opt-in
+  // confirmation email. Ignored for remove/unsubscribe.
+  bool preconfirm = 4 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for ManageSubscriberLists.
+message ManageSubscriberListsResponse {
+  // Number of subscribers affected.
+  int64 affected_count = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+}

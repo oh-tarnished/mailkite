@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package mailkite.newsletter.campaign.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "mailkite/newsletter/campaign/v1/campaign.proto";
+import "mailkite/newsletter/campaign/v1/campaign_actions.proto";
+import "mailkite/newsletter/campaign/v1/campaign_messages.proto";
+import "mcp/protobuf/annotations.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/campaign/v1/campaignpbv1;campaignpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "CampaignServiceProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.campaign.v1";
+
+// CampaignService manages newsletter sends: authoring, scheduling, lifecycle,
+// testing, preview, and live stats. mailkite's fan-out materializes scheduled
+// content digests into campaigns here.
+service CampaignService {
+  option (google.api.default_host) = "oh-tarnished.mailkite.newsletter.v1";
+  option (mcp.protobuf.service) = {
+    app: {
+      name: "Newsletter Campaigns"
+      version: "1.0.0"
+      description: "Author, schedule, send, and monitor newsletter campaigns."
+    }
+  };
+
+  // Lists campaigns.
+  rpc ListCampaigns(ListCampaignsRequest) returns (ListCampaignsResponse) {
+    option (google.api.http) = {get: "/v1/campaigns"};
+    option (mcp.protobuf.tool) = {description: "List campaigns using a filter expression (by state, tags, name/subject), paginate, and set view=BASIC to omit large bodies."};
+  }
+
+  // Gets a single campaign.
+  rpc GetCampaign(GetCampaignRequest) returns (Campaign) {
+    option (google.api.http) = {get: "/v1/{name=campaigns/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Get a single campaign by resource name, including its content and aggregate stats."};
+  }
+
+  // Creates a campaign.
+  rpc CreateCampaign(CreateCampaignRequest) returns (Campaign) {
+    option (google.api.http) = {
+      post: "/v1/campaigns"
+      body: "campaign"
+    };
+    option (google.api.method_signature) = "campaign,campaign_id";
+    option (mcp.protobuf.tool) = {description: "Create a draft campaign with a subject, body, format, target lists, and optional template."};
+    option (mcp.protobuf.prompt) = {
+      name: "draft_newsletter"
+      description: "Draft a newsletter campaign for a list on a topic"
+      schema: "mailkite.newsletter.campaign.v1.DraftNewsletterArgs"
+    };
+  }
+
+  // Updates a campaign.
+  rpc UpdateCampaign(UpdateCampaignRequest) returns (Campaign) {
+    option (google.api.http) = {
+      patch: "/v1/{campaign.name=campaigns/*}"
+      body: "campaign"
+    };
+    option (google.api.method_signature) = "campaign,update_mask";
+    option (mcp.protobuf.tool) = {description: "Update a draft or scheduled campaign's content, subject, lists, template, schedule, or tags."};
+  }
+
+  // Deletes a campaign.
+  rpc DeleteCampaign(DeleteCampaignRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/{name=campaigns/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Delete a campaign by resource name."};
+  }
+
+  // Transitions a campaign's lifecycle (start, pause, resume, cancel, schedule).
+  rpc TransitionCampaign(TransitionCampaignRequest) returns (Campaign) {
+    option (google.api.http) = {
+      post: "/v1/{name=campaigns/*}:transition"
+      body: "*"
+    };
+    option (google.api.method_signature) = "name,transition";
+    option (mcp.protobuf.tool) = {description: "Transition a campaign's lifecycle: schedule, start, pause, resume, or cancel it (START begins sending)."};
+  }
+
+  // Sends a test of a campaign to specific addresses.
+  rpc TestCampaign(TestCampaignRequest) returns (TestCampaignResponse) {
+    option (google.api.http) = {
+      post: "/v1/{name=campaigns/*}:test"
+      body: "*"
+    };
+    option (google.api.method_signature) = "name,recipient_emails";
+    option (mcp.protobuf.tool) = {description: "Send a test copy of a campaign to one or more email addresses without sending to the real lists."};
+  }
+
+  // Renders the HTML preview of a campaign.
+  rpc PreviewCampaign(PreviewCampaignRequest) returns (PreviewCampaignResponse) {
+    option (google.api.http) = {get: "/v1/{name=campaigns/*}:preview"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Render and return the final HTML of a campaign as it would appear to recipients."};
+  }
+
+  // Returns live stats for running campaigns.
+  rpc CollectCampaignStats(CollectCampaignStatsRequest) returns (CollectCampaignStatsResponse) {
+    option (google.api.http) = {get: "/v1/campaigns:collectCampaignStats"};
+    option (mcp.protobuf.tool) = {description: "Collect live progress and throughput for running campaigns (sent, views, clicks, bounces, rate)."};
+  }
+}

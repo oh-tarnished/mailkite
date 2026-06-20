@@ -1,0 +1,20 @@
+components:
+  schemas:
+    mailkite.newsletter.campaign.v1.DraftNewsletterArgs:
+      description: Arguments for the "draft_newsletter" prompt.
+      properties:
+        list:
+          description: List(s) to target, as resource names or human display names.
+          type: string
+        subject:
+          description: Subject line of the newsletter.
+          type: string
+        topic:
+          description: What the newsletter should be about / the content to include.
+          type: string
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

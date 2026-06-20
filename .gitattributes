@@ -1,0 +1,2 @@
+*.proto linguist-detectable
+*.prisma linguist-detectable linguist-language=Prisma

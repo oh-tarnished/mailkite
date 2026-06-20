@@ -1,0 +1,315 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: TemplateService API
+    description: |-
+        TemplateService manages reusable layouts for campaigns and transactional
+         messages.
+    version: 0.0.1
+servers:
+    - url: https://oh-tarnished.mailkite.newsletter.v1
+paths:
+    /v1/templates:
+        get:
+            tags:
+                - TemplateService
+            description: Lists templates.
+            operationId: TemplateService_ListTemplates
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: |-
+                    Maximum number of templates to return. The server may cap this. When unset,
+                     the server picks a default.
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  description: |-
+                    A page token received from a previous ListTemplates call. Provide this to
+                     retrieve the subsequent page.
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: |-
+                    Filter expression restricting which templates are returned. Supports
+                     matching against `type`, e.g. `type = TEMPLATE_TYPE_CAMPAIGN`.
+                  schema:
+                    type: string
+                - name: view
+                  in: query
+                  description: How much of each template to return. BASIC omits the body field.
+                  schema:
+                    type: integer
+                    format: enum
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListTemplatesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - TemplateService
+            description: Creates a template.
+            operationId: TemplateService_CreateTemplate
+            parameters:
+                - name: templateId
+                  in: query
+                  description: |-
+                    Optional client-specified ID for the template, used as the `{template}`
+                     segment of its resource name. The server assigns one when omitted.
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Template'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Template'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/templates/{template}:
+        get:
+            tags:
+                - TemplateService
+            description: Gets a single template.
+            operationId: TemplateService_GetTemplate
+            parameters:
+                - name: template
+                  in: path
+                  description: The template id.
+                  required: true
+                  schema:
+                    type: string
+                - name: view
+                  in: query
+                  description: How much of the template to return. BASIC omits the body field.
+                  schema:
+                    type: integer
+                    format: enum
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Template'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - TemplateService
+            description: Deletes a template.
+            operationId: TemplateService_DeleteTemplate
+            parameters:
+                - name: template
+                  in: path
+                  description: The template id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - TemplateService
+            description: Updates a template.
+            operationId: TemplateService_UpdateTemplate
+            parameters:
+                - name: template
+                  in: path
+                  description: The template id.
+                  required: true
+                  schema:
+                    type: string
+                - name: updateMask
+                  in: query
+                  description: Fields to overwrite. Omit to replace all mutable fields.
+                  schema:
+                    type: string
+                    format: field-mask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Template'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Template'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/templates/{template}:mark:
+        post:
+            tags:
+                - TemplateService
+            description: Marks a template as the default for its type.
+            operationId: TemplateService_MarkDefaultTemplate
+            parameters:
+                - name: template
+                  in: path
+                  description: The template id.
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MarkDefaultTemplateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Template'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListTemplatesResponse:
+            type: object
+            properties:
+                templates:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Template'
+                    description: The page of templates.
+                nextPageToken:
+                    type: string
+                    description: A token to retrieve the next page, or empty if this is the last page.
+            description: Response message for ListTemplates.
+        MarkDefaultTemplateRequest:
+            required:
+                - name
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The template to mark as the default for its type.
+                         Format: templates/{template}
+            description: Request message for MarkDefaultTemplate.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        Template:
+            required:
+                - displayName
+                - type
+                - body
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The resource name of the template.
+                         Format: templates/{template}
+                displayName:
+                    type: string
+                    description: Human-friendly template name.
+                type:
+                    type: integer
+                    description: What the template can be applied to.
+                    format: enum
+                subject:
+                    type: string
+                    description: |-
+                        Default subject for transactional templates. Ignored for campaign
+                         templates, which take their subject from the campaign.
+                body:
+                    type: string
+                    description: |-
+                        The template markup. Campaign templates must contain the
+                         {{ template "content" . }} directive.
+                isDefault:
+                    readOnly: true
+                    type: boolean
+                    description: |-
+                        Whether this is the default template for its type. Set via
+                         MarkDefaultTemplate.
+                createTime:
+                    readOnly: true
+                    type: string
+                    description: Creation timestamp.
+                    format: date-time
+                updateTime:
+                    readOnly: true
+                    type: string
+                    description: Last-modification timestamp.
+                    format: date-time
+            description: |-
+                A reusable layout (HTML/markdown wrapper) applied to campaigns or
+                 transactional messages.
+tags:
+    - name: TemplateService

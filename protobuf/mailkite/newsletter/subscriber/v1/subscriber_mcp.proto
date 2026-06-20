@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package mailkite.newsletter.subscriber.v1;
+
+import "google/api/field_behavior.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/subscriber/v1/subscriberpbv1;subscriberpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "SubscriberMcpProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.subscriber.v1";
+
+// Arguments for the "subscribe_email" prompt.
+message SubscribeEmailArgs {
+  // Email address to subscribe.
+  string email = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Display name of the subscriber.
+  string display_name = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // List to subscribe to, as a resource name ("mailingLists/42") or a human
+  // display name ("Acme Weekly").
+  string list = 3 [(google.api.field_behavior) = REQUIRED];
+}

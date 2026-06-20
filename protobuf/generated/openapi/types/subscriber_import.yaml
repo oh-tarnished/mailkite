@@ -1,0 +1,202 @@
+components:
+  schemas:
+    mailkite.newsletter.subscriber.v1.CheckImportStatusRequest:
+      description: Request message for CheckImportStatus.
+      type: object
+    mailkite.newsletter.subscriber.v1.CheckImportStatusResponse:
+      description: Response message for CheckImportStatus.
+      properties:
+        status:
+          description: Status of the current or most recent import.
+          properties:
+            imported:
+              description: Records imported so far.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            logs:
+              description: Human-readable log lines emitted by the importer.
+              items:
+                type: string
+              type: array
+            state:
+              description: Current state of the import worker.
+              enum:
+              - IMPORT_STATE_UNSPECIFIED
+              - IMPORT_STATE_IMPORTING
+              - IMPORT_STATE_STOPPING
+              - IMPORT_STATE_DONE
+              - IMPORT_STATE_FAILED
+              type: string
+            total:
+              description: Total records detected in the source file.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+          type: object
+      type: object
+    mailkite.newsletter.subscriber.v1.ImportParams:
+      description: Tunables for a bulk subscriber import.
+      properties:
+        delimiter:
+          description: CSV column delimiter (defaults to ",").
+          type: string
+        lists:
+          description: 'Lists to subscribe all imported records to. Format: mailingLists/{mailing_list}'
+          items:
+            type: string
+          type: array
+        mode:
+          description: Whether to only subscribe new records or also update existing
+            ones.
+          enum:
+          - IMPORT_MODE_UNSPECIFIED
+          - IMPORT_MODE_SUBSCRIBE
+          - IMPORT_MODE_UPSERT
+          type: string
+        overwrite:
+          description: In upsert mode, whether to overwrite name/attributes of existing
+            records.
+          type: boolean
+        preconfirm:
+          description: Mark imported memberships as confirmed, skipping any double-opt-in
+            confirmation email. When false, double-opt-in lists stay unconfirmed.
+          type: boolean
+      type: object
+    mailkite.newsletter.subscriber.v1.ImportStatus:
+      description: Snapshot of the single in-flight or most recent import.
+      properties:
+        imported:
+          description: Records imported so far.
+          format: int64
+          type: integer
+          x-kubernetes-int-or-string: true
+        logs:
+          description: Human-readable log lines emitted by the importer.
+          items:
+            type: string
+          type: array
+        state:
+          description: Current state of the import worker.
+          enum:
+          - IMPORT_STATE_UNSPECIFIED
+          - IMPORT_STATE_IMPORTING
+          - IMPORT_STATE_STOPPING
+          - IMPORT_STATE_DONE
+          - IMPORT_STATE_FAILED
+          type: string
+        total:
+          description: Total records detected in the source file.
+          format: int64
+          type: integer
+          x-kubernetes-int-or-string: true
+      type: object
+    mailkite.newsletter.subscriber.v1.ImportSubscribersRequest:
+      description: Request message for ImportSubscribers.
+      properties:
+        file:
+          description: Raw contents of a CSV file, or a ZIP archive containing one
+            CSV.
+          format: byte
+          type: string
+        params:
+          description: Import configuration.
+          properties:
+            delimiter:
+              description: CSV column delimiter (defaults to ",").
+              type: string
+            lists:
+              description: 'Lists to subscribe all imported records to. Format: mailingLists/{mailing_list}'
+              items:
+                type: string
+              type: array
+            mode:
+              description: Whether to only subscribe new records or also update existing
+                ones.
+              enum:
+              - IMPORT_MODE_UNSPECIFIED
+              - IMPORT_MODE_SUBSCRIBE
+              - IMPORT_MODE_UPSERT
+              type: string
+            overwrite:
+              description: In upsert mode, whether to overwrite name/attributes of
+                existing records.
+              type: boolean
+            preconfirm:
+              description: Mark imported memberships as confirmed, skipping any double-opt-in
+                confirmation email. When false, double-opt-in lists stay unconfirmed.
+              type: boolean
+          type: object
+      type: object
+    mailkite.newsletter.subscriber.v1.ImportSubscribersResponse:
+      description: Response message for ImportSubscribers.
+      properties:
+        status:
+          description: Status of the import that was started.
+          properties:
+            imported:
+              description: Records imported so far.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            logs:
+              description: Human-readable log lines emitted by the importer.
+              items:
+                type: string
+              type: array
+            state:
+              description: Current state of the import worker.
+              enum:
+              - IMPORT_STATE_UNSPECIFIED
+              - IMPORT_STATE_IMPORTING
+              - IMPORT_STATE_STOPPING
+              - IMPORT_STATE_DONE
+              - IMPORT_STATE_FAILED
+              type: string
+            total:
+              description: Total records detected in the source file.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+          type: object
+      type: object
+    mailkite.newsletter.subscriber.v1.StopImportRequest:
+      description: Request message for StopImport.
+      type: object
+    mailkite.newsletter.subscriber.v1.StopImportResponse:
+      description: Response message for StopImport.
+      properties:
+        status:
+          description: Status of the import after the stop request.
+          properties:
+            imported:
+              description: Records imported so far.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            logs:
+              description: Human-readable log lines emitted by the importer.
+              items:
+                type: string
+              type: array
+            state:
+              description: Current state of the import worker.
+              enum:
+              - IMPORT_STATE_UNSPECIFIED
+              - IMPORT_STATE_IMPORTING
+              - IMPORT_STATE_STOPPING
+              - IMPORT_STATE_DONE
+              - IMPORT_STATE_FAILED
+              type: string
+            total:
+              description: Total records detected in the source file.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+          type: object
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

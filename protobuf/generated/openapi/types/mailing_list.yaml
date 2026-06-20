@@ -1,0 +1,306 @@
+components:
+  schemas:
+    mailkite.newsletter.mailinglist.v1.CreateMailingListRequest:
+      description: Request message for CreateMailingList.
+      properties:
+        mailingList:
+          description: The list to create. The name field is ignored.
+          properties:
+            createTime:
+              description: Creation timestamp.
+              format: date-time
+              type: string
+            description:
+              description: Free-form description shown on subscription pages.
+              type: string
+            displayName:
+              description: Human-friendly list name (e.g. "Acme Corp Weekly").
+              type: string
+            name:
+              description: 'The resource name of the list. Format: mailingLists/{mailing_list}'
+              type: string
+            optin:
+              description: Opt-in mode.
+              enum:
+              - OPTIN_TYPE_UNSPECIFIED
+              - OPTIN_TYPE_SINGLE
+              - OPTIN_TYPE_DOUBLE
+              type: string
+            subscriberCount:
+              description: Total subscribers across all statuses.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            subscriberStatuses:
+              additionalProperties:
+                format: int64
+                type: integer
+                x-kubernetes-int-or-string: true
+              description: Subscriber counts keyed by subscription status.
+              type: object
+            tags:
+              description: Arbitrary tags for grouping and filtering.
+              items:
+                type: string
+              type: array
+            type:
+              description: Visibility of the list.
+              enum:
+              - LIST_TYPE_UNSPECIFIED
+              - LIST_TYPE_PUBLIC
+              - LIST_TYPE_PRIVATE
+              type: string
+            updateTime:
+              description: Last-modification timestamp.
+              format: date-time
+              type: string
+            uuid:
+              description: Server-assigned stable UUID, used in public subscription
+                URLs.
+              type: string
+          type: object
+        mailingListId:
+          description: Optional client-specified ID for the list, used as the `{mailing_list}`
+            segment of its resource name. The server assigns one when omitted.
+          type: string
+      type: object
+    mailkite.newsletter.mailinglist.v1.DeleteMailingListRequest:
+      description: Request message for DeleteMailingList.
+      properties:
+        name:
+          description: 'The list to delete. Format: mailingLists/{mailing_list}'
+          type: string
+      type: object
+    mailkite.newsletter.mailinglist.v1.GetMailingListRequest:
+      description: Request message for GetMailingList.
+      properties:
+        name:
+          description: 'The list to retrieve. Format: mailingLists/{mailing_list}'
+          type: string
+      type: object
+    mailkite.newsletter.mailinglist.v1.ListMailingListsRequest:
+      description: Request message for ListMailingLists.
+      properties:
+        filter:
+          description: Filter expression restricting which lists are returned. Supports
+            free-text matching on `display_name` and matching against `type`, `optin`,
+            and `tags`.
+          type: string
+        orderBy:
+          description: Comma-separated list of fields to sort by, each optionally
+            suffixed with ` desc` (e.g. `display_name desc`).
+          type: string
+        pageSize:
+          description: Maximum number of lists to return. The server may cap this.
+            When unset, the server picks a default.
+          format: int32
+          type: integer
+        pageToken:
+          description: A page token received from a previous ListMailingLists call.
+            Provide this to retrieve the subsequent page.
+          type: string
+      type: object
+    mailkite.newsletter.mailinglist.v1.ListMailingListsResponse:
+      description: Response message for ListMailingLists.
+      properties:
+        mailingLists:
+          description: The page of lists.
+          items:
+            description: 'An audience segment subscribers belong to. In mailkite,
+              lists are the unit of tenancy: typically one private list per company
+              plus one public merged "group" list aggregating every brand''s feed.'
+            properties:
+              createTime:
+                description: Creation timestamp.
+                format: date-time
+                type: string
+              description:
+                description: Free-form description shown on subscription pages.
+                type: string
+              displayName:
+                description: Human-friendly list name (e.g. "Acme Corp Weekly").
+                type: string
+              name:
+                description: 'The resource name of the list. Format: mailingLists/{mailing_list}'
+                type: string
+              optin:
+                description: Opt-in mode.
+                enum:
+                - OPTIN_TYPE_UNSPECIFIED
+                - OPTIN_TYPE_SINGLE
+                - OPTIN_TYPE_DOUBLE
+                type: string
+              subscriberCount:
+                description: Total subscribers across all statuses.
+                format: int64
+                type: integer
+                x-kubernetes-int-or-string: true
+              subscriberStatuses:
+                additionalProperties:
+                  format: int64
+                  type: integer
+                  x-kubernetes-int-or-string: true
+                description: Subscriber counts keyed by subscription status.
+                type: object
+              tags:
+                description: Arbitrary tags for grouping and filtering.
+                items:
+                  type: string
+                type: array
+              type:
+                description: Visibility of the list.
+                enum:
+                - LIST_TYPE_UNSPECIFIED
+                - LIST_TYPE_PUBLIC
+                - LIST_TYPE_PRIVATE
+                type: string
+              updateTime:
+                description: Last-modification timestamp.
+                format: date-time
+                type: string
+              uuid:
+                description: Server-assigned stable UUID, used in public subscription
+                  URLs.
+                type: string
+            type: object
+          type: array
+        nextPageToken:
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+          type: string
+        totalSize:
+          description: Total matching lists across all pages.
+          format: int32
+          type: integer
+      type: object
+    mailkite.newsletter.mailinglist.v1.MailingList:
+      description: 'An audience segment subscribers belong to. In mailkite, lists
+        are the unit of tenancy: typically one private list per company plus one public
+        merged "group" list aggregating every brand''s feed.'
+      properties:
+        createTime:
+          description: Creation timestamp.
+          format: date-time
+          type: string
+        description:
+          description: Free-form description shown on subscription pages.
+          type: string
+        displayName:
+          description: Human-friendly list name (e.g. "Acme Corp Weekly").
+          type: string
+        name:
+          description: 'The resource name of the list. Format: mailingLists/{mailing_list}'
+          type: string
+        optin:
+          description: Opt-in mode.
+          enum:
+          - OPTIN_TYPE_UNSPECIFIED
+          - OPTIN_TYPE_SINGLE
+          - OPTIN_TYPE_DOUBLE
+          type: string
+        subscriberCount:
+          description: Total subscribers across all statuses.
+          format: int64
+          type: integer
+          x-kubernetes-int-or-string: true
+        subscriberStatuses:
+          additionalProperties:
+            format: int64
+            type: integer
+            x-kubernetes-int-or-string: true
+          description: Subscriber counts keyed by subscription status.
+          type: object
+        tags:
+          description: Arbitrary tags for grouping and filtering.
+          items:
+            type: string
+          type: array
+        type:
+          description: Visibility of the list.
+          enum:
+          - LIST_TYPE_UNSPECIFIED
+          - LIST_TYPE_PUBLIC
+          - LIST_TYPE_PRIVATE
+          type: string
+        updateTime:
+          description: Last-modification timestamp.
+          format: date-time
+          type: string
+        uuid:
+          description: Server-assigned stable UUID, used in public subscription URLs.
+          type: string
+      type: object
+    mailkite.newsletter.mailinglist.v1.UpdateMailingListRequest:
+      description: Request message for UpdateMailingList.
+      properties:
+        mailingList:
+          description: The list to update; its name identifies the target.
+          properties:
+            createTime:
+              description: Creation timestamp.
+              format: date-time
+              type: string
+            description:
+              description: Free-form description shown on subscription pages.
+              type: string
+            displayName:
+              description: Human-friendly list name (e.g. "Acme Corp Weekly").
+              type: string
+            name:
+              description: 'The resource name of the list. Format: mailingLists/{mailing_list}'
+              type: string
+            optin:
+              description: Opt-in mode.
+              enum:
+              - OPTIN_TYPE_UNSPECIFIED
+              - OPTIN_TYPE_SINGLE
+              - OPTIN_TYPE_DOUBLE
+              type: string
+            subscriberCount:
+              description: Total subscribers across all statuses.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            subscriberStatuses:
+              additionalProperties:
+                format: int64
+                type: integer
+                x-kubernetes-int-or-string: true
+              description: Subscriber counts keyed by subscription status.
+              type: object
+            tags:
+              description: Arbitrary tags for grouping and filtering.
+              items:
+                type: string
+              type: array
+            type:
+              description: Visibility of the list.
+              enum:
+              - LIST_TYPE_UNSPECIFIED
+              - LIST_TYPE_PUBLIC
+              - LIST_TYPE_PRIVATE
+              type: string
+            updateTime:
+              description: Last-modification timestamp.
+              format: date-time
+              type: string
+            uuid:
+              description: Server-assigned stable UUID, used in public subscription
+                URLs.
+              type: string
+          type: object
+        updateMask:
+          description: Fields to overwrite. Omit to replace all mutable fields.
+          properties:
+            paths:
+              description: The set of field mask paths.
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

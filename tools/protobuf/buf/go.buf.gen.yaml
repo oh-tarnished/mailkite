@@ -1,0 +1,26 @@
+version: v2
+clean: true
+managed:
+  enabled: true
+inputs:
+  - directory: protobuf
+plugins:
+  # --- Server: protobuf types + gRPC stubs + gateway ---
+  - remote: buf.build/protocolbuffers/go:v1.36.11
+    out: protobuf/generated/go
+    opt: module=github.com/oh-tarnished/mailkite/protobuf/generated/go
+  - remote: buf.build/grpc/go:v1.6.0
+    out: protobuf/generated/go
+    opt: module=github.com/oh-tarnished/mailkite/protobuf/generated/go
+  - remote: buf.build/grpc-ecosystem/gateway:v2.27.4
+    out: protobuf/generated/go
+    opt: module=github.com/oh-tarnished/mailkite/protobuf/generated/go
+  # --- Client: gapic idiomatic client wrappers ---
+  # Generated separately per service package via tools/buf/generate-gapic.sh
+  # to avoid duplicate auxiliary.go files across proto packages.
+  # --- MCP: Model Context Protocol server bindings ---
+  - local: protoc-gen-mcp
+    out: protobuf/generated/go
+    opt:
+      - lang=go
+      - module=github.com/oh-tarnished/mailkite/protobuf/generated/go

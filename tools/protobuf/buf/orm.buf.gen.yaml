@@ -1,0 +1,28 @@
+version: v2
+clean: true
+managed:
+  enabled: true
+inputs:
+  - directory: protobuf
+
+plugins:
+  # strategy: all is required — protorm must see every proto file in one
+  # invocation to resolve cross-service references and to merge each service's
+  # tables into the single `mailkite` database. With buf's default
+  # (strategy: directory) the plugin runs once per folder: cross-service FKs
+  # degrade to soft FKs and GORM's per-schema models.go files collide and are
+  # dropped. config= maps packages to the mailkite DB + per-service schemas.
+  - local: protoc-gen-protorm
+    out: protobuf/generated/prisma
+    strategy: all
+    opt:
+      - target=prisma
+      - config=tools/protobuf/buf/protorm.yaml
+  - local: protoc-gen-protorm
+    out: protobuf/generated/gorm
+    strategy: all
+    opt:
+      - target=gorm
+      - stores=true
+      - config=tools/protobuf/buf/protorm.yaml
+      - otel=true

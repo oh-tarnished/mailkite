@@ -1,0 +1,2389 @@
+openapi: 3.0.0
+info:
+  title: mailkite API
+  summary: Scheduling, availability, and booking platform API.
+  description: 'mailkite is a scheduling platform that exposes resources, schedules,
+    availability windows, bookings, organisations, and promotional codes over a RESTful,
+    OpenAPI-described surface. This document is generated from Protocol Buffer service
+    definitions and merged into a single specification.
+
+
+    Authentication is performed via bearer tokens unless otherwise noted. All timestamps
+    are RFC 3339 and all monetary amounts follow the associated currency''s minor
+    units.'
+  version: 1.0.0
+  termsOfService: https://mailkite.oh-tarnished.dev/terms
+  contact:
+    name: mailkite API Support
+    url: https://mailkite.oh-tarnished.dev/support
+    email: support@oh-tarnished.dev
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+externalDocs:
+  description: mailkite API documentation
+  url: https://mailkite.oh-tarnished.dev/docs
+servers:
+- url: https://mailkite.oh-tarnished.dev
+  description: Production
+- url: https://staging.mailkite.oh-tarnished.dev
+  description: Staging
+- url: http://localhost:8080
+  description: Local development
+security:
+- bearerAuth: []
+tags:
+- name: Bounce Service
+- name: Campaign Service
+- name: Mailing List Service
+- name: Media Service
+- name: Subscriber Service
+- name: Template Service
+- name: Transactional Service
+paths:
+  /v1/bounces:
+    get:
+      tags:
+      - Bounce Service
+      description: Lists recorded bounces.
+      operationId: BounceService_ListBounces
+      parameters:
+      - name: pageSize
+        in: query
+        description: "Maximum number of bounces to return. The server may cap this.\
+          \ When unset,\n the server picks a default."
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "A page token received from a previous ListBounces call. Provide\
+          \ this to\n retrieve the subsequent page."
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: "Filter expression restricting which bounces are returned. Supports\
+          \ the\n `campaign` and `source` fields, e.g. `campaign = \"campaigns/7\"\
+          ` or\n `source = \"webhook\"`."
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: "Comma-separated list of fields to sort by, each optionally suffixed\
+          \ with\n ` desc` (e.g. `create_time desc`)."
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListBouncesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: List Bounces
+  /v1/bounces/{bounce}:
+    get:
+      tags:
+      - Bounce Service
+      description: Gets a single bounce.
+      operationId: BounceService_GetBounce
+      parameters:
+      - name: bounce
+        in: path
+        description: The bounce id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bounce'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Get Bounce
+    delete:
+      tags:
+      - Bounce Service
+      description: Deletes a bounce.
+      operationId: BounceService_DeleteBounce
+      parameters:
+      - name: bounce
+        in: path
+        description: The bounce id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Delete Bounce
+  /v1/campaigns:
+    get:
+      tags:
+      - Campaign Service
+      description: Lists campaigns.
+      operationId: CampaignService_ListCampaigns
+      parameters:
+      - name: pageSize
+        in: query
+        description: "Maximum number of campaigns to return. The server may cap this.\
+          \ When unset,\n the server picks a default."
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "A page token received from a previous ListCampaigns call. Provide\
+          \ this to\n retrieve the subsequent page."
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: "Filter expression restricting which campaigns are returned.\
+          \ Supports\n free-text matching on `display_name`/`subject` and matching\
+          \ against\n `state` and `tags`, e.g. `state = CAMPAIGN_STATE_RUNNING`."
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: "Comma-separated list of fields to sort by, each optionally suffixed\
+          \ with\n ` desc` (e.g. `create_time desc`)."
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: How much of each campaign to return. BASIC omits the large body
+          fields.
+        schema:
+          type: integer
+          format: enum
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCampaignsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: List Campaigns
+    post:
+      tags:
+      - Campaign Service
+      description: Creates a campaign.
+      operationId: CampaignService_CreateCampaign
+      parameters:
+      - name: campaignId
+        in: query
+        description: "Optional client-specified ID for the campaign, used as the `{campaign}`\n\
+          \ segment of its resource name. The server assigns one when omitted."
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Create Campaign
+  /v1/campaigns/{campaign}:
+    get:
+      tags:
+      - Campaign Service
+      description: Gets a single campaign.
+      operationId: CampaignService_GetCampaign
+      parameters:
+      - name: campaign
+        in: path
+        description: The campaign id.
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: How much of the campaign to return. BASIC omits the body fields.
+        schema:
+          type: integer
+          format: enum
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Get Campaign
+    delete:
+      tags:
+      - Campaign Service
+      description: Deletes a campaign.
+      operationId: CampaignService_DeleteCampaign
+      parameters:
+      - name: campaign
+        in: path
+        description: The campaign id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Delete Campaign
+    patch:
+      tags:
+      - Campaign Service
+      description: Updates a campaign.
+      operationId: CampaignService_UpdateCampaign
+      parameters:
+      - name: campaign
+        in: path
+        description: The campaign id.
+        required: true
+        schema:
+          type: string
+      - name: updateMask
+        in: query
+        description: Fields to overwrite. Omit to replace all mutable fields.
+        schema:
+          type: string
+          format: field-mask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Campaign'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Update Campaign
+  /v1/campaigns/{campaign}:preview:
+    get:
+      tags:
+      - Campaign Service
+      description: Renders the HTML preview of a campaign.
+      operationId: CampaignService_PreviewCampaign
+      parameters:
+      - name: campaign
+        in: path
+        description: The campaign id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PreviewCampaignResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Preview Campaign
+  /v1/campaigns/{campaign}:test:
+    post:
+      tags:
+      - Campaign Service
+      description: Sends a test of a campaign to specific addresses.
+      operationId: CampaignService_TestCampaign
+      parameters:
+      - name: campaign
+        in: path
+        description: The campaign id.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TestCampaignRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TestCampaignResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Test Campaign
+  /v1/campaigns/{campaign}:transition:
+    post:
+      tags:
+      - Campaign Service
+      description: Transitions a campaign's lifecycle (start, pause, resume, cancel,
+        schedule).
+      operationId: CampaignService_TransitionCampaign
+      parameters:
+      - name: campaign
+        in: path
+        description: The campaign id.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransitionCampaignRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Campaign'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Transition Campaign
+  /v1/campaigns:collectCampaignStats:
+    get:
+      tags:
+      - Campaign Service
+      description: Returns live stats for running campaigns.
+      operationId: CampaignService_CollectCampaignStats
+      parameters:
+      - name: names
+        in: query
+        description: "Campaigns to fetch live stats for. Defaults to all running campaigns.\n\
+          \ Format: campaigns/{campaign}"
+        schema:
+          type: array
+          items:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectCampaignStatsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Collect Campaign Stats
+  /v1/mailingLists:
+    get:
+      tags:
+      - Mailing List Service
+      description: Lists mailing lists.
+      operationId: MailingListService_ListMailingLists
+      parameters:
+      - name: pageSize
+        in: query
+        description: "Maximum number of lists to return. The server may cap this.\
+          \ When unset, the\n server picks a default."
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "A page token received from a previous ListMailingLists call.\
+          \ Provide this to\n retrieve the subsequent page."
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: "Filter expression restricting which lists are returned. Supports\
+          \ free-text\n matching on `display_name` and matching against `type`, `optin`,\
+          \ and `tags`."
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: "Comma-separated list of fields to sort by, each optionally suffixed\
+          \ with\n ` desc` (e.g. `display_name desc`)."
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMailingListsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: List Mailing Lists
+    post:
+      tags:
+      - Mailing List Service
+      description: Creates a mailing list.
+      operationId: MailingListService_CreateMailingList
+      parameters:
+      - name: mailingListId
+        in: query
+        description: "Optional client-specified ID for the list, used as the `{mailing_list}`\n\
+          \ segment of its resource name. The server assigns one when omitted."
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailingList'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailingList'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Create Mailing List
+  /v1/mailingLists/{mailingList}:
+    get:
+      tags:
+      - Mailing List Service
+      description: Gets a single mailing list.
+      operationId: MailingListService_GetMailingList
+      parameters:
+      - name: mailingList
+        in: path
+        description: The mailingList id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailingList'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Get Mailing List
+    delete:
+      tags:
+      - Mailing List Service
+      description: Deletes a mailing list.
+      operationId: MailingListService_DeleteMailingList
+      parameters:
+      - name: mailingList
+        in: path
+        description: The mailingList id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Delete Mailing List
+    patch:
+      tags:
+      - Mailing List Service
+      description: Updates a mailing list.
+      operationId: MailingListService_UpdateMailingList
+      parameters:
+      - name: mailingList
+        in: path
+        description: The mailingList id.
+        required: true
+        schema:
+          type: string
+      - name: updateMask
+        in: query
+        description: Fields to overwrite. Omit to replace all mutable fields.
+        schema:
+          type: string
+          format: field-mask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MailingList'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailingList'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Update Mailing List
+  /v1/media:
+    get:
+      tags:
+      - Media Service
+      description: Lists uploaded media.
+      operationId: MediaService_ListMedia
+      parameters:
+      - name: pageSize
+        in: query
+        description: "Maximum number of media objects to return. The server may cap\
+          \ this. When\n unset, the server picks a default."
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "A page token received from a previous ListMedia call. Provide\
+          \ this to\n retrieve the subsequent page."
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: "Filter expression restricting which media are returned. Supports\
+          \ free-text\n matching against the `filename` field."
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMediaResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: List Media
+  /v1/media/{media}:
+    get:
+      tags:
+      - Media Service
+      description: Gets a single media object.
+      operationId: MediaService_GetMedia
+      parameters:
+      - name: media
+        in: path
+        description: The media id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Media'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Get Media
+    delete:
+      tags:
+      - Media Service
+      description: Deletes a media asset.
+      operationId: MediaService_DeleteMedia
+      parameters:
+      - name: media
+        in: path
+        description: The media id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Delete Media
+  /v1/media:upload:
+    post:
+      tags:
+      - Media Service
+      description: Uploads a media asset.
+      operationId: MediaService_UploadMedia
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadMediaRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadMediaResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Upload Media
+  /v1/subscribers:
+    get:
+      tags:
+      - Subscriber Service
+      description: Lists subscribers, optionally filtered by an advanced SQL query.
+      operationId: SubscriberService_ListSubscribers
+      parameters:
+      - name: pageSize
+        in: query
+        description: "Maximum number of subscribers to return. The server may cap\
+          \ this. When\n unset, the server picks a default."
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "A page token received from a previous ListSubscribers call.\
+          \ Provide this to\n retrieve the subsequent page."
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: "Filter expression restricting which subscribers are returned.\
+          \ Supports a\n raw SQL-expression over subscriber columns and attributes\
+          \ (mirroring\n Listmonk's advanced query box), plus `lists` membership and\
+          \ per-list\n `subscription_state` predicates."
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: "Comma-separated list of fields to sort by, each optionally suffixed\
+          \ with\n ` desc` (e.g. `create_time desc`)."
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSubscribersResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: List Subscribers
+    post:
+      tags:
+      - Subscriber Service
+      description: Creates a subscriber.
+      operationId: SubscriberService_CreateSubscriber
+      parameters:
+      - name: subscriberId
+        in: query
+        description: "Optional client-specified ID for the subscriber, used as the\n\
+          \ `{subscriber}` segment of its resource name. The server assigns one when\n\
+          \ omitted."
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscriber'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscriber'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Create Subscriber
+  /v1/subscribers/{subscriber}:
+    get:
+      tags:
+      - Subscriber Service
+      description: Gets a single subscriber.
+      operationId: SubscriberService_GetSubscriber
+      parameters:
+      - name: subscriber
+        in: path
+        description: The subscriber id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscriber'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Get Subscriber
+    delete:
+      tags:
+      - Subscriber Service
+      description: Deletes a single subscriber.
+      operationId: SubscriberService_DeleteSubscriber
+      parameters:
+      - name: subscriber
+        in: path
+        description: The subscriber id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Delete Subscriber
+    patch:
+      tags:
+      - Subscriber Service
+      description: Updates a subscriber.
+      operationId: SubscriberService_UpdateSubscriber
+      parameters:
+      - name: subscriber
+        in: path
+        description: The subscriber id.
+        required: true
+        schema:
+          type: string
+      - name: updateMask
+        in: query
+        description: Fields to overwrite. Omit to replace all mutable fields.
+        schema:
+          type: string
+          format: field-mask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscriber'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subscriber'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Update Subscriber
+  /v1/subscribers:blocklist:
+    post:
+      tags:
+      - Subscriber Service
+      description: Blocklists subscribers in bulk.
+      operationId: SubscriberService_BlocklistSubscribers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlocklistSubscribersRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlocklistSubscribersResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Blocklist Subscribers
+  /v1/subscribers:bulkDelete:
+    post:
+      tags:
+      - Subscriber Service
+      description: Deletes subscribers in bulk by explicit name or query.
+      operationId: SubscriberService_BulkDeleteSubscribers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkDeleteSubscribersRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BulkDeleteSubscribersResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Bulk Delete Subscribers
+  /v1/subscribers:checkImportStatus:
+    get:
+      tags:
+      - Subscriber Service
+      description: Returns the status of the running or most recent import.
+      operationId: SubscriberService_CheckImportStatus
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckImportStatusResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Check Import Status
+  /v1/subscribers:import:
+    post:
+      tags:
+      - Subscriber Service
+      description: Starts a bulk subscriber import from a CSV/ZIP file.
+      operationId: SubscriberService_ImportSubscribers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportSubscribersRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportSubscribersResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Import Subscribers
+  /v1/subscribers:manageSubscriberLists:
+    post:
+      tags:
+      - Subscriber Service
+      description: Adds, removes, or unsubscribes a set of subscribers across lists.
+      operationId: SubscriberService_ManageSubscriberLists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManageSubscriberListsRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManageSubscriberListsResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Manage Subscriber Lists
+  /v1/subscribers:stopImport:
+    post:
+      tags:
+      - Subscriber Service
+      description: Stops the running import.
+      operationId: SubscriberService_StopImport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StopImportRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StopImportResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Stop Import
+  /v1/templates:
+    get:
+      tags:
+      - Template Service
+      description: Lists templates.
+      operationId: TemplateService_ListTemplates
+      parameters:
+      - name: pageSize
+        in: query
+        description: "Maximum number of templates to return. The server may cap this.\
+          \ When unset,\n the server picks a default."
+        schema:
+          type: integer
+          format: int32
+      - name: pageToken
+        in: query
+        description: "A page token received from a previous ListTemplates call. Provide\
+          \ this to\n retrieve the subsequent page."
+        schema:
+          type: string
+      - name: filter
+        in: query
+        description: "Filter expression restricting which templates are returned.\
+          \ Supports\n matching against `type`, e.g. `type = TEMPLATE_TYPE_CAMPAIGN`."
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: How much of each template to return. BASIC omits the body field.
+        schema:
+          type: integer
+          format: enum
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTemplatesResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: List Templates
+    post:
+      tags:
+      - Template Service
+      description: Creates a template.
+      operationId: TemplateService_CreateTemplate
+      parameters:
+      - name: templateId
+        in: query
+        description: "Optional client-specified ID for the template, used as the `{template}`\n\
+          \ segment of its resource name. The server assigns one when omitted."
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Template'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Create Template
+  /v1/templates/{template}:
+    get:
+      tags:
+      - Template Service
+      description: Gets a single template.
+      operationId: TemplateService_GetTemplate
+      parameters:
+      - name: template
+        in: path
+        description: The template id.
+        required: true
+        schema:
+          type: string
+      - name: view
+        in: query
+        description: How much of the template to return. BASIC omits the body field.
+        schema:
+          type: integer
+          format: enum
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Get Template
+    delete:
+      tags:
+      - Template Service
+      description: Deletes a template.
+      operationId: TemplateService_DeleteTemplate
+      parameters:
+      - name: template
+        in: path
+        description: The template id.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content: {}
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Delete Template
+    patch:
+      tags:
+      - Template Service
+      description: Updates a template.
+      operationId: TemplateService_UpdateTemplate
+      parameters:
+      - name: template
+        in: path
+        description: The template id.
+        required: true
+        schema:
+          type: string
+      - name: updateMask
+        in: query
+        description: Fields to overwrite. Omit to replace all mutable fields.
+        schema:
+          type: string
+          format: field-mask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Template'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Update Template
+  /v1/templates/{template}:mark:
+    post:
+      tags:
+      - Template Service
+      description: Marks a template as the default for its type.
+      operationId: TemplateService_MarkDefaultTemplate
+      parameters:
+      - name: template
+        in: path
+        description: The template id.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarkDefaultTemplateRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Template'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Mark Default Template
+  /v1/messages:sendTransactionalMessage:
+    post:
+      tags:
+      - Transactional Service
+      description: Sends a single transactional message to one recipient.
+      operationId: TransactionalService_SendTransactionalMessage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendTransactionalMessageRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendTransactionalMessageResponse'
+        default:
+          description: Default error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+      summary: Send Transactional Message
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token authentication using a JWT access token.
+  schemas:
+    Bounce:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The resource name of the bounce.\n Format: bounces/{bounce}"
+        subscriber:
+          readOnly: true
+          type: string
+          description: "The subscriber that bounced, if still resolvable.\n Format:\
+            \ subscribers/{subscriber}"
+        campaign:
+          readOnly: true
+          type: string
+          description: "The campaign that triggered the bounce, if any.\n Format:\
+            \ campaigns/{campaign}"
+        campaignDisplayName:
+          readOnly: true
+          type: string
+          description: Cached display name of the campaign.
+        email:
+          readOnly: true
+          type: string
+          description: The email address that bounced.
+        type:
+          readOnly: true
+          type: integer
+          description: Classification of the bounce.
+          format: enum
+        source:
+          readOnly: true
+          type: string
+          description: Where the bounce was reported from (e.g. "webhook", "ses").
+        meta:
+          readOnly: true
+          type: object
+          description: Raw provider payload associated with the bounce.
+        createTime:
+          readOnly: true
+          type: string
+          description: When the bounce was recorded.
+          format: date-time
+      description: "A delivery failure or complaint recorded against a subscriber.\
+        \ Read-only;\n mailkite surfaces these for deliverability monitoring."
+    GoogleProtobufAny:
+      type: object
+      properties:
+        '@type':
+          type: string
+          description: The type of the serialized message.
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that
+        describes the type of the serialized message.
+    ListBouncesResponse:
+      type: object
+      properties:
+        bounces:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bounce'
+          description: The page of bounces.
+        nextPageToken:
+          type: string
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+        totalSize:
+          type: integer
+          description: Total matching bounces across all pages.
+          format: int32
+      description: Response message for ListBounces.
+    Status:
+      type: object
+      properties:
+        code:
+          type: integer
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          format: int32
+        message:
+          type: string
+          description: A developer-facing error message, which should be in English.
+            Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details]
+            field, or localized by the client.
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoogleProtobufAny'
+          description: A list of messages that carry the error details.  There is
+            a common set of message types for APIs to use.
+      description: 'The `Status` type defines a logical error model that is suitable
+        for different programming environments, including REST APIs and RPC APIs.
+        It is used by [gRPC](https://github.com/grpc). Each `Status` message contains
+        three pieces of data: error code, error message, and error details. You can
+        find out more about this error model and how to work with it in the [API Design
+        Guide](https://cloud.google.com/apis/design/errors).'
+    Campaign:
+      required:
+      - displayName
+      - subject
+      - format
+      - lists
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The resource name of the campaign.\n Format: campaigns/{campaign}"
+        uuid:
+          readOnly: true
+          type: string
+          description: Server-assigned stable UUID, used in tracking and public-archive
+            URLs.
+        displayName:
+          type: string
+          description: Internal campaign name (not shown to recipients).
+        subject:
+          type: string
+          description: Email subject line. Supports template expressions.
+        senderEmail:
+          type: string
+          description: Sender address. Falls back to the instance default when empty.
+        type:
+          type: integer
+          description: Whether this is a regular broadcast or a double-opt-in confirmation
+            send.
+          format: enum
+        format:
+          type: integer
+          description: Format the body is authored in.
+          format: enum
+        body:
+          type: string
+          description: The campaign body, in the format named by content_type.
+        altBody:
+          type: string
+          description: Optional plain-text alternative body for multipart messages.
+        lists:
+          type: array
+          items:
+            type: string
+          description: "Lists this campaign is sent to.\n Format: mailingLists/{mailing_list}"
+        template:
+          type: string
+          description: "Template used to wrap the body.\n Format: templates/{template}"
+        tags:
+          type: array
+          items:
+            type: string
+          description: Arbitrary tags for grouping and filtering.
+        messenger:
+          type: string
+          description: Messenger backend to send through (defaults to "email").
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom SMTP headers attached to every message.
+        scheduleTime:
+          type: string
+          description: When to start sending. Omit to send immediately on start.
+          format: date-time
+        state:
+          readOnly: true
+          type: integer
+          description: Current state of the campaign. Changed via TransitionCampaign.
+          format: enum
+        archive:
+          type: boolean
+          description: Whether a public archive copy is published.
+        archiveSlug:
+          type: string
+          description: URL slug for the public archive page.
+        archiveTemplate:
+          type: string
+          description: "Template used to render the public archive page.\n Format:\
+            \ templates/{template}"
+        archiveMeta:
+          type: object
+          description: Extra template data exposed to the public archive page.
+        stats:
+          readOnly: true
+          allOf:
+          - $ref: '#/components/schemas/CampaignStats'
+          description: Aggregate delivery and engagement statistics.
+        createTime:
+          readOnly: true
+          type: string
+          description: Creation timestamp.
+          format: date-time
+        updateTime:
+          readOnly: true
+          type: string
+          description: Last-modification timestamp.
+          format: date-time
+        startTime:
+          readOnly: true
+          type: string
+          description: When sending actually started, if at all.
+          format: date-time
+      description: "A single newsletter send: rendered content, its audience, and\
+        \ its lifecycle.\n In mailkite a Campaign is the materialization of one scheduled\
+        \ digest of\n normalized content items."
+    CampaignRunningStat:
+      type: object
+      properties:
+        campaign:
+          type: string
+          description: "The campaign these stats are for.\n Format: campaigns/{campaign}"
+        state:
+          readOnly: true
+          type: integer
+          description: Current status.
+          format: enum
+        stats:
+          allOf:
+          - $ref: '#/components/schemas/CampaignStats'
+          description: Counters.
+        rate:
+          type: number
+          description: Send throughput in messages per minute.
+          format: double
+        startTime:
+          type: string
+          description: When the send started.
+          format: date-time
+      description: Live progress of a single running campaign.
+    CampaignStats:
+      type: object
+      properties:
+        recipientCount:
+          readOnly: true
+          type: string
+          description: Total recipients the campaign will be / was sent to.
+        sent:
+          readOnly: true
+          type: string
+          description: Messages handed off to the messenger so far.
+        views:
+          readOnly: true
+          type: string
+          description: Tracked opens.
+        clicks:
+          readOnly: true
+          type: string
+          description: Tracked link clicks.
+        bounces:
+          readOnly: true
+          type: string
+          description: Recorded bounces.
+      description: Aggregate counters for a campaign.
+    CollectCampaignStatsResponse:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: '#/components/schemas/CampaignRunningStat'
+          description: Per-campaign live stats.
+      description: Response message for CollectCampaignStats.
+    ListCampaignsResponse:
+      type: object
+      properties:
+        campaigns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Campaign'
+          description: The page of campaigns.
+        nextPageToken:
+          type: string
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+        totalSize:
+          type: integer
+          description: Total matching campaigns across all pages.
+          format: int32
+      description: Response message for ListCampaigns.
+    PreviewCampaignResponse:
+      type: object
+      properties:
+        html:
+          type: string
+          description: Fully rendered HTML of the campaign.
+      description: Response message for PreviewCampaign.
+    TestCampaignRequest:
+      required:
+      - name
+      - recipientEmails
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The campaign to send a test of.\n Format: campaigns/{campaign}"
+        recipientEmails:
+          type: array
+          items:
+            type: string
+          description: Addresses to send the test message to.
+      description: Request message for TestCampaign.
+    TestCampaignResponse:
+      type: object
+      properties: {}
+      description: Response message for TestCampaign.
+    TransitionCampaignRequest:
+      required:
+      - name
+      - transition
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The campaign whose lifecycle is changing.\n Format: campaigns/{campaign}"
+        transition:
+          type: integer
+          description: "Transition to apply. Valid transitions: draft->schedule, draft/scheduled->\n\
+            \ start, running->pause, paused->resume, running/paused->cancel."
+          format: enum
+      description: Request message for TransitionCampaign.
+    ListMailingListsResponse:
+      type: object
+      properties:
+        mailingLists:
+          type: array
+          items:
+            $ref: '#/components/schemas/MailingList'
+          description: The page of lists.
+        nextPageToken:
+          type: string
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+        totalSize:
+          type: integer
+          description: Total matching lists across all pages.
+          format: int32
+      description: Response message for ListMailingLists.
+    MailingList:
+      required:
+      - displayName
+      - type
+      - optin
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The resource name of the list.\n Format: mailingLists/{mailing_list}"
+        uuid:
+          readOnly: true
+          type: string
+          description: Server-assigned stable UUID, used in public subscription URLs.
+        displayName:
+          type: string
+          description: Human-friendly list name (e.g. "Acme Corp Weekly").
+        description:
+          type: string
+          description: Free-form description shown on subscription pages.
+        type:
+          type: integer
+          description: Visibility of the list.
+          format: enum
+        optin:
+          type: integer
+          description: Opt-in mode.
+          format: enum
+        tags:
+          type: array
+          items:
+            type: string
+          description: Arbitrary tags for grouping and filtering.
+        subscriberCount:
+          readOnly: true
+          type: string
+          description: Total subscribers across all statuses.
+        subscriberStatuses:
+          readOnly: true
+          type: object
+          additionalProperties:
+            type: string
+          description: Subscriber counts keyed by subscription status.
+        createTime:
+          readOnly: true
+          type: string
+          description: Creation timestamp.
+          format: date-time
+        updateTime:
+          readOnly: true
+          type: string
+          description: Last-modification timestamp.
+          format: date-time
+      description: "An audience segment subscribers belong to. In mailkite, lists\
+        \ are the unit of\n tenancy: typically one private list per company plus one\
+        \ public merged\n \"group\" list aggregating every brand's feed."
+    ListMediaResponse:
+      type: object
+      properties:
+        media:
+          type: array
+          items:
+            $ref: '#/components/schemas/Media'
+          description: The page of media objects.
+        nextPageToken:
+          type: string
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+        totalSize:
+          type: integer
+          description: Total matching objects across all pages.
+          format: int32
+      description: Response message for ListMedia.
+    Media:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The resource name of the media object.\n Format: media/{media}"
+        uuid:
+          readOnly: true
+          type: string
+          description: Server-assigned stable UUID.
+        filename:
+          readOnly: true
+          type: string
+          description: Original file name.
+        mimeType:
+          readOnly: true
+          type: string
+          description: MIME type (e.g. "image/png").
+        url:
+          readOnly: true
+          type: string
+          description: Publicly servable URL of the asset.
+        thumbnailUrl:
+          readOnly: true
+          type: string
+          description: URL of the generated thumbnail, when one exists.
+        createTime:
+          readOnly: true
+          type: string
+          description: Upload timestamp.
+          format: date-time
+      description: An uploaded asset (image, attachment) referenced by campaigns and
+        templates.
+    UploadMediaRequest:
+      required:
+      - filename
+      - content
+      type: object
+      properties:
+        filename:
+          type: string
+          description: File name to store the asset under.
+        content:
+          type: string
+          description: Raw bytes of the asset.
+          format: bytes
+        mimeType:
+          type: string
+          description: MIME type of the asset. Inferred from the bytes when empty.
+      description: Request message for UploadMedia.
+    UploadMediaResponse:
+      type: object
+      properties:
+        media:
+          readOnly: true
+          allOf:
+          - $ref: '#/components/schemas/Media'
+          description: The newly uploaded media object.
+      description: Response message for UploadMedia.
+    BlocklistSubscribersRequest:
+      required:
+      - selector
+      type: object
+      properties:
+        selector:
+          allOf:
+          - $ref: '#/components/schemas/SubscriberSelector'
+          description: The subscribers to blocklist.
+      description: Request message for BlocklistSubscribers.
+    BlocklistSubscribersResponse:
+      type: object
+      properties:
+        affectedCount:
+          readOnly: true
+          type: string
+          description: Number of subscribers affected.
+      description: Response message for BlocklistSubscribers.
+    BulkDeleteSubscribersRequest:
+      required:
+      - selector
+      type: object
+      properties:
+        selector:
+          allOf:
+          - $ref: '#/components/schemas/SubscriberSelector'
+          description: The subscribers to delete.
+      description: Request message for BulkDeleteSubscribers.
+    BulkDeleteSubscribersResponse:
+      type: object
+      properties:
+        affectedCount:
+          readOnly: true
+          type: string
+          description: Number of subscribers deleted.
+      description: Response message for BulkDeleteSubscribers.
+    CheckImportStatusResponse:
+      type: object
+      properties:
+        status:
+          readOnly: true
+          allOf:
+          - $ref: '#/components/schemas/ImportStatus'
+          description: Status of the current or most recent import.
+      description: Response message for CheckImportStatus.
+    ImportParams:
+      required:
+      - mode
+      type: object
+      properties:
+        mode:
+          type: integer
+          description: Whether to only subscribe new records or also update existing
+            ones.
+          format: enum
+        lists:
+          type: array
+          items:
+            type: string
+          description: "Lists to subscribe all imported records to.\n Format: mailingLists/{mailing_list}"
+        overwrite:
+          type: boolean
+          description: In upsert mode, whether to overwrite name/attributes of existing
+            records.
+        delimiter:
+          type: string
+          description: CSV column delimiter (defaults to ",").
+        preconfirm:
+          type: boolean
+          description: "Mark imported memberships as confirmed, skipping any double-opt-in\n\
+            \ confirmation email. When false, double-opt-in lists stay unconfirmed."
+      description: Tunables for a bulk subscriber import.
+    ImportStatus:
+      type: object
+      properties:
+        state:
+          readOnly: true
+          type: integer
+          description: Current state of the import worker.
+          format: enum
+        imported:
+          readOnly: true
+          type: string
+          description: Records imported so far.
+        total:
+          readOnly: true
+          type: string
+          description: Total records detected in the source file.
+        logs:
+          readOnly: true
+          type: array
+          items:
+            type: string
+          description: Human-readable log lines emitted by the importer.
+      description: Snapshot of the single in-flight or most recent import.
+    ImportSubscribersRequest:
+      required:
+      - params
+      - file
+      type: object
+      properties:
+        params:
+          allOf:
+          - $ref: '#/components/schemas/ImportParams'
+          description: Import configuration.
+        file:
+          type: string
+          description: Raw contents of a CSV file, or a ZIP archive containing one
+            CSV.
+          format: bytes
+      description: Request message for ImportSubscribers.
+    ImportSubscribersResponse:
+      type: object
+      properties:
+        status:
+          readOnly: true
+          allOf:
+          - $ref: '#/components/schemas/ImportStatus'
+          description: Status of the import that was started.
+      description: Response message for ImportSubscribers.
+    ListSubscribersResponse:
+      type: object
+      properties:
+        subscribers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscriber'
+          description: The page of subscribers.
+        nextPageToken:
+          type: string
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+        totalSize:
+          type: integer
+          description: Total matching subscribers across all pages.
+          format: int32
+      description: Response message for ListSubscribers.
+    ManageSubscriberListsRequest:
+      required:
+      - selector
+      - lists
+      - action
+      type: object
+      properties:
+        selector:
+          allOf:
+          - $ref: '#/components/schemas/SubscriberSelector'
+          description: The subscribers whose memberships are being changed.
+        lists:
+          type: array
+          items:
+            type: string
+          description: "Lists to add to / remove from / unsubscribe from.\n Format:\
+            \ mailingLists/{mailing_list}"
+        action:
+          type: integer
+          description: What to do with the listed memberships.
+          format: enum
+        preconfirm:
+          type: boolean
+          description: "When adding, mark new memberships as confirmed and skip any\
+            \ double-opt-in\n confirmation email. Ignored for remove/unsubscribe."
+      description: Request message for ManageSubscriberLists.
+    ManageSubscriberListsResponse:
+      type: object
+      properties:
+        affectedCount:
+          readOnly: true
+          type: string
+          description: Number of subscribers affected.
+      description: Response message for ManageSubscriberLists.
+    StopImportRequest:
+      type: object
+      properties: {}
+      description: Request message for StopImport.
+    StopImportResponse:
+      type: object
+      properties:
+        status:
+          readOnly: true
+          allOf:
+          - $ref: '#/components/schemas/ImportStatus'
+          description: Status of the import after the stop request.
+      description: Response message for StopImport.
+    Subscriber:
+      required:
+      - email
+      - displayName
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The resource name of the subscriber.\n Format: subscribers/{subscriber}"
+        uuid:
+          readOnly: true
+          type: string
+          description: Server-assigned stable UUID.
+        email:
+          type: string
+          description: Email address. Unique across all subscribers.
+        displayName:
+          type: string
+          description: Display name of the subscriber.
+        state:
+          readOnly: true
+          type: integer
+          description: "Global delivery state. A blocklisted subscriber receives nothing.\
+            \ Change it\n with BlocklistSubscribers."
+          format: enum
+        attributes:
+          type: object
+          description: "Arbitrary attributes used for templating and segmentation\n\
+            \ (e.g. {\"city\": \"Berlin\", \"plan\": \"pro\"})."
+        subscriptions:
+          readOnly: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
+          description: The lists this subscriber belongs to, with per-list status.
+        createTime:
+          readOnly: true
+          type: string
+          description: Creation timestamp.
+          format: date-time
+        updateTime:
+          readOnly: true
+          type: string
+          description: Last-modification timestamp.
+          format: date-time
+      description: "A person who can receive newsletters. Subscribers are global;\
+        \ their\n relationship to each list is captured by a Subscription."
+    SubscriberSelector:
+      type: object
+      properties:
+        names:
+          type: array
+          items:
+            type: string
+          description: "Explicit subscribers to act on.\n Format: subscribers/{subscriber}"
+        query:
+          type: string
+          description: A raw SQL-expression filter selecting subscribers to act on.
+        lists:
+          type: array
+          items:
+            type: string
+          description: "Optional list scope the query is evaluated against.\n Format:\
+            \ mailingLists/{mailing_list}"
+      description: "Selects a set of subscribers either explicitly by name or by SQL\
+        \ query.\n Exactly one of names or query should be supplied."
+    Subscription:
+      type: object
+      properties:
+        list:
+          readOnly: true
+          type: string
+          description: "The list this subscription is for.\n Format: mailingLists/{mailing_list}"
+        listDisplayName:
+          readOnly: true
+          type: string
+          description: Cached display name of the list, for convenience.
+        state:
+          readOnly: true
+          type: integer
+          description: Confirmation state of this specific membership.
+          format: enum
+        createTime:
+          readOnly: true
+          type: string
+          description: When the subscriber joined this list.
+          format: date-time
+      description: The membership of a subscriber in a single list.
+    ListTemplatesResponse:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Template'
+          description: The page of templates.
+        nextPageToken:
+          type: string
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+      description: Response message for ListTemplates.
+    MarkDefaultTemplateRequest:
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The template to mark as the default for its type.\n Format:\
+            \ templates/{template}"
+      description: Request message for MarkDefaultTemplate.
+    Template:
+      required:
+      - displayName
+      - type
+      - body
+      type: object
+      properties:
+        name:
+          type: string
+          description: "The resource name of the template.\n Format: templates/{template}"
+        displayName:
+          type: string
+          description: Human-friendly template name.
+        type:
+          type: integer
+          description: What the template can be applied to.
+          format: enum
+        subject:
+          type: string
+          description: "Default subject for transactional templates. Ignored for campaign\n\
+            \ templates, which take their subject from the campaign."
+        body:
+          type: string
+          description: "The template markup. Campaign templates must contain the\n\
+            \ {{ template \"content\" . }} directive."
+        isDefault:
+          readOnly: true
+          type: boolean
+          description: "Whether this is the default template for its type. Set via\n\
+            \ MarkDefaultTemplate."
+        createTime:
+          readOnly: true
+          type: string
+          description: Creation timestamp.
+          format: date-time
+        updateTime:
+          readOnly: true
+          type: string
+          description: Last-modification timestamp.
+          format: date-time
+      description: "A reusable layout (HTML/markdown wrapper) applied to campaigns\
+        \ or\n transactional messages."
+    Attachment:
+      required:
+      - filename
+      - content
+      type: object
+      properties:
+        filename:
+          type: string
+          description: File name shown to the recipient.
+        mimeType:
+          type: string
+          description: MIME type of the attachment.
+        content:
+          type: string
+          description: Raw bytes of the attachment.
+          format: bytes
+      description: A file attached to a transactional message.
+    SendTransactionalMessageRequest:
+      required:
+      - template
+      type: object
+      properties:
+        subscriber:
+          type: string
+          description: "An existing subscriber to send to.\n Format: subscribers/{subscriber}"
+        recipientEmail:
+          type: string
+          description: A raw recipient address, for recipients not stored as subscribers.
+        template:
+          type: string
+          description: "Transactional template to render.\n Format: templates/{template}"
+        subject:
+          type: string
+          description: Subject line. Overrides the template subject when set.
+        body:
+          type: string
+          description: Inline body. Overrides the template body when set.
+        format:
+          type: integer
+          description: Format of body / template output (transactional supports HTML
+            or plain).
+          format: enum
+        data:
+          type: object
+          description: Template data merged into the message.
+        senderEmail:
+          type: string
+          description: Sender address. Falls back to the instance default when empty.
+        messenger:
+          type: string
+          description: Messenger backend to send through (defaults to "email").
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom SMTP headers.
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+          description: Files to attach.
+      description: "Request message for SendTransactionalMessage. Exactly one recipient\n\
+        \ (subscriber or recipient_email) must be supplied."
+    SendTransactionalMessageResponse:
+      type: object
+      properties:
+        queued:
+          type: boolean
+          description: Whether the message was accepted into the send queue.
+      description: Response message for SendTransactionalMessage.

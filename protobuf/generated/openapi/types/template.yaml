@@ -1,0 +1,262 @@
+components:
+  schemas:
+    mailkite.newsletter.template.v1.CreateTemplateRequest:
+      description: Request message for CreateTemplate.
+      properties:
+        template:
+          description: The template to create. The name field is ignored.
+          properties:
+            body:
+              description: The template markup. Campaign templates must contain the
+                {{ template "content" . }} directive.
+              type: string
+            createTime:
+              description: Creation timestamp.
+              format: date-time
+              type: string
+            displayName:
+              description: Human-friendly template name.
+              type: string
+            isDefault:
+              description: Whether this is the default template for its type. Set
+                via MarkDefaultTemplate.
+              type: boolean
+            name:
+              description: 'The resource name of the template. Format: templates/{template}'
+              type: string
+            subject:
+              description: Default subject for transactional templates. Ignored for
+                campaign templates, which take their subject from the campaign.
+              type: string
+            type:
+              description: What the template can be applied to.
+              enum:
+              - TEMPLATE_TYPE_UNSPECIFIED
+              - TEMPLATE_TYPE_CAMPAIGN
+              - TEMPLATE_TYPE_CAMPAIGN_VISUAL
+              - TEMPLATE_TYPE_TRANSACTIONAL
+              type: string
+            updateTime:
+              description: Last-modification timestamp.
+              format: date-time
+              type: string
+          type: object
+        templateId:
+          description: Optional client-specified ID for the template, used as the
+            `{template}` segment of its resource name. The server assigns one when
+            omitted.
+          type: string
+      type: object
+    mailkite.newsletter.template.v1.DeleteTemplateRequest:
+      description: Request message for DeleteTemplate.
+      properties:
+        name:
+          description: 'The template to delete. Format: templates/{template}'
+          type: string
+      type: object
+    mailkite.newsletter.template.v1.GetTemplateRequest:
+      description: Request message for GetTemplate.
+      properties:
+        name:
+          description: 'The template to retrieve. Format: templates/{template}'
+          type: string
+        view:
+          description: How much of the template to return. BASIC omits the body field.
+          enum:
+          - TEMPLATE_VIEW_UNSPECIFIED
+          - TEMPLATE_VIEW_BASIC
+          - TEMPLATE_VIEW_FULL
+          type: string
+      type: object
+    mailkite.newsletter.template.v1.ListTemplatesRequest:
+      description: Request message for ListTemplates.
+      properties:
+        filter:
+          description: Filter expression restricting which templates are returned.
+            Supports matching against `type`, e.g. `type = TEMPLATE_TYPE_CAMPAIGN`.
+          type: string
+        pageSize:
+          description: Maximum number of templates to return. The server may cap this.
+            When unset, the server picks a default.
+          format: int32
+          type: integer
+        pageToken:
+          description: A page token received from a previous ListTemplates call. Provide
+            this to retrieve the subsequent page.
+          type: string
+        view:
+          description: How much of each template to return. BASIC omits the body field.
+          enum:
+          - TEMPLATE_VIEW_UNSPECIFIED
+          - TEMPLATE_VIEW_BASIC
+          - TEMPLATE_VIEW_FULL
+          type: string
+      type: object
+    mailkite.newsletter.template.v1.ListTemplatesResponse:
+      description: Response message for ListTemplates.
+      properties:
+        nextPageToken:
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+          type: string
+        templates:
+          description: The page of templates.
+          items:
+            description: A reusable layout (HTML/markdown wrapper) applied to campaigns
+              or transactional messages.
+            properties:
+              body:
+                description: The template markup. Campaign templates must contain
+                  the {{ template "content" . }} directive.
+                type: string
+              createTime:
+                description: Creation timestamp.
+                format: date-time
+                type: string
+              displayName:
+                description: Human-friendly template name.
+                type: string
+              isDefault:
+                description: Whether this is the default template for its type. Set
+                  via MarkDefaultTemplate.
+                type: boolean
+              name:
+                description: 'The resource name of the template. Format: templates/{template}'
+                type: string
+              subject:
+                description: Default subject for transactional templates. Ignored
+                  for campaign templates, which take their subject from the campaign.
+                type: string
+              type:
+                description: What the template can be applied to.
+                enum:
+                - TEMPLATE_TYPE_UNSPECIFIED
+                - TEMPLATE_TYPE_CAMPAIGN
+                - TEMPLATE_TYPE_CAMPAIGN_VISUAL
+                - TEMPLATE_TYPE_TRANSACTIONAL
+                type: string
+              updateTime:
+                description: Last-modification timestamp.
+                format: date-time
+                type: string
+            type: object
+          type: array
+      type: object
+    mailkite.newsletter.template.v1.MarkDefaultTemplateRequest:
+      description: Request message for MarkDefaultTemplate.
+      properties:
+        name:
+          description: 'The template to mark as the default for its type. Format:
+            templates/{template}'
+          type: string
+      type: object
+    mailkite.newsletter.template.v1.Template:
+      description: A reusable layout (HTML/markdown wrapper) applied to campaigns
+        or transactional messages.
+      properties:
+        body:
+          description: The template markup. Campaign templates must contain the {{
+            template "content" . }} directive.
+          type: string
+        createTime:
+          description: Creation timestamp.
+          format: date-time
+          type: string
+        displayName:
+          description: Human-friendly template name.
+          type: string
+        isDefault:
+          description: Whether this is the default template for its type. Set via
+            MarkDefaultTemplate.
+          type: boolean
+        name:
+          description: 'The resource name of the template. Format: templates/{template}'
+          type: string
+        subject:
+          description: Default subject for transactional templates. Ignored for campaign
+            templates, which take their subject from the campaign.
+          type: string
+        type:
+          description: What the template can be applied to.
+          enum:
+          - TEMPLATE_TYPE_UNSPECIFIED
+          - TEMPLATE_TYPE_CAMPAIGN
+          - TEMPLATE_TYPE_CAMPAIGN_VISUAL
+          - TEMPLATE_TYPE_TRANSACTIONAL
+          type: string
+        updateTime:
+          description: Last-modification timestamp.
+          format: date-time
+          type: string
+      type: object
+    mailkite.newsletter.template.v1.TemplateType:
+      description: What a template can be applied to.
+      enum:
+      - TEMPLATE_TYPE_UNSPECIFIED
+      - TEMPLATE_TYPE_CAMPAIGN
+      - TEMPLATE_TYPE_CAMPAIGN_VISUAL
+      - TEMPLATE_TYPE_TRANSACTIONAL
+      type: string
+    mailkite.newsletter.template.v1.TemplateView:
+      description: Controls how much of a template is returned by read methods.
+      enum:
+      - TEMPLATE_VIEW_UNSPECIFIED
+      - TEMPLATE_VIEW_BASIC
+      - TEMPLATE_VIEW_FULL
+      type: string
+    mailkite.newsletter.template.v1.UpdateTemplateRequest:
+      description: Request message for UpdateTemplate.
+      properties:
+        template:
+          description: The template to update; its name identifies the target.
+          properties:
+            body:
+              description: The template markup. Campaign templates must contain the
+                {{ template "content" . }} directive.
+              type: string
+            createTime:
+              description: Creation timestamp.
+              format: date-time
+              type: string
+            displayName:
+              description: Human-friendly template name.
+              type: string
+            isDefault:
+              description: Whether this is the default template for its type. Set
+                via MarkDefaultTemplate.
+              type: boolean
+            name:
+              description: 'The resource name of the template. Format: templates/{template}'
+              type: string
+            subject:
+              description: Default subject for transactional templates. Ignored for
+                campaign templates, which take their subject from the campaign.
+              type: string
+            type:
+              description: What the template can be applied to.
+              enum:
+              - TEMPLATE_TYPE_UNSPECIFIED
+              - TEMPLATE_TYPE_CAMPAIGN
+              - TEMPLATE_TYPE_CAMPAIGN_VISUAL
+              - TEMPLATE_TYPE_TRANSACTIONAL
+              type: string
+            updateTime:
+              description: Last-modification timestamp.
+              format: date-time
+              type: string
+          type: object
+        updateMask:
+          description: Fields to overwrite. Omit to replace all mutable fields.
+          properties:
+            paths:
+              description: The set of field mask paths.
+              items:
+                type: string
+              type: array
+          type: object
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

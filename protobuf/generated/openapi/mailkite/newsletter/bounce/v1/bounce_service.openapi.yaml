@@ -1,0 +1,204 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: BounceService API
+    description: |-
+        BounceService exposes recorded bounces and complaints for deliverability
+         monitoring. Bounces are read-only apart from deletion.
+    version: 0.0.1
+servers:
+    - url: https://oh-tarnished.mailkite.newsletter.v1
+paths:
+    /v1/bounces:
+        get:
+            tags:
+                - BounceService
+            description: Lists recorded bounces.
+            operationId: BounceService_ListBounces
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: |-
+                    Maximum number of bounces to return. The server may cap this. When unset,
+                     the server picks a default.
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  description: |-
+                    A page token received from a previous ListBounces call. Provide this to
+                     retrieve the subsequent page.
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: |-
+                    Filter expression restricting which bounces are returned. Supports the
+                     `campaign` and `source` fields, e.g. `campaign = "campaigns/7"` or
+                     `source = "webhook"`.
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: |-
+                    Comma-separated list of fields to sort by, each optionally suffixed with
+                     ` desc` (e.g. `create_time desc`).
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListBouncesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/bounces/{bounce}:
+        get:
+            tags:
+                - BounceService
+            description: Gets a single bounce.
+            operationId: BounceService_GetBounce
+            parameters:
+                - name: bounce
+                  in: path
+                  description: The bounce id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Bounce'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - BounceService
+            description: Deletes a bounce.
+            operationId: BounceService_DeleteBounce
+            parameters:
+                - name: bounce
+                  in: path
+                  description: The bounce id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        Bounce:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The resource name of the bounce.
+                         Format: bounces/{bounce}
+                subscriber:
+                    readOnly: true
+                    type: string
+                    description: |-
+                        The subscriber that bounced, if still resolvable.
+                         Format: subscribers/{subscriber}
+                campaign:
+                    readOnly: true
+                    type: string
+                    description: |-
+                        The campaign that triggered the bounce, if any.
+                         Format: campaigns/{campaign}
+                campaignDisplayName:
+                    readOnly: true
+                    type: string
+                    description: Cached display name of the campaign.
+                email:
+                    readOnly: true
+                    type: string
+                    description: The email address that bounced.
+                type:
+                    readOnly: true
+                    type: integer
+                    description: Classification of the bounce.
+                    format: enum
+                source:
+                    readOnly: true
+                    type: string
+                    description: Where the bounce was reported from (e.g. "webhook", "ses").
+                meta:
+                    readOnly: true
+                    type: object
+                    description: Raw provider payload associated with the bounce.
+                createTime:
+                    readOnly: true
+                    type: string
+                    description: When the bounce was recorded.
+                    format: date-time
+            description: |-
+                A delivery failure or complaint recorded against a subscriber. Read-only;
+                 mailkite surfaces these for deliverability monitoring.
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListBouncesResponse:
+            type: object
+            properties:
+                bounces:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Bounce'
+                    description: The page of bounces.
+                nextPageToken:
+                    type: string
+                    description: A token to retrieve the next page, or empty if this is the last page.
+                totalSize:
+                    type: integer
+                    description: Total matching bounces across all pages.
+                    format: int32
+            description: Response message for ListBounces.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: BounceService

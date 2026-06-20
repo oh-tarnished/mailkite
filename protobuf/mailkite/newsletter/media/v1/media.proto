@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package mailkite.newsletter.media.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/media/v1/mediapbv1;mediapbv1";
+option java_multiple_files = true;
+option java_outer_classname = "MediaProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.media.v1";
+
+// An uploaded asset (image, attachment) referenced by campaigns and templates.
+message Media {
+  option (google.api.resource) = {
+    type: "mailkite.newsletter.v1/Media"
+    pattern: "media/{media}"
+    singular: "media"
+    plural: "media"
+  };
+
+  // The resource name of the media object.
+  // Format: media/{media}
+  string name = 1 [(google.api.field_behavior) = IDENTIFIER];
+
+  // Server-assigned stable UUID.
+  string uuid = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Original file name.
+  string filename = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // MIME type (e.g. "image/png").
+  string mime_type = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Publicly servable URL of the asset.
+  string url = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // URL of the generated thumbnail, when one exists.
+  string thumbnail_url = 6 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Upload timestamp.
+  google.protobuf.Timestamp create_time = 7 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// Request message for ListMedia.
+message ListMediaRequest {
+  // Maximum number of media objects to return. The server may cap this. When
+  // unset, the server picks a default.
+  int32 page_size = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // A page token received from a previous ListMedia call. Provide this to
+  // retrieve the subsequent page.
+  string page_token = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression restricting which media are returned. Supports free-text
+  // matching against the `filename` field.
+  string filter = 3 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for ListMedia.
+message ListMediaResponse {
+  // The page of media objects.
+  repeated Media media = 1;
+
+  // A token to retrieve the next page, or empty if this is the last page.
+  string next_page_token = 2;
+
+  // Total matching objects across all pages.
+  int32 total_size = 3;
+}
+
+// Request message for GetMedia.
+message GetMediaRequest {
+  // The media object to retrieve.
+  // Format: media/{media}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Media"}
+  ];
+}
+
+// Request message for UploadMedia.
+message UploadMediaRequest {
+  // File name to store the asset under.
+  string filename = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Raw bytes of the asset.
+  bytes content = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // MIME type of the asset. Inferred from the bytes when empty.
+  string mime_type = 3 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for UploadMedia.
+message UploadMediaResponse {
+  // The newly uploaded media object.
+  Media media = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// Request message for DeleteMedia.
+message DeleteMediaRequest {
+  // The media object to delete.
+  // Format: media/{media}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Media"}
+  ];
+}

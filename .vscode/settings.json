@@ -1,0 +1,6 @@
+{
+	// google-api-linter (machanirobotics.google-api-linter) import roots.
+	// comes from ~/.gapi/googleapis automatically. The entry below supplies the
+	// third-party mcp.protobuf annotations (macahnirobotics/grpc-mcp-gateway).
+	"gapi.protoPath": ["${workspaceFolder}/protobuf"]
+}

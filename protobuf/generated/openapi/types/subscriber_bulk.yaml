@@ -1,0 +1,140 @@
+components:
+  schemas:
+    mailkite.newsletter.subscriber.v1.BlocklistSubscribersRequest:
+      description: Request message for BlocklistSubscribers.
+      properties:
+        selector:
+          description: The subscribers to blocklist.
+          properties:
+            lists:
+              description: 'Optional list scope the query is evaluated against. Format:
+                mailingLists/{mailing_list}'
+              items:
+                type: string
+              type: array
+            names:
+              description: 'Explicit subscribers to act on. Format: subscribers/{subscriber}'
+              items:
+                type: string
+              type: array
+            query:
+              description: A raw SQL-expression filter selecting subscribers to act
+                on.
+              type: string
+          type: object
+      type: object
+    mailkite.newsletter.subscriber.v1.BlocklistSubscribersResponse:
+      description: Response message for BlocklistSubscribers.
+      properties:
+        affectedCount:
+          description: Number of subscribers affected.
+          format: int64
+          type: integer
+          x-kubernetes-int-or-string: true
+      type: object
+    mailkite.newsletter.subscriber.v1.BulkDeleteSubscribersRequest:
+      description: Request message for BulkDeleteSubscribers.
+      properties:
+        selector:
+          description: The subscribers to delete.
+          properties:
+            lists:
+              description: 'Optional list scope the query is evaluated against. Format:
+                mailingLists/{mailing_list}'
+              items:
+                type: string
+              type: array
+            names:
+              description: 'Explicit subscribers to act on. Format: subscribers/{subscriber}'
+              items:
+                type: string
+              type: array
+            query:
+              description: A raw SQL-expression filter selecting subscribers to act
+                on.
+              type: string
+          type: object
+      type: object
+    mailkite.newsletter.subscriber.v1.BulkDeleteSubscribersResponse:
+      description: Response message for BulkDeleteSubscribers.
+      properties:
+        affectedCount:
+          description: Number of subscribers deleted.
+          format: int64
+          type: integer
+          x-kubernetes-int-or-string: true
+      type: object
+    mailkite.newsletter.subscriber.v1.ManageSubscriberListsRequest:
+      description: Request message for ManageSubscriberLists.
+      properties:
+        action:
+          description: What to do with the listed memberships.
+          enum:
+          - SUBSCRIBER_LIST_ACTION_UNSPECIFIED
+          - SUBSCRIBER_LIST_ACTION_ADD
+          - SUBSCRIBER_LIST_ACTION_REMOVE
+          - SUBSCRIBER_LIST_ACTION_UNSUBSCRIBE
+          type: string
+        lists:
+          description: 'Lists to add to / remove from / unsubscribe from. Format:
+            mailingLists/{mailing_list}'
+          items:
+            type: string
+          type: array
+        preconfirm:
+          description: When adding, mark new memberships as confirmed and skip any
+            double-opt-in confirmation email. Ignored for remove/unsubscribe.
+          type: boolean
+        selector:
+          description: The subscribers whose memberships are being changed.
+          properties:
+            lists:
+              description: 'Optional list scope the query is evaluated against. Format:
+                mailingLists/{mailing_list}'
+              items:
+                type: string
+              type: array
+            names:
+              description: 'Explicit subscribers to act on. Format: subscribers/{subscriber}'
+              items:
+                type: string
+              type: array
+            query:
+              description: A raw SQL-expression filter selecting subscribers to act
+                on.
+              type: string
+          type: object
+      type: object
+    mailkite.newsletter.subscriber.v1.ManageSubscriberListsResponse:
+      description: Response message for ManageSubscriberLists.
+      properties:
+        affectedCount:
+          description: Number of subscribers affected.
+          format: int64
+          type: integer
+          x-kubernetes-int-or-string: true
+      type: object
+    mailkite.newsletter.subscriber.v1.SubscriberSelector:
+      description: Selects a set of subscribers either explicitly by name or by SQL
+        query. Exactly one of names or query should be supplied.
+      properties:
+        lists:
+          description: 'Optional list scope the query is evaluated against. Format:
+            mailingLists/{mailing_list}'
+          items:
+            type: string
+          type: array
+        names:
+          description: 'Explicit subscribers to act on. Format: subscribers/{subscriber}'
+          items:
+            type: string
+          type: array
+        query:
+          description: A raw SQL-expression filter selecting subscribers to act on.
+          type: string
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

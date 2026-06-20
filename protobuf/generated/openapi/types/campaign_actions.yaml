@@ -1,0 +1,180 @@
+components:
+  schemas:
+    mailkite.newsletter.campaign.v1.CampaignRunningStat:
+      description: Live progress of a single running campaign.
+      properties:
+        campaign:
+          description: 'The campaign these stats are for. Format: campaigns/{campaign}'
+          type: string
+        rate:
+          description: Send throughput in messages per minute.
+          type: number
+        startTime:
+          description: When the send started.
+          format: date-time
+          type: string
+        state:
+          description: Current status.
+          enum:
+          - CAMPAIGN_STATE_UNSPECIFIED
+          - CAMPAIGN_STATE_DRAFT
+          - CAMPAIGN_STATE_SCHEDULED
+          - CAMPAIGN_STATE_RUNNING
+          - CAMPAIGN_STATE_PAUSED
+          - CAMPAIGN_STATE_CANCELLED
+          - CAMPAIGN_STATE_FINISHED
+          type: string
+        stats:
+          description: Counters.
+          properties:
+            bounces:
+              description: Recorded bounces.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            clicks:
+              description: Tracked link clicks.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            recipientCount:
+              description: Total recipients the campaign will be / was sent to.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            sent:
+              description: Messages handed off to the messenger so far.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+            views:
+              description: Tracked opens.
+              format: int64
+              type: integer
+              x-kubernetes-int-or-string: true
+          type: object
+      type: object
+    mailkite.newsletter.campaign.v1.CollectCampaignStatsRequest:
+      description: Request message for CollectCampaignStats.
+      properties:
+        names:
+          description: 'Campaigns to fetch live stats for. Defaults to all running
+            campaigns. Format: campaigns/{campaign}'
+          items:
+            type: string
+          type: array
+      type: object
+    mailkite.newsletter.campaign.v1.CollectCampaignStatsResponse:
+      description: Response message for CollectCampaignStats.
+      properties:
+        stats:
+          description: Per-campaign live stats.
+          items:
+            description: Live progress of a single running campaign.
+            properties:
+              campaign:
+                description: 'The campaign these stats are for. Format: campaigns/{campaign}'
+                type: string
+              rate:
+                description: Send throughput in messages per minute.
+                type: number
+              startTime:
+                description: When the send started.
+                format: date-time
+                type: string
+              state:
+                description: Current status.
+                enum:
+                - CAMPAIGN_STATE_UNSPECIFIED
+                - CAMPAIGN_STATE_DRAFT
+                - CAMPAIGN_STATE_SCHEDULED
+                - CAMPAIGN_STATE_RUNNING
+                - CAMPAIGN_STATE_PAUSED
+                - CAMPAIGN_STATE_CANCELLED
+                - CAMPAIGN_STATE_FINISHED
+                type: string
+              stats:
+                description: Counters.
+                properties:
+                  bounces:
+                    description: Recorded bounces.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  clicks:
+                    description: Tracked link clicks.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  recipientCount:
+                    description: Total recipients the campaign will be / was sent
+                      to.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  sent:
+                    description: Messages handed off to the messenger so far.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                  views:
+                    description: Tracked opens.
+                    format: int64
+                    type: integer
+                    x-kubernetes-int-or-string: true
+                type: object
+            type: object
+          type: array
+      type: object
+    mailkite.newsletter.campaign.v1.PreviewCampaignRequest:
+      description: Request message for PreviewCampaign.
+      properties:
+        name:
+          description: 'The campaign to render. Format: campaigns/{campaign}'
+          type: string
+      type: object
+    mailkite.newsletter.campaign.v1.PreviewCampaignResponse:
+      description: Response message for PreviewCampaign.
+      properties:
+        html:
+          description: Fully rendered HTML of the campaign.
+          type: string
+      type: object
+    mailkite.newsletter.campaign.v1.TestCampaignRequest:
+      description: Request message for TestCampaign.
+      properties:
+        name:
+          description: 'The campaign to send a test of. Format: campaigns/{campaign}'
+          type: string
+        recipientEmails:
+          description: Addresses to send the test message to.
+          items:
+            type: string
+          type: array
+      type: object
+    mailkite.newsletter.campaign.v1.TestCampaignResponse:
+      description: Response message for TestCampaign.
+      type: object
+    mailkite.newsletter.campaign.v1.TransitionCampaignRequest:
+      description: Request message for TransitionCampaign.
+      properties:
+        name:
+          description: 'The campaign whose lifecycle is changing. Format: campaigns/{campaign}'
+          type: string
+        transition:
+          description: 'Transition to apply. Valid transitions: draft->schedule, draft/scheduled->
+            start, running->pause, paused->resume, running/paused->cancel.'
+          enum:
+          - CAMPAIGN_TRANSITION_UNSPECIFIED
+          - CAMPAIGN_TRANSITION_SCHEDULE
+          - CAMPAIGN_TRANSITION_START
+          - CAMPAIGN_TRANSITION_PAUSE
+          - CAMPAIGN_TRANSITION_RESUME
+          - CAMPAIGN_TRANSITION_CANCEL
+          type: string
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

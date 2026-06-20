@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package mailkite.newsletter.mailinglist.v1;
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/mailinglist/v1/mailinglistpbv1;mailinglistpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "EnumsProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.mailinglist.v1";
+
+// Opt-in mode of a list.
+enum OptinType {
+  // Default; treated as single opt-in.
+  OPTIN_TYPE_UNSPECIFIED = 0;
+
+  // Subscribers are active immediately.
+  OPTIN_TYPE_SINGLE = 1;
+
+  // Subscribers must confirm via email first.
+  OPTIN_TYPE_DOUBLE = 2;
+}
+
+// Visibility of a list.
+enum ListType {
+  // Default; treated as private.
+  LIST_TYPE_UNSPECIFIED = 0;
+
+  // Listed on the hosted public subscription page.
+  LIST_TYPE_PUBLIC = 1;
+
+  // Hidden; managed only via API or import.
+  LIST_TYPE_PRIVATE = 2;
+}

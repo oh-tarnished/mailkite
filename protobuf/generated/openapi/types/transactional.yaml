@@ -1,0 +1,91 @@
+components:
+  schemas:
+    mailkite.newsletter.transactional.v1.Attachment:
+      description: A file attached to a transactional message.
+      properties:
+        content:
+          description: Raw bytes of the attachment.
+          format: byte
+          type: string
+        filename:
+          description: File name shown to the recipient.
+          type: string
+        mimeType:
+          description: MIME type of the attachment.
+          type: string
+      type: object
+    mailkite.newsletter.transactional.v1.SendTransactionalMessageRequest:
+      description: Request message for SendTransactionalMessage. Exactly one recipient
+        (subscriber or recipient_email) must be supplied.
+      properties:
+        attachments:
+          description: Files to attach.
+          items:
+            description: A file attached to a transactional message.
+            properties:
+              content:
+                description: Raw bytes of the attachment.
+                format: byte
+                type: string
+              filename:
+                description: File name shown to the recipient.
+                type: string
+              mimeType:
+                description: MIME type of the attachment.
+                type: string
+            type: object
+          type: array
+        body:
+          description: Inline body. Overrides the template body when set.
+          type: string
+        data:
+          description: Template data merged into the message.
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+        format:
+          description: Format of body / template output (transactional supports HTML
+            or plain).
+          enum:
+          - CONTENT_TYPE_UNSPECIFIED
+          - CONTENT_TYPE_RICHTEXT
+          - CONTENT_TYPE_HTML
+          - CONTENT_TYPE_MARKDOWN
+          - CONTENT_TYPE_PLAIN
+          - CONTENT_TYPE_VISUAL
+          type: string
+        headers:
+          additionalProperties:
+            type: string
+          description: Custom SMTP headers.
+          type: object
+        messenger:
+          description: Messenger backend to send through (defaults to "email").
+          type: string
+        recipientEmail:
+          description: A raw recipient address, for recipients not stored as subscribers.
+          type: string
+        senderEmail:
+          description: Sender address. Falls back to the instance default when empty.
+          type: string
+        subject:
+          description: Subject line. Overrides the template subject when set.
+          type: string
+        subscriber:
+          description: 'An existing subscriber to send to. Format: subscribers/{subscriber}'
+          type: string
+        template:
+          description: 'Transactional template to render. Format: templates/{template}'
+          type: string
+      type: object
+    mailkite.newsletter.transactional.v1.SendTransactionalMessageResponse:
+      description: Response message for SendTransactionalMessage.
+      properties:
+        queued:
+          description: Whether the message was accepted into the send queue.
+          type: boolean
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

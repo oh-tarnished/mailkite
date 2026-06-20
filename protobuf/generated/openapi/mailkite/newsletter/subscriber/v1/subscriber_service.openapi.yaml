@@ -1,0 +1,638 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: SubscriberService API
+    description: |-
+        SubscriberService manages newsletter subscribers, their list memberships,
+         bulk audience operations, and CSV imports.
+    version: 0.0.1
+servers:
+    - url: https://oh-tarnished.mailkite.newsletter.v1
+paths:
+    /v1/subscribers:
+        get:
+            tags:
+                - SubscriberService
+            description: Lists subscribers, optionally filtered by an advanced SQL query.
+            operationId: SubscriberService_ListSubscribers
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: |-
+                    Maximum number of subscribers to return. The server may cap this. When
+                     unset, the server picks a default.
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  description: |-
+                    A page token received from a previous ListSubscribers call. Provide this to
+                     retrieve the subsequent page.
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: |-
+                    Filter expression restricting which subscribers are returned. Supports a
+                     raw SQL-expression over subscriber columns and attributes (mirroring
+                     Listmonk's advanced query box), plus `lists` membership and per-list
+                     `subscription_state` predicates.
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: |-
+                    Comma-separated list of fields to sort by, each optionally suffixed with
+                     ` desc` (e.g. `create_time desc`).
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListSubscribersResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - SubscriberService
+            description: Creates a subscriber.
+            operationId: SubscriberService_CreateSubscriber
+            parameters:
+                - name: subscriberId
+                  in: query
+                  description: |-
+                    Optional client-specified ID for the subscriber, used as the
+                     `{subscriber}` segment of its resource name. The server assigns one when
+                     omitted.
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Subscriber'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Subscriber'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/subscribers/{subscriber}:
+        get:
+            tags:
+                - SubscriberService
+            description: Gets a single subscriber.
+            operationId: SubscriberService_GetSubscriber
+            parameters:
+                - name: subscriber
+                  in: path
+                  description: The subscriber id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Subscriber'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - SubscriberService
+            description: Deletes a single subscriber.
+            operationId: SubscriberService_DeleteSubscriber
+            parameters:
+                - name: subscriber
+                  in: path
+                  description: The subscriber id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - SubscriberService
+            description: Updates a subscriber.
+            operationId: SubscriberService_UpdateSubscriber
+            parameters:
+                - name: subscriber
+                  in: path
+                  description: The subscriber id.
+                  required: true
+                  schema:
+                    type: string
+                - name: updateMask
+                  in: query
+                  description: Fields to overwrite. Omit to replace all mutable fields.
+                  schema:
+                    type: string
+                    format: field-mask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Subscriber'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Subscriber'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/subscribers:blocklist:
+        post:
+            tags:
+                - SubscriberService
+            description: Blocklists subscribers in bulk.
+            operationId: SubscriberService_BlocklistSubscribers
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BlocklistSubscribersRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BlocklistSubscribersResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/subscribers:bulkDelete:
+        post:
+            tags:
+                - SubscriberService
+            description: Deletes subscribers in bulk by explicit name or query.
+            operationId: SubscriberService_BulkDeleteSubscribers
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/BulkDeleteSubscribersRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/BulkDeleteSubscribersResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/subscribers:checkImportStatus:
+        get:
+            tags:
+                - SubscriberService
+            description: Returns the status of the running or most recent import.
+            operationId: SubscriberService_CheckImportStatus
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CheckImportStatusResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/subscribers:import:
+        post:
+            tags:
+                - SubscriberService
+            description: Starts a bulk subscriber import from a CSV/ZIP file.
+            operationId: SubscriberService_ImportSubscribers
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ImportSubscribersRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ImportSubscribersResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/subscribers:manageSubscriberLists:
+        post:
+            tags:
+                - SubscriberService
+            description: Adds, removes, or unsubscribes a set of subscribers across lists.
+            operationId: SubscriberService_ManageSubscriberLists
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ManageSubscriberListsRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ManageSubscriberListsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/subscribers:stopImport:
+        post:
+            tags:
+                - SubscriberService
+            description: Stops the running import.
+            operationId: SubscriberService_StopImport
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/StopImportRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/StopImportResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        BlocklistSubscribersRequest:
+            required:
+                - selector
+            type: object
+            properties:
+                selector:
+                    allOf:
+                        - $ref: '#/components/schemas/SubscriberSelector'
+                    description: The subscribers to blocklist.
+            description: Request message for BlocklistSubscribers.
+        BlocklistSubscribersResponse:
+            type: object
+            properties:
+                affectedCount:
+                    readOnly: true
+                    type: string
+                    description: Number of subscribers affected.
+            description: Response message for BlocklistSubscribers.
+        BulkDeleteSubscribersRequest:
+            required:
+                - selector
+            type: object
+            properties:
+                selector:
+                    allOf:
+                        - $ref: '#/components/schemas/SubscriberSelector'
+                    description: The subscribers to delete.
+            description: Request message for BulkDeleteSubscribers.
+        BulkDeleteSubscribersResponse:
+            type: object
+            properties:
+                affectedCount:
+                    readOnly: true
+                    type: string
+                    description: Number of subscribers deleted.
+            description: Response message for BulkDeleteSubscribers.
+        CheckImportStatusResponse:
+            type: object
+            properties:
+                status:
+                    readOnly: true
+                    allOf:
+                        - $ref: '#/components/schemas/ImportStatus'
+                    description: Status of the current or most recent import.
+            description: Response message for CheckImportStatus.
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ImportParams:
+            required:
+                - mode
+            type: object
+            properties:
+                mode:
+                    type: integer
+                    description: Whether to only subscribe new records or also update existing ones.
+                    format: enum
+                lists:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Lists to subscribe all imported records to.
+                         Format: mailingLists/{mailing_list}
+                overwrite:
+                    type: boolean
+                    description: In upsert mode, whether to overwrite name/attributes of existing records.
+                delimiter:
+                    type: string
+                    description: CSV column delimiter (defaults to ",").
+                preconfirm:
+                    type: boolean
+                    description: |-
+                        Mark imported memberships as confirmed, skipping any double-opt-in
+                         confirmation email. When false, double-opt-in lists stay unconfirmed.
+            description: Tunables for a bulk subscriber import.
+        ImportStatus:
+            type: object
+            properties:
+                state:
+                    readOnly: true
+                    type: integer
+                    description: Current state of the import worker.
+                    format: enum
+                imported:
+                    readOnly: true
+                    type: string
+                    description: Records imported so far.
+                total:
+                    readOnly: true
+                    type: string
+                    description: Total records detected in the source file.
+                logs:
+                    readOnly: true
+                    type: array
+                    items:
+                        type: string
+                    description: Human-readable log lines emitted by the importer.
+            description: Snapshot of the single in-flight or most recent import.
+        ImportSubscribersRequest:
+            required:
+                - params
+                - file
+            type: object
+            properties:
+                params:
+                    allOf:
+                        - $ref: '#/components/schemas/ImportParams'
+                    description: Import configuration.
+                file:
+                    type: string
+                    description: Raw contents of a CSV file, or a ZIP archive containing one CSV.
+                    format: bytes
+            description: Request message for ImportSubscribers.
+        ImportSubscribersResponse:
+            type: object
+            properties:
+                status:
+                    readOnly: true
+                    allOf:
+                        - $ref: '#/components/schemas/ImportStatus'
+                    description: Status of the import that was started.
+            description: Response message for ImportSubscribers.
+        ListSubscribersResponse:
+            type: object
+            properties:
+                subscribers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Subscriber'
+                    description: The page of subscribers.
+                nextPageToken:
+                    type: string
+                    description: A token to retrieve the next page, or empty if this is the last page.
+                totalSize:
+                    type: integer
+                    description: Total matching subscribers across all pages.
+                    format: int32
+            description: Response message for ListSubscribers.
+        ManageSubscriberListsRequest:
+            required:
+                - selector
+                - lists
+                - action
+            type: object
+            properties:
+                selector:
+                    allOf:
+                        - $ref: '#/components/schemas/SubscriberSelector'
+                    description: The subscribers whose memberships are being changed.
+                lists:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Lists to add to / remove from / unsubscribe from.
+                         Format: mailingLists/{mailing_list}
+                action:
+                    type: integer
+                    description: What to do with the listed memberships.
+                    format: enum
+                preconfirm:
+                    type: boolean
+                    description: |-
+                        When adding, mark new memberships as confirmed and skip any double-opt-in
+                         confirmation email. Ignored for remove/unsubscribe.
+            description: Request message for ManageSubscriberLists.
+        ManageSubscriberListsResponse:
+            type: object
+            properties:
+                affectedCount:
+                    readOnly: true
+                    type: string
+                    description: Number of subscribers affected.
+            description: Response message for ManageSubscriberLists.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        StopImportRequest:
+            type: object
+            properties: {}
+            description: Request message for StopImport.
+        StopImportResponse:
+            type: object
+            properties:
+                status:
+                    readOnly: true
+                    allOf:
+                        - $ref: '#/components/schemas/ImportStatus'
+                    description: Status of the import after the stop request.
+            description: Response message for StopImport.
+        Subscriber:
+            required:
+                - email
+                - displayName
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The resource name of the subscriber.
+                         Format: subscribers/{subscriber}
+                uuid:
+                    readOnly: true
+                    type: string
+                    description: Server-assigned stable UUID.
+                email:
+                    type: string
+                    description: Email address. Unique across all subscribers.
+                displayName:
+                    type: string
+                    description: Display name of the subscriber.
+                state:
+                    readOnly: true
+                    type: integer
+                    description: |-
+                        Global delivery state. A blocklisted subscriber receives nothing. Change it
+                         with BlocklistSubscribers.
+                    format: enum
+                attributes:
+                    type: object
+                    description: |-
+                        Arbitrary attributes used for templating and segmentation
+                         (e.g. {"city": "Berlin", "plan": "pro"}).
+                subscriptions:
+                    readOnly: true
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Subscription'
+                    description: The lists this subscriber belongs to, with per-list status.
+                createTime:
+                    readOnly: true
+                    type: string
+                    description: Creation timestamp.
+                    format: date-time
+                updateTime:
+                    readOnly: true
+                    type: string
+                    description: Last-modification timestamp.
+                    format: date-time
+            description: |-
+                A person who can receive newsletters. Subscribers are global; their
+                 relationship to each list is captured by a Subscription.
+        SubscriberSelector:
+            type: object
+            properties:
+                names:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Explicit subscribers to act on.
+                         Format: subscribers/{subscriber}
+                query:
+                    type: string
+                    description: A raw SQL-expression filter selecting subscribers to act on.
+                lists:
+                    type: array
+                    items:
+                        type: string
+                    description: |-
+                        Optional list scope the query is evaluated against.
+                         Format: mailingLists/{mailing_list}
+            description: |-
+                Selects a set of subscribers either explicitly by name or by SQL query.
+                 Exactly one of names or query should be supplied.
+        Subscription:
+            type: object
+            properties:
+                list:
+                    readOnly: true
+                    type: string
+                    description: |-
+                        The list this subscription is for.
+                         Format: mailingLists/{mailing_list}
+                listDisplayName:
+                    readOnly: true
+                    type: string
+                    description: Cached display name of the list, for convenience.
+                state:
+                    readOnly: true
+                    type: integer
+                    description: Confirmation state of this specific membership.
+                    format: enum
+                createTime:
+                    readOnly: true
+                    type: string
+                    description: When the subscriber joined this list.
+                    format: date-time
+            description: The membership of a subscriber in a single list.
+tags:
+    - name: SubscriberService

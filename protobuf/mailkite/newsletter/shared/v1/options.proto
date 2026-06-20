@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package mailkite.newsletter.shared.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "mailkite/newsletter/shared/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/shared/v1/newslettersharedpbv1;newslettersharedpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "OptionsProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.shared.v1";
+
+// Client-level defaults a caller (e.g. mailkite's fan-out worker) can attach so
+// common preferences aren't repeated on every request.
+message NewsletterClientOptions {
+  // Default page size for list endpoints when a request leaves page_size unset.
+  // Zero lets the server pick.
+  int32 default_page_size = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // Default sort direction for list endpoints.
+  OrderDirection default_order = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // When true, list/get calls omit large body fields by default.
+  bool omit_bodies = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Default content type for created campaigns / messages that don't specify
+  // one. Falls back to CONTENT_TYPE_RICHTEXT.
+  ContentType default_content_type = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Default sender address for sends that leave sender_email empty.
+  string default_sender_email = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Default messenger backend (e.g. "email") for sends without one.
+  string default_messenger = 6 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Defaults mailkite's fan-out applies when materializing a scheduled content
+// digest into a Campaign. Stored alongside a tenant / list configuration.
+message DigestProjectionOptions {
+  // Template to wrap every digest campaign in.
+  // Format: templates/{template}
+  string template = 1 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Template"}
+  ];
+
+  // Authoring format digests are rendered as.
+  ContentType format = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Tags stamped onto every generated digest campaign, for later filtering.
+  repeated string tags = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Whether to publish each digest to the public archive automatically.
+  bool publish_archive = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Maximum number of content items per digest. Zero means no limit.
+  int32 max_items = 5 [(google.api.field_behavior) = OPTIONAL];
+}

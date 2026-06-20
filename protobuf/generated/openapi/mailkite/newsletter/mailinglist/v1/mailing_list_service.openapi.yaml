@@ -1,0 +1,282 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: MailingListService API
+    description: |-
+        MailingListService manages audience segments (lists). In mailkite these are the
+         unit of tenancy — one per company plus a merged group list.
+    version: 0.0.1
+servers:
+    - url: https://oh-tarnished.mailkite.newsletter.v1
+paths:
+    /v1/mailingLists:
+        get:
+            tags:
+                - MailingListService
+            description: Lists mailing lists.
+            operationId: MailingListService_ListMailingLists
+            parameters:
+                - name: pageSize
+                  in: query
+                  description: |-
+                    Maximum number of lists to return. The server may cap this. When unset, the
+                     server picks a default.
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageToken
+                  in: query
+                  description: |-
+                    A page token received from a previous ListMailingLists call. Provide this to
+                     retrieve the subsequent page.
+                  schema:
+                    type: string
+                - name: filter
+                  in: query
+                  description: |-
+                    Filter expression restricting which lists are returned. Supports free-text
+                     matching on `display_name` and matching against `type`, `optin`, and `tags`.
+                  schema:
+                    type: string
+                - name: orderBy
+                  in: query
+                  description: |-
+                    Comma-separated list of fields to sort by, each optionally suffixed with
+                     ` desc` (e.g. `display_name desc`).
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListMailingListsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - MailingListService
+            description: Creates a mailing list.
+            operationId: MailingListService_CreateMailingList
+            parameters:
+                - name: mailingListId
+                  in: query
+                  description: |-
+                    Optional client-specified ID for the list, used as the `{mailing_list}`
+                     segment of its resource name. The server assigns one when omitted.
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MailingList'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MailingList'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/mailingLists/{mailingList}:
+        get:
+            tags:
+                - MailingListService
+            description: Gets a single mailing list.
+            operationId: MailingListService_GetMailingList
+            parameters:
+                - name: mailingList
+                  in: path
+                  description: The mailingList id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MailingList'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - MailingListService
+            description: Deletes a mailing list.
+            operationId: MailingListService_DeleteMailingList
+            parameters:
+                - name: mailingList
+                  in: path
+                  description: The mailingList id.
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - MailingListService
+            description: Updates a mailing list.
+            operationId: MailingListService_UpdateMailingList
+            parameters:
+                - name: mailingList
+                  in: path
+                  description: The mailingList id.
+                  required: true
+                  schema:
+                    type: string
+                - name: updateMask
+                  in: query
+                  description: Fields to overwrite. Omit to replace all mutable fields.
+                  schema:
+                    type: string
+                    format: field-mask
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MailingList'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/MailingList'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListMailingListsResponse:
+            type: object
+            properties:
+                mailingLists:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/MailingList'
+                    description: The page of lists.
+                nextPageToken:
+                    type: string
+                    description: A token to retrieve the next page, or empty if this is the last page.
+                totalSize:
+                    type: integer
+                    description: Total matching lists across all pages.
+                    format: int32
+            description: Response message for ListMailingLists.
+        MailingList:
+            required:
+                - displayName
+                - type
+                - optin
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: |-
+                        The resource name of the list.
+                         Format: mailingLists/{mailing_list}
+                uuid:
+                    readOnly: true
+                    type: string
+                    description: Server-assigned stable UUID, used in public subscription URLs.
+                displayName:
+                    type: string
+                    description: Human-friendly list name (e.g. "Acme Corp Weekly").
+                description:
+                    type: string
+                    description: Free-form description shown on subscription pages.
+                type:
+                    type: integer
+                    description: Visibility of the list.
+                    format: enum
+                optin:
+                    type: integer
+                    description: Opt-in mode.
+                    format: enum
+                tags:
+                    type: array
+                    items:
+                        type: string
+                    description: Arbitrary tags for grouping and filtering.
+                subscriberCount:
+                    readOnly: true
+                    type: string
+                    description: Total subscribers across all statuses.
+                subscriberStatuses:
+                    readOnly: true
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: Subscriber counts keyed by subscription status.
+                createTime:
+                    readOnly: true
+                    type: string
+                    description: Creation timestamp.
+                    format: date-time
+                updateTime:
+                    readOnly: true
+                    type: string
+                    description: Last-modification timestamp.
+                    format: date-time
+            description: |-
+                An audience segment subscribers belong to. In mailkite, lists are the unit of
+                 tenancy: typically one private list per company plus one public merged
+                 "group" list aggregating every brand's feed.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: MailingListService

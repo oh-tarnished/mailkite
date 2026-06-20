@@ -1,0 +1,141 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: TransactionalService API
+    description: |-
+        TransactionalService sends one-off, per-recipient messages — double-opt-in
+         confirmations, agent notifications, and other system mail — rendered from a
+         transactional template.
+    version: 0.0.1
+servers:
+    - url: https://oh-tarnished.mailkite.newsletter.v1
+paths:
+    /v1/messages:sendTransactionalMessage:
+        post:
+            tags:
+                - TransactionalService
+            description: Sends a single transactional message to one recipient.
+            operationId: TransactionalService_SendTransactionalMessage
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SendTransactionalMessageRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SendTransactionalMessageResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        Attachment:
+            required:
+                - filename
+                - content
+            type: object
+            properties:
+                filename:
+                    type: string
+                    description: File name shown to the recipient.
+                mimeType:
+                    type: string
+                    description: MIME type of the attachment.
+                content:
+                    type: string
+                    description: Raw bytes of the attachment.
+                    format: bytes
+            description: A file attached to a transactional message.
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        SendTransactionalMessageRequest:
+            required:
+                - template
+            type: object
+            properties:
+                subscriber:
+                    type: string
+                    description: |-
+                        An existing subscriber to send to.
+                         Format: subscribers/{subscriber}
+                recipientEmail:
+                    type: string
+                    description: A raw recipient address, for recipients not stored as subscribers.
+                template:
+                    type: string
+                    description: |-
+                        Transactional template to render.
+                         Format: templates/{template}
+                subject:
+                    type: string
+                    description: Subject line. Overrides the template subject when set.
+                body:
+                    type: string
+                    description: Inline body. Overrides the template body when set.
+                format:
+                    type: integer
+                    description: Format of body / template output (transactional supports HTML or plain).
+                    format: enum
+                data:
+                    type: object
+                    description: Template data merged into the message.
+                senderEmail:
+                    type: string
+                    description: Sender address. Falls back to the instance default when empty.
+                messenger:
+                    type: string
+                    description: Messenger backend to send through (defaults to "email").
+                headers:
+                    type: object
+                    additionalProperties:
+                        type: string
+                    description: Custom SMTP headers.
+                attachments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Attachment'
+                    description: Files to attach.
+            description: |-
+                Request message for SendTransactionalMessage. Exactly one recipient
+                 (subscriber or recipient_email) must be supplied.
+        SendTransactionalMessageResponse:
+            type: object
+            properties:
+                queued:
+                    type: boolean
+                    description: Whether the message was accepted into the send queue.
+            description: Response message for SendTransactionalMessage.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: TransactionalService

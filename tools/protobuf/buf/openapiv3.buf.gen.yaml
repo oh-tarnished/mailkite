@@ -1,0 +1,15 @@
+version: v2
+inputs:
+  - directory: protobuf
+plugins:
+  # Use the official gnostic plugin
+  - local: protoc-gen-openapi
+    out: protobuf/generated/openapi
+    opt:
+      - output_mode=source_relative
+  - local: protoc-gen-openapi-solo
+    out: protobuf/generated/openapi/types
+    opt:
+      - per_file=true
+      - yaml=true
+      - include_description=true

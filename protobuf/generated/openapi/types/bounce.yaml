@@ -1,0 +1,139 @@
+components:
+  schemas:
+    mailkite.newsletter.bounce.v1.Bounce:
+      description: A delivery failure or complaint recorded against a subscriber.
+        Read-only; mailkite surfaces these for deliverability monitoring.
+      properties:
+        campaign:
+          description: 'The campaign that triggered the bounce, if any. Format: campaigns/{campaign}'
+          type: string
+        campaignDisplayName:
+          description: Cached display name of the campaign.
+          type: string
+        createTime:
+          description: When the bounce was recorded.
+          format: date-time
+          type: string
+        email:
+          description: The email address that bounced.
+          type: string
+        meta:
+          description: Raw provider payload associated with the bounce.
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+        name:
+          description: 'The resource name of the bounce. Format: bounces/{bounce}'
+          type: string
+        source:
+          description: Where the bounce was reported from (e.g. "webhook", "ses").
+          type: string
+        subscriber:
+          description: 'The subscriber that bounced, if still resolvable. Format:
+            subscribers/{subscriber}'
+          type: string
+        type:
+          description: Classification of the bounce.
+          enum:
+          - BOUNCE_TYPE_UNSPECIFIED
+          - BOUNCE_TYPE_HARD
+          - BOUNCE_TYPE_SOFT
+          - BOUNCE_TYPE_COMPLAINT
+          type: string
+      type: object
+    mailkite.newsletter.bounce.v1.DeleteBounceRequest:
+      description: Request message for DeleteBounce.
+      properties:
+        name:
+          description: 'The bounce to delete. Format: bounces/{bounce}'
+          type: string
+      type: object
+    mailkite.newsletter.bounce.v1.GetBounceRequest:
+      description: Request message for GetBounce.
+      properties:
+        name:
+          description: 'The bounce to retrieve. Format: bounces/{bounce}'
+          type: string
+      type: object
+    mailkite.newsletter.bounce.v1.ListBouncesRequest:
+      description: Request message for ListBounces.
+      properties:
+        filter:
+          description: Filter expression restricting which bounces are returned. Supports
+            the `campaign` and `source` fields, e.g. `campaign = "campaigns/7"` or
+            `source = "webhook"`.
+          type: string
+        orderBy:
+          description: Comma-separated list of fields to sort by, each optionally
+            suffixed with ` desc` (e.g. `create_time desc`).
+          type: string
+        pageSize:
+          description: Maximum number of bounces to return. The server may cap this.
+            When unset, the server picks a default.
+          format: int32
+          type: integer
+        pageToken:
+          description: A page token received from a previous ListBounces call. Provide
+            this to retrieve the subsequent page.
+          type: string
+      type: object
+    mailkite.newsletter.bounce.v1.ListBouncesResponse:
+      description: Response message for ListBounces.
+      properties:
+        bounces:
+          description: The page of bounces.
+          items:
+            description: A delivery failure or complaint recorded against a subscriber.
+              Read-only; mailkite surfaces these for deliverability monitoring.
+            properties:
+              campaign:
+                description: 'The campaign that triggered the bounce, if any. Format:
+                  campaigns/{campaign}'
+                type: string
+              campaignDisplayName:
+                description: Cached display name of the campaign.
+                type: string
+              createTime:
+                description: When the bounce was recorded.
+                format: date-time
+                type: string
+              email:
+                description: The email address that bounced.
+                type: string
+              meta:
+                description: Raw provider payload associated with the bounce.
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+              name:
+                description: 'The resource name of the bounce. Format: bounces/{bounce}'
+                type: string
+              source:
+                description: Where the bounce was reported from (e.g. "webhook", "ses").
+                type: string
+              subscriber:
+                description: 'The subscriber that bounced, if still resolvable. Format:
+                  subscribers/{subscriber}'
+                type: string
+              type:
+                description: Classification of the bounce.
+                enum:
+                - BOUNCE_TYPE_UNSPECIFIED
+                - BOUNCE_TYPE_HARD
+                - BOUNCE_TYPE_SOFT
+                - BOUNCE_TYPE_COMPLAINT
+                type: string
+            type: object
+          type: array
+        nextPageToken:
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+          type: string
+        totalSize:
+          description: Total matching bounces across all pages.
+          format: int32
+          type: integer
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

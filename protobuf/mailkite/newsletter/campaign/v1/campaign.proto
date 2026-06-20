@@ -1,0 +1,130 @@
+syntax = "proto3";
+
+package mailkite.newsletter.campaign.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+import "mailkite/newsletter/campaign/v1/enums.proto";
+import "mailkite/newsletter/shared/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/campaign/v1/campaignpbv1;campaignpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "CampaignProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.campaign.v1";
+
+// A single newsletter send: rendered content, its audience, and its lifecycle.
+// In mailkite a Campaign is the materialization of one scheduled digest of
+// normalized content items.
+message Campaign {
+  option (google.api.resource) = {
+    type: "mailkite.newsletter.v1/Campaign"
+    pattern: "campaigns/{campaign}"
+    singular: "campaign"
+    plural: "campaigns"
+  };
+
+  // The resource name of the campaign.
+  // Format: campaigns/{campaign}
+  string name = 1 [(google.api.field_behavior) = IDENTIFIER];
+
+  // Server-assigned stable UUID, used in tracking and public-archive URLs.
+  string uuid = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Internal campaign name (not shown to recipients).
+  string display_name = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Email subject line. Supports template expressions.
+  string subject = 4 [(google.api.field_behavior) = REQUIRED];
+
+  // Sender address. Falls back to the instance default when empty.
+  string sender_email = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Whether this is a regular broadcast or a double-opt-in confirmation send.
+  CampaignType type = 6 [(google.api.field_behavior) = OPTIONAL];
+
+  // Format the body is authored in.
+  mailkite.newsletter.shared.v1.ContentType format = 7 [(google.api.field_behavior) = REQUIRED];
+
+  // The campaign body, in the format named by content_type.
+  string body = 8 [(google.api.field_behavior) = OPTIONAL];
+
+  // Optional plain-text alternative body for multipart messages.
+  string alt_body = 9 [(google.api.field_behavior) = OPTIONAL];
+
+  // Lists this campaign is sent to.
+  // Format: mailingLists/{mailing_list}
+  repeated string lists = 10 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/MailingList"}
+  ];
+
+  // Template used to wrap the body.
+  // Format: templates/{template}
+  string template = 11 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Template"}
+  ];
+
+  // Arbitrary tags for grouping and filtering.
+  repeated string tags = 12 [(google.api.field_behavior) = OPTIONAL];
+
+  // Messenger backend to send through (defaults to "email").
+  string messenger = 13 [(google.api.field_behavior) = OPTIONAL];
+
+  // Custom SMTP headers attached to every message.
+  map<string, string> headers = 14 [(google.api.field_behavior) = OPTIONAL];
+
+  // When to start sending. Omit to send immediately on start.
+  google.protobuf.Timestamp schedule_time = 15 [(google.api.field_behavior) = OPTIONAL];
+
+  // Current state of the campaign. Changed via TransitionCampaign.
+  CampaignState state = 16 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Whether a public archive copy is published.
+  bool archive = 17 [(google.api.field_behavior) = OPTIONAL];
+
+  // URL slug for the public archive page.
+  string archive_slug = 18 [(google.api.field_behavior) = OPTIONAL];
+
+  // Template used to render the public archive page.
+  // Format: templates/{template}
+  string archive_template = 19 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Template"}
+  ];
+
+  // Extra template data exposed to the public archive page.
+  google.protobuf.Struct archive_meta = 20 [(google.api.field_behavior) = OPTIONAL];
+
+  // Aggregate delivery and engagement statistics.
+  CampaignStats stats = 21 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 22 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Last-modification timestamp.
+  google.protobuf.Timestamp update_time = 23 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // When sending actually started, if at all.
+  google.protobuf.Timestamp start_time = 24 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// Aggregate counters for a campaign.
+message CampaignStats {
+  // Total recipients the campaign will be / was sent to.
+  int64 recipient_count = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Messages handed off to the messenger so far.
+  int64 sent = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Tracked opens.
+  int64 views = 3 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Tracked link clicks.
+  int64 clicks = 4 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Recorded bounces.
+  int64 bounces = 5 [(google.api.field_behavior) = OUTPUT_ONLY];
+}

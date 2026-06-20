@@ -1,0 +1,151 @@
+components:
+  schemas:
+    mailkite.newsletter.media.v1.DeleteMediaRequest:
+      description: Request message for DeleteMedia.
+      properties:
+        name:
+          description: 'The media object to delete. Format: media/{media}'
+          type: string
+      type: object
+    mailkite.newsletter.media.v1.GetMediaRequest:
+      description: Request message for GetMedia.
+      properties:
+        name:
+          description: 'The media object to retrieve. Format: media/{media}'
+          type: string
+      type: object
+    mailkite.newsletter.media.v1.ListMediaRequest:
+      description: Request message for ListMedia.
+      properties:
+        filter:
+          description: Filter expression restricting which media are returned. Supports
+            free-text matching against the `filename` field.
+          type: string
+        pageSize:
+          description: Maximum number of media objects to return. The server may cap
+            this. When unset, the server picks a default.
+          format: int32
+          type: integer
+        pageToken:
+          description: A page token received from a previous ListMedia call. Provide
+            this to retrieve the subsequent page.
+          type: string
+      type: object
+    mailkite.newsletter.media.v1.ListMediaResponse:
+      description: Response message for ListMedia.
+      properties:
+        media:
+          description: The page of media objects.
+          items:
+            description: An uploaded asset (image, attachment) referenced by campaigns
+              and templates.
+            properties:
+              createTime:
+                description: Upload timestamp.
+                format: date-time
+                type: string
+              filename:
+                description: Original file name.
+                type: string
+              mimeType:
+                description: MIME type (e.g. "image/png").
+                type: string
+              name:
+                description: 'The resource name of the media object. Format: media/{media}'
+                type: string
+              thumbnailUrl:
+                description: URL of the generated thumbnail, when one exists.
+                type: string
+              url:
+                description: Publicly servable URL of the asset.
+                type: string
+              uuid:
+                description: Server-assigned stable UUID.
+                type: string
+            type: object
+          type: array
+        nextPageToken:
+          description: A token to retrieve the next page, or empty if this is the
+            last page.
+          type: string
+        totalSize:
+          description: Total matching objects across all pages.
+          format: int32
+          type: integer
+      type: object
+    mailkite.newsletter.media.v1.Media:
+      description: An uploaded asset (image, attachment) referenced by campaigns and
+        templates.
+      properties:
+        createTime:
+          description: Upload timestamp.
+          format: date-time
+          type: string
+        filename:
+          description: Original file name.
+          type: string
+        mimeType:
+          description: MIME type (e.g. "image/png").
+          type: string
+        name:
+          description: 'The resource name of the media object. Format: media/{media}'
+          type: string
+        thumbnailUrl:
+          description: URL of the generated thumbnail, when one exists.
+          type: string
+        url:
+          description: Publicly servable URL of the asset.
+          type: string
+        uuid:
+          description: Server-assigned stable UUID.
+          type: string
+      type: object
+    mailkite.newsletter.media.v1.UploadMediaRequest:
+      description: Request message for UploadMedia.
+      properties:
+        content:
+          description: Raw bytes of the asset.
+          format: byte
+          type: string
+        filename:
+          description: File name to store the asset under.
+          type: string
+        mimeType:
+          description: MIME type of the asset. Inferred from the bytes when empty.
+          type: string
+      type: object
+    mailkite.newsletter.media.v1.UploadMediaResponse:
+      description: Response message for UploadMedia.
+      properties:
+        media:
+          description: The newly uploaded media object.
+          properties:
+            createTime:
+              description: Upload timestamp.
+              format: date-time
+              type: string
+            filename:
+              description: Original file name.
+              type: string
+            mimeType:
+              description: MIME type (e.g. "image/png").
+              type: string
+            name:
+              description: 'The resource name of the media object. Format: media/{media}'
+              type: string
+            thumbnailUrl:
+              description: URL of the generated thumbnail, when one exists.
+              type: string
+            url:
+              description: Publicly servable URL of the asset.
+              type: string
+            uuid:
+              description: Server-assigned stable UUID.
+              type: string
+          type: object
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package mailkite.newsletter.campaign.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "mailkite/newsletter/campaign/v1/campaign.proto";
+import "mailkite/newsletter/campaign/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/campaign/v1/campaignpbv1;campaignpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "CampaignMessagesProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.campaign.v1";
+
+// Request message for ListCampaigns.
+message ListCampaignsRequest {
+  // Maximum number of campaigns to return. The server may cap this. When unset,
+  // the server picks a default.
+  int32 page_size = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // A page token received from a previous ListCampaigns call. Provide this to
+  // retrieve the subsequent page.
+  string page_token = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression restricting which campaigns are returned. Supports
+  // free-text matching on `display_name`/`subject` and matching against
+  // `state` and `tags`, e.g. `state = CAMPAIGN_STATE_RUNNING`.
+  string filter = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Comma-separated list of fields to sort by, each optionally suffixed with
+  // ` desc` (e.g. `create_time desc`).
+  string order_by = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // How much of each campaign to return. BASIC omits the large body fields.
+  CampaignView view = 5 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for ListCampaigns.
+message ListCampaignsResponse {
+  // The page of campaigns.
+  repeated Campaign campaigns = 1;
+
+  // A token to retrieve the next page, or empty if this is the last page.
+  string next_page_token = 2;
+
+  // Total matching campaigns across all pages.
+  int32 total_size = 3;
+}
+
+// Request message for GetCampaign.
+message GetCampaignRequest {
+  // The campaign to retrieve.
+  // Format: campaigns/{campaign}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}
+  ];
+
+  // How much of the campaign to return. BASIC omits the body fields.
+  CampaignView view = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for CreateCampaign.
+message CreateCampaignRequest {
+  // The campaign to create. The name field is ignored.
+  Campaign campaign = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Optional client-specified ID for the campaign, used as the `{campaign}`
+  // segment of its resource name. The server assigns one when omitted.
+  string campaign_id = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for UpdateCampaign.
+message UpdateCampaignRequest {
+  // The campaign to update; its name identifies the target. Status is ignored
+  // here — use UpdateCampaignStatus.
+  Campaign campaign = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Fields to overwrite. Omit to replace all mutable fields.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for DeleteCampaign.
+message DeleteCampaignRequest {
+  // The campaign to delete.
+  // Format: campaigns/{campaign}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Campaign"}
+  ];
+}

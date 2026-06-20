@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package mailkite.newsletter.campaign.v1;
+
+import "google/api/field_behavior.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/campaign/v1/campaignpbv1;campaignpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "CampaignMcpProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.campaign.v1";
+
+// Arguments for the "draft_newsletter" prompt.
+message DraftNewsletterArgs {
+  // Subject line of the newsletter.
+  string subject = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // List(s) to target, as resource names or human display names.
+  string list = 2 [(google.api.field_behavior) = REQUIRED];
+
+  // What the newsletter should be about / the content to include.
+  string topic = 3 [(google.api.field_behavior) = REQUIRED];
+}

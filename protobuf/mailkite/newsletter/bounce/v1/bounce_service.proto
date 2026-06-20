@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package mailkite.newsletter.bounce.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "mailkite/newsletter/bounce/v1/bounce.proto";
+import "mcp/protobuf/annotations.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/bounce/v1/bouncepbv1;bouncepbv1";
+option java_multiple_files = true;
+option java_outer_classname = "BounceServiceProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.bounce.v1";
+
+// BounceService exposes recorded bounces and complaints for deliverability
+// monitoring. Bounces are read-only apart from deletion.
+service BounceService {
+  option (google.api.default_host) = "oh-tarnished.mailkite.newsletter.v1";
+  option (mcp.protobuf.service) = {
+    app: {
+      name: "Newsletter Bounces"
+      version: "1.0.0"
+      description: "Inspect newsletter bounces and complaints for deliverability monitoring."
+    }
+  };
+
+  // Lists recorded bounces.
+  rpc ListBounces(ListBouncesRequest) returns (ListBouncesResponse) {
+    option (google.api.http) = {get: "/v1/bounces"};
+    option (mcp.protobuf.tool) = {description: "List recorded bounces and complaints, filterable by campaign or source, for deliverability monitoring."};
+    option (mcp.protobuf.prompt) = {
+      name: "check_deliverability"
+      description: "Summarize bounces and deliverability for a campaign"
+      schema: "mailkite.newsletter.bounce.v1.CheckDeliverabilityArgs"
+    };
+  }
+
+  // Gets a single bounce.
+  rpc GetBounce(GetBounceRequest) returns (Bounce) {
+    option (google.api.http) = {get: "/v1/{name=bounces/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Get a single bounce record by resource name, including the raw provider payload."};
+  }
+
+  // Deletes a bounce.
+  rpc DeleteBounce(DeleteBounceRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/{name=bounces/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Delete a bounce record by resource name."};
+  }
+}

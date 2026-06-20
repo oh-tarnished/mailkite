@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package mailkite.newsletter.mailinglist.v1;
+
+import "google/api/annotations.proto";
+import "google/api/client.proto";
+import "google/protobuf/empty.proto";
+import "mailkite/newsletter/mailinglist/v1/mailing_list.proto";
+import "mcp/protobuf/annotations.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/mailinglist/v1/mailinglistpbv1;mailinglistpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "MailingListServiceProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.mailinglist.v1";
+
+// MailingListService manages audience segments (lists). In mailkite these are the
+// unit of tenancy — one per company plus a merged group list.
+service MailingListService {
+  option (google.api.default_host) = "oh-tarnished.mailkite.newsletter.v1";
+  option (mcp.protobuf.service) = {
+    app: {
+      name: "Newsletter Lists"
+      version: "1.0.0"
+      description: "Manage newsletter mailing lists (audience segments) and their settings."
+    }
+  };
+
+  // Lists mailing lists.
+  rpc ListMailingLists(ListMailingListsRequest) returns (ListMailingListsResponse) {
+    option (google.api.http) = {get: "/v1/mailingLists"};
+    option (mcp.protobuf.tool) = {description: "List the mailing lists (audience segments). Supports name search, tag filtering, and pagination."};
+  }
+
+  // Gets a single mailing list.
+  rpc GetMailingList(GetMailingListRequest) returns (MailingList) {
+    option (google.api.http) = {get: "/v1/{name=mailingLists/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Get a single mailing list by resource name (e.g. 'mailingLists/42'), including subscriber counts."};
+  }
+
+  // Creates a mailing list.
+  rpc CreateMailingList(CreateMailingListRequest) returns (MailingList) {
+    option (google.api.http) = {
+      post: "/v1/mailingLists"
+      body: "mailing_list"
+    };
+    option (google.api.method_signature) = "mailing_list,mailing_list_id";
+    option (mcp.protobuf.tool) = {description: "Create a mailing list. Provide display_name, type (public/private) and optin (single/double)."};
+  }
+
+  // Updates a mailing list.
+  rpc UpdateMailingList(UpdateMailingListRequest) returns (MailingList) {
+    option (google.api.http) = {
+      patch: "/v1/{mailing_list.name=mailingLists/*}"
+      body: "mailing_list"
+    };
+    option (google.api.method_signature) = "mailing_list,update_mask";
+    option (mcp.protobuf.tool) = {description: "Update a mailing list's name, description, type, optin mode, or tags."};
+  }
+
+  // Deletes a mailing list.
+  rpc DeleteMailingList(DeleteMailingListRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {delete: "/v1/{name=mailingLists/*}"};
+    option (google.api.method_signature) = "name";
+    option (mcp.protobuf.tool) = {description: "Delete a mailing list by resource name. Subscribers are kept, only their membership is removed."};
+  }
+}

@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+package mailkite.newsletter.mailinglist.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
+import "mailkite/newsletter/mailinglist/v1/enums.proto";
+import "mailkite/newsletter/shared/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/mailinglist/v1/mailinglistpbv1;mailinglistpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "MailingListProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.mailinglist.v1";
+
+// An audience segment subscribers belong to. In mailkite, lists are the unit of
+// tenancy: typically one private list per company plus one public merged
+// "group" list aggregating every brand's feed.
+message MailingList {
+  option (google.api.resource) = {
+    type: "mailkite.newsletter.v1/MailingList"
+    pattern: "mailingLists/{mailing_list}"
+    singular: "mailingList"
+    plural: "mailingLists"
+  };
+
+  // The resource name of the list.
+  // Format: mailingLists/{mailing_list}
+  string name = 1 [(google.api.field_behavior) = IDENTIFIER];
+
+  // Server-assigned stable UUID, used in public subscription URLs.
+  string uuid = 2 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Human-friendly list name (e.g. "Acme Corp Weekly").
+  string display_name = 3 [(google.api.field_behavior) = REQUIRED];
+
+  // Free-form description shown on subscription pages.
+  string description = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Visibility of the list.
+  ListType type = 5 [(google.api.field_behavior) = REQUIRED];
+
+  // Opt-in mode.
+  OptinType optin = 6 [(google.api.field_behavior) = REQUIRED];
+
+  // Arbitrary tags for grouping and filtering.
+  repeated string tags = 7 [(google.api.field_behavior) = OPTIONAL];
+
+  // Total subscribers across all statuses.
+  int64 subscriber_count = 8 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Subscriber counts keyed by subscription status.
+  map<string, int64> subscriber_statuses = 9 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Creation timestamp.
+  google.protobuf.Timestamp create_time = 10 [(google.api.field_behavior) = OUTPUT_ONLY];
+
+  // Last-modification timestamp.
+  google.protobuf.Timestamp update_time = 11 [(google.api.field_behavior) = OUTPUT_ONLY];
+}
+
+// Request message for ListMailingLists.
+message ListMailingListsRequest {
+  // Maximum number of lists to return. The server may cap this. When unset, the
+  // server picks a default.
+  int32 page_size = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // A page token received from a previous ListMailingLists call. Provide this to
+  // retrieve the subsequent page.
+  string page_token = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression restricting which lists are returned. Supports free-text
+  // matching on `display_name` and matching against `type`, `optin`, and `tags`.
+  string filter = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Comma-separated list of fields to sort by, each optionally suffixed with
+  // ` desc` (e.g. `display_name desc`).
+  string order_by = 4 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for ListMailingLists.
+message ListMailingListsResponse {
+  // The page of lists.
+  repeated MailingList mailing_lists = 1;
+
+  // A token to retrieve the next page, or empty if this is the last page.
+  string next_page_token = 2;
+
+  // Total matching lists across all pages.
+  int32 total_size = 3;
+}
+
+// Request message for GetMailingList.
+message GetMailingListRequest {
+  // The list to retrieve.
+  // Format: mailingLists/{mailing_list}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/MailingList"}
+  ];
+}
+// Request message for CreateMailingList.
+message CreateMailingListRequest {
+  // The list to create. The name field is ignored.
+  MailingList mailing_list = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Optional client-specified ID for the list, used as the `{mailing_list}`
+  // segment of its resource name. The server assigns one when omitted.
+  string mailing_list_id = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+// Request message for UpdateMailingList.
+message UpdateMailingListRequest {
+  // The list to update; its name identifies the target.
+  MailingList mailing_list = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Fields to overwrite. Omit to replace all mutable fields.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+// Request message for DeleteMailingList.
+message DeleteMailingListRequest {
+  // The list to delete.
+  // Format: mailingLists/{mailing_list}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/MailingList"}
+  ];
+}

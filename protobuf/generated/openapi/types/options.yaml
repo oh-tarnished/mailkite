@@ -1,0 +1,76 @@
+components:
+  schemas:
+    mailkite.newsletter.shared.v1.DigestProjectionOptions:
+      description: Defaults mailkite's fan-out applies when materializing a scheduled
+        content digest into a Campaign. Stored alongside a tenant / list configuration.
+      properties:
+        format:
+          description: Authoring format digests are rendered as.
+          enum:
+          - CONTENT_TYPE_UNSPECIFIED
+          - CONTENT_TYPE_RICHTEXT
+          - CONTENT_TYPE_HTML
+          - CONTENT_TYPE_MARKDOWN
+          - CONTENT_TYPE_PLAIN
+          - CONTENT_TYPE_VISUAL
+          type: string
+        maxItems:
+          description: Maximum number of content items per digest. Zero means no limit.
+          format: int32
+          type: integer
+        publishArchive:
+          description: Whether to publish each digest to the public archive automatically.
+          type: boolean
+        tags:
+          description: Tags stamped onto every generated digest campaign, for later
+            filtering.
+          items:
+            type: string
+          type: array
+        template:
+          description: 'Template to wrap every digest campaign in. Format: templates/{template}'
+          type: string
+      type: object
+    mailkite.newsletter.shared.v1.NewsletterClientOptions:
+      description: Client-level defaults a caller (e.g. mailkite's fan-out worker)
+        can attach so common preferences aren't repeated on every request.
+      properties:
+        defaultContentType:
+          description: Default content type for created campaigns / messages that
+            don't specify one. Falls back to CONTENT_TYPE_RICHTEXT.
+          enum:
+          - CONTENT_TYPE_UNSPECIFIED
+          - CONTENT_TYPE_RICHTEXT
+          - CONTENT_TYPE_HTML
+          - CONTENT_TYPE_MARKDOWN
+          - CONTENT_TYPE_PLAIN
+          - CONTENT_TYPE_VISUAL
+          type: string
+        defaultMessenger:
+          description: Default messenger backend (e.g. "email") for sends without
+            one.
+          type: string
+        defaultOrder:
+          description: Default sort direction for list endpoints.
+          enum:
+          - ORDER_DIRECTION_UNSPECIFIED
+          - ORDER_DIRECTION_ASC
+          - ORDER_DIRECTION_DESC
+          type: string
+        defaultPageSize:
+          description: Default page size for list endpoints when a request leaves
+            page_size unset. Zero lets the server pick.
+          format: int32
+          type: integer
+        defaultSenderEmail:
+          description: Default sender address for sends that leave sender_email empty.
+          type: string
+        omitBodies:
+          description: When true, list/get calls omit large body fields by default.
+          type: boolean
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

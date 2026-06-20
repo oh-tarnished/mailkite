@@ -1,0 +1,92 @@
+components:
+  schemas:
+    mailkite.newsletter.subscriber.v1.Subscriber:
+      description: A person who can receive newsletters. Subscribers are global; their
+        relationship to each list is captured by a Subscription.
+      properties:
+        attributes:
+          description: 'Arbitrary attributes used for templating and segmentation
+            (e.g. {"city": "Berlin", "plan": "pro"}).'
+          type: object
+          x-kubernetes-preserve-unknown-fields: true
+        createTime:
+          description: Creation timestamp.
+          format: date-time
+          type: string
+        displayName:
+          description: Display name of the subscriber.
+          type: string
+        email:
+          description: Email address. Unique across all subscribers.
+          type: string
+        name:
+          description: 'The resource name of the subscriber. Format: subscribers/{subscriber}'
+          type: string
+        state:
+          description: Global delivery state. A blocklisted subscriber receives nothing.
+            Change it with BlocklistSubscribers.
+          enum:
+          - SUBSCRIBER_STATE_UNSPECIFIED
+          - SUBSCRIBER_STATE_ENABLED
+          - SUBSCRIBER_STATE_BLOCKLISTED
+          type: string
+        subscriptions:
+          description: The lists this subscriber belongs to, with per-list status.
+          items:
+            description: The membership of a subscriber in a single list.
+            properties:
+              createTime:
+                description: When the subscriber joined this list.
+                format: date-time
+                type: string
+              list:
+                description: 'The list this subscription is for. Format: mailingLists/{mailing_list}'
+                type: string
+              listDisplayName:
+                description: Cached display name of the list, for convenience.
+                type: string
+              state:
+                description: Confirmation state of this specific membership.
+                enum:
+                - SUBSCRIPTION_STATE_UNSPECIFIED
+                - SUBSCRIPTION_STATE_UNCONFIRMED
+                - SUBSCRIPTION_STATE_CONFIRMED
+                - SUBSCRIPTION_STATE_UNSUBSCRIBED
+                type: string
+            type: object
+          type: array
+        updateTime:
+          description: Last-modification timestamp.
+          format: date-time
+          type: string
+        uuid:
+          description: Server-assigned stable UUID.
+          type: string
+      type: object
+    mailkite.newsletter.subscriber.v1.Subscription:
+      description: The membership of a subscriber in a single list.
+      properties:
+        createTime:
+          description: When the subscriber joined this list.
+          format: date-time
+          type: string
+        list:
+          description: 'The list this subscription is for. Format: mailingLists/{mailing_list}'
+          type: string
+        listDisplayName:
+          description: Cached display name of the list, for convenience.
+          type: string
+        state:
+          description: Confirmation state of this specific membership.
+          enum:
+          - SUBSCRIPTION_STATE_UNSPECIFIED
+          - SUBSCRIPTION_STATE_UNCONFIRMED
+          - SUBSCRIPTION_STATE_CONFIRMED
+          - SUBSCRIPTION_STATE_UNSUBSCRIBED
+          type: string
+      type: object
+info:
+  title: OpenAPI Spec for Solo APIs.
+  version: v1
+openapi: 3.0.1
+paths: null

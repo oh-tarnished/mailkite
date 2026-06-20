@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package mailkite.newsletter.transactional.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/struct.proto";
+import "mailkite/newsletter/shared/v1/enums.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/transactional/v1/transactionalpbv1;transactionalpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "TransactionalProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.transactional.v1";
+
+// A file attached to a transactional message.
+message Attachment {
+  // File name shown to the recipient.
+  string filename = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // MIME type of the attachment.
+  string mime_type = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Raw bytes of the attachment.
+  bytes content = 3 [(google.api.field_behavior) = REQUIRED];
+}
+
+// Request message for SendTransactionalMessage. Exactly one recipient
+// (subscriber or recipient_email) must be supplied.
+message SendTransactionalMessageRequest {
+  // An existing subscriber to send to.
+  // Format: subscribers/{subscriber}
+  string subscriber = 1 [
+    (google.api.field_behavior) = OPTIONAL,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Subscriber"}
+  ];
+
+  // A raw recipient address, for recipients not stored as subscribers.
+  string recipient_email = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Transactional template to render.
+  // Format: templates/{template}
+  string template = 3 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Template"}
+  ];
+
+  // Subject line. Overrides the template subject when set.
+  string subject = 4 [(google.api.field_behavior) = OPTIONAL];
+
+  // Inline body. Overrides the template body when set.
+  string body = 5 [(google.api.field_behavior) = OPTIONAL];
+
+  // Format of body / template output (transactional supports HTML or plain).
+  mailkite.newsletter.shared.v1.ContentType format = 6 [(google.api.field_behavior) = OPTIONAL];
+
+  // Template data merged into the message.
+  google.protobuf.Struct data = 7 [(google.api.field_behavior) = OPTIONAL];
+
+  // Sender address. Falls back to the instance default when empty.
+  string sender_email = 8 [(google.api.field_behavior) = OPTIONAL];
+
+  // Messenger backend to send through (defaults to "email").
+  string messenger = 9 [(google.api.field_behavior) = OPTIONAL];
+
+  // Custom SMTP headers.
+  map<string, string> headers = 10 [(google.api.field_behavior) = OPTIONAL];
+
+  // Files to attach.
+  repeated Attachment attachments = 11 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for SendTransactionalMessage.
+message SendTransactionalMessageResponse {
+  // Whether the message was accepted into the send queue.
+  bool queued = 1;
+}

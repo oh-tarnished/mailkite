@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package mailkite.newsletter.subscriber.v1;
+
+import "google/api/field_behavior.proto";
+import "google/api/resource.proto";
+import "google/protobuf/field_mask.proto";
+import "mailkite/newsletter/subscriber/v1/subscriber.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/subscriber/v1/subscriberpbv1;subscriberpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "SubscriberMessagesProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.subscriber.v1";
+
+// Request message for ListSubscribers.
+message ListSubscribersRequest {
+  // Maximum number of subscribers to return. The server may cap this. When
+  // unset, the server picks a default.
+  int32 page_size = 1 [(google.api.field_behavior) = OPTIONAL];
+
+  // A page token received from a previous ListSubscribers call. Provide this to
+  // retrieve the subsequent page.
+  string page_token = 2 [(google.api.field_behavior) = OPTIONAL];
+
+  // Filter expression restricting which subscribers are returned. Supports a
+  // raw SQL-expression over subscriber columns and attributes (mirroring
+  // Listmonk's advanced query box), plus `lists` membership and per-list
+  // `subscription_state` predicates.
+  string filter = 3 [(google.api.field_behavior) = OPTIONAL];
+
+  // Comma-separated list of fields to sort by, each optionally suffixed with
+  // ` desc` (e.g. `create_time desc`).
+  string order_by = 4 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Response message for ListSubscribers.
+message ListSubscribersResponse {
+  // The page of subscribers.
+  repeated Subscriber subscribers = 1;
+
+  // A token to retrieve the next page, or empty if this is the last page.
+  string next_page_token = 2;
+
+  // Total matching subscribers across all pages.
+  int32 total_size = 3;
+}
+
+// Request message for GetSubscriber.
+message GetSubscriberRequest {
+  // The subscriber to retrieve.
+  // Format: subscribers/{subscriber}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Subscriber"}
+  ];
+}
+
+// Request message for CreateSubscriber.
+message CreateSubscriberRequest {
+  // The subscriber to create. The name and subscriptions fields are ignored.
+  // Manage list memberships with ManageSubscriberLists.
+  Subscriber subscriber = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Optional client-specified ID for the subscriber, used as the
+  // `{subscriber}` segment of its resource name. The server assigns one when
+  // omitted.
+  string subscriber_id = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for UpdateSubscriber.
+message UpdateSubscriberRequest {
+  // The subscriber to update; its name identifies the target. List memberships
+  // are managed separately with ManageSubscriberLists.
+  Subscriber subscriber = 1 [(google.api.field_behavior) = REQUIRED];
+
+  // Fields to overwrite. Omit to replace all mutable fields.
+  google.protobuf.FieldMask update_mask = 2 [(google.api.field_behavior) = OPTIONAL];
+}
+
+// Request message for DeleteSubscriber.
+message DeleteSubscriberRequest {
+  // The subscriber to delete.
+  // Format: subscribers/{subscriber}
+  string name = 1 [
+    (google.api.field_behavior) = REQUIRED,
+    (google.api.resource_reference) = {type: "mailkite.newsletter.v1/Subscriber"}
+  ];
+}

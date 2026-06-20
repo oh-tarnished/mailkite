@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package mailkite.newsletter.shared.v1;
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/shared/v1/newslettersharedpbv1;newslettersharedpbv1";
+option java_multiple_files = true;
+option java_outer_classname = "EnumsProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.shared.v1";
+
+// Enums shared across more than one Newsletter resource. Resource-specific
+// enums live alongside their resource (e.g. CampaignStatus in the campaign
+// package), so only the genuinely cross-cutting ones are defined here.
+// Authoring format of campaign and transactional message bodies.
+enum ContentType {
+  // Server chooses a sensible default.
+  CONTENT_TYPE_UNSPECIFIED = 0;
+
+  // Rich-text WYSIWYG (stored as HTML).
+  CONTENT_TYPE_RICHTEXT = 1;
+
+  // Raw HTML.
+  CONTENT_TYPE_HTML = 2;
+
+  // Markdown, rendered to HTML on send.
+  CONTENT_TYPE_MARKDOWN = 3;
+
+  // Plain text.
+  CONTENT_TYPE_PLAIN = 4;
+
+  // Block-based visual editor output.
+  CONTENT_TYPE_VISUAL = 5;
+}
+
+// Sort direction for list endpoints.
+enum OrderDirection {
+  // Server default (usually descending by creation time).
+  ORDER_DIRECTION_UNSPECIFIED = 0;
+
+  // Ascending.
+  ORDER_DIRECTION_ASC = 1;
+
+  // Descending.
+  ORDER_DIRECTION_DESC = 2;
+}

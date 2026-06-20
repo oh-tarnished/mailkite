@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package mailkite.newsletter.bounce.v1;
+
+import "google/api/field_behavior.proto";
+
+option go_package = "github.com/oh-tarnished/mailkite/protobuf/generated/go/newsletter/bounce/v1/bouncepbv1;bouncepbv1";
+option java_multiple_files = true;
+option java_outer_classname = "BounceMcpProto";
+option java_package = "dev.ohtarnished.mailkite.newsletter.bounce.v1";
+
+// Arguments for the "check_deliverability" prompt.
+message CheckDeliverabilityArgs {
+  // Campaign to inspect, as a resource name ("campaigns/7") or display name.
+  // Leave empty to summarize across all recent campaigns.
+  string campaign = 1 [(google.api.field_behavior) = OPTIONAL];
+}
